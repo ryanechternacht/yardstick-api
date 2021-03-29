@@ -11,8 +11,8 @@
         ring-cors/ring-cors {:mvn/version "0.1.13"}
         migratus/migratus {:mvn/version "1.3.5"}}
  :aliases
- {:run-m {:main-opts ["-m" "yardstick.yardstick-backend"]}
-  :run-x {:ns-default yardstick.yardstick-backend
+ {:run-m {:main-opts ["-m" "yardstick-api.yardstick-backend"]}
+  :run-x {:ns-default yardstick-api.yardstick-backend
           :exec-fn greet
           :exec-args {:name "Clojure"}}
   :test {:extra-paths ["test"]
@@ -27,5 +27,5 @@
             :exec-fn hf.depstar/uberjar
             :exec-args {:aot true
                         :jar "yardstick-backend.jar"
-                        :main-class "yardstick.yardstick-backend"
+                        :main-class "yardstick-api.yardstick-backend"
                         :sync-pom true}}}}

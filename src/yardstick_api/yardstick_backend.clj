@@ -1,5 +1,5 @@
-(ns yardstick.yardstick-backend
-  (:require [yardstick.other-file :as of]
+(ns yardstick-api.yardstick-backend
+  (:require [yardstick-api.other-file :as of]
             [compojure.core :refer [defroutes GET]]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.util.response :refer [response]])
