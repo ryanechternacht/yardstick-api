@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.clojars.yardstick</groupId>
-  <artifactId>yardstick-backend</artifactId>
+  <artifactId>yardstick-api</artifactId>
   <version>0.1.0-SNAPSHOT</version>
-  <name>yardstick/yardstick-backend</name>
+  <name>yardstick-api/server</name>
   <description>FIXME: my new application.</description>
-  <url>https://github.com/yardstick/yardstick-backend</url>
+  <url>https://github.com/ryanechternacht/yardstick-api</url>
   <licenses>
     <license>
       <name>Eclipse Public License</name>
@@ -19,9 +19,9 @@
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/yardstick/yardstick-backend</url>
-    <connection>scm:git:git://github.com/yardstick/yardstick-backend.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/yardstick/yardstick-backend.git</developerConnection>
+    <url>https://github.com/ryanechternacht/yardstick-api</url>
+    <connection>scm:git:git://github.com/ryanechternacht/yardstick-api.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/ryanechternacht/yardstick-api.git</developerConnection>
     <tag>v0.1.0-SNAPSHOT</tag>
   </scm>
   <dependencies>
