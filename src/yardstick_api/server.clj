@@ -5,6 +5,7 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [response]]
+            [yardstick-api.state :refer [wrap-db]]
             [yardstick-api.other-file :as of])
   (:gen-class))
 
@@ -14,9 +15,10 @@
   (println (str "Hello, " (or (:name data) "World") (of/add-text "!"))))
 
 (def ^:private GET-sample
-  (GET "/sample" [a]
+  (GET "/sample" [a :as {db :db}]
     (response {:text "sample"
-               :a a})))
+               :a a
+               :db db})))
 
 (defroutes routes #'GET-sample)
 
@@ -25,7 +27,8 @@
       wrap-params
       wrap-json-response
       (wrap-cors :access-control-allow-origin #".*"
-                 :access-control-allow-methods [:get :put :post :delete])))
+                 :access-control-allow-methods [:get :put :post :delete])
+      wrap-db))
 
 (defn -main
   "I don't do a whole lot ... yet."
