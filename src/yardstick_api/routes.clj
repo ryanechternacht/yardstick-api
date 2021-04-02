@@ -1,19 +1,22 @@
 (ns yardstick-api.routes
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [compojure.core :refer [GET]]
             [ring.util.response :refer [response]]))
 
-; This will need to evolve to include an ID of some form
-(def GET-student
-  (GET "/v0.1/student" []
-    (response {:name {:first "Darryl"
-                      :last "Hurt"
-                      :full "Darryl Hurt"
-                      :possessive "Darryl's"}
-               :pronouns {:nominative "he"
-                          :nominativeUpper "He"
-                          :possessive "his"
-                          :possessiveUpper "His"
-                          :accusative "him"
-                          :accusativeUpper "Him"}
-               :grade {:ordinal "8th"
-                       :cardinal 8}})))
+(def GET-students
+  (GET "/v0.1/students" []
+    (response [{:name {:first "Darryl"
+                       :last "Hurt"
+                       :full "Darryl Hurt"
+                       :possessive "Darryl's"}
+                :pronouns {:nominative "`he"
+                           :nominativeUpper "He"
+                           :possessive "his"
+                           :possessiveUpper "His"
+                           :accusative "him"
+                           :accusativeUpper "Him"}
+                :grade {:ordinal "8th"
+                        :cardinal 8}
+                :id 1}])))
+
+; TODO this should be 
+(def GET-settings)

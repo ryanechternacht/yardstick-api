@@ -21,7 +21,7 @@
                :a a
                :db db})))
 
-(defroutes routes #'GET-sample #'r/GET-student)
+(defroutes routes #'GET-sample #'r/GET-students #'r/GET-settings)
 
 (def handler
   (-> routes
