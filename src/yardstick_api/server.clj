@@ -5,6 +5,7 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [response]]
+            [yardstick-api.routes :as r]
             [yardstick-api.state :refer [wrap-db]]
             [yardstick-api.other-file :as of])
   (:gen-class))
@@ -20,7 +21,7 @@
                :a a
                :db db})))
 
-(defroutes routes #'GET-sample)
+(defroutes routes #'GET-sample #'r/GET-student)
 
 (def handler
   (-> routes
