@@ -23,6 +23,7 @@
 
 (defroutes routes #'GET-sample #'r/GET-students #'r/GET-settings)
 
+; TODO add a 404 wrapper
 (def handler
   (-> routes
       wrap-params

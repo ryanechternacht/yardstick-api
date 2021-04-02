@@ -18,5 +18,8 @@
                         :cardinal 8}
                 :id 1}])))
 
-; TODO this should be 
-(def GET-settings)
+; TODO this should be loaded based off of the session
+; Should this really just live in local storage? 
+(def GET-settings
+  (GET "/v0.1/settings" []
+    (response {:currentStudent 1})))
