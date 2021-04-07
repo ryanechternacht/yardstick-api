@@ -21,7 +21,7 @@
                :a a
                :db db})))
 
-(defroutes routes #'GET-sample #'r/GET-students #'r/GET-settings)
+(defroutes routes #'GET-sample #'r/GET-students #'r/GET-settings #'r/GET-supports-by-student)
 
 ; TODO add a 404 wrapper
 (def handler
