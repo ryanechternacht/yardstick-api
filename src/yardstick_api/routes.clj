@@ -81,3 +81,18 @@
                                    :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
                                   {:title "For This Long"
                                    :text "Keep this up for 4 weeks or until you start to see ${student.name.possessive} ability to accurately share the Gist of what ${student.pronouns.nominative} read improve"}]}}])))
+
+(def GET-opportunities-by-student
+  (GET "/v0.1/student/:student-id/opportunities" [student-id]
+    (response [{:id 1
+                :title "Shooting Star"
+                :image "/images/opportunities-star.png"
+                :description "Holy Moly! ${student.name.first} grew more than <span class=\"font-bold\">88% of ${student.pronouns.possessive} peers</span> on the most recent ${assessment.name} Assessment"}
+               {:id 2
+                :title "Top of Class"
+                :image "/images/opportunities-award.png"
+                :description "${student.name.first} has the highest ${assessment.name} score in <span class=\"font-bold\">The Real and Complex Number System</span> in ${student.pronouns.possessive} class. Is ice cream in order?"}
+               {:id 3
+                :title "Math Wizard"
+                :image "/images/opportunities-wizard.png"
+                :description "${student.name.first} might have some magic up ${student.pronouns.possessive} sleeves as ${student.pronouns.nominative} is <span class=\"font-bold\">Proficient</span> or <span class=\"font-bold\">On Track</span> across all of ${student.pronouns.possessive} math assessments"}])))
