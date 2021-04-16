@@ -97,34 +97,6 @@
                 :image "/images/opportunities-wizard.png"
                 :description "${student.name.first} might have some magic up ${student.pronouns.possessive} sleeves as ${student.pronouns.nominative} is <span class=\"font-bold\">Proficient</span> or <span class=\"font-bold\">On Track</span> across all of ${student.pronouns.possessive} math assessments"}])))
 
-; TODO This route sucks and should probably just be /v/s/s-id/a/a-id/explanation
-(def GET-assessment-explanations-by-student
-  (GET "/v0.1/student/:student-id/assessment-explanations" [student-id]
-    (response (->> (range 5)
-                   (map inc)
-                   (map (fn [id]
-                          {:assessmentId id
-                           :overview {:title "Why is the ${assessment.name} important?"
-                                      :p1 "Your school uses the ${assessment.name} as it’s primary tool for determing student academic growth"
-                                      :p2 "${student.name.possessive} scores at the end of the year maybe be a factor in determining what Math and ELA classes are available to ${student.pronouns.accusative} in high school"}
-                           :type {:title "What Type of Assessment is ${assessment.name}?"
-                                  :p1 "${assessment.name} is considered a growth assessment"
-                                  :p2 "This means ${assessment.shortName} can measure ${student.name.possessive} growth from the start to end of a school year, as well as ${student.pronouns.possessive} growth over time."
-                                  :p3 "<sup>*</sup>Growth Assessments similar to ${assessment.name} are very common in K-12 Education"}
-                           :traits {:title "How does the ${assessment.name} Work?"
-                                    :traits [{:title "Adaptive"
-                                              :description "${assessment.name} responds to how your student is performing, getting harder or easier to gain a better understanding of their abilities."
-                                              :icon "/images/adaptive-icon.svg"}
-                                             {:title "Subject Based"
-                                              :description "${student.name.first} takes one test per subject area. ${student.pronouns.possessiveUpper} most recent testing was in Reading and Math."
-                                              :icon "/images/subject-based-icon.svg"}
-                                             {:title "Reoccurring"
-                                              :description "${student.name.first} takes the ${assessment.name} assessment 3-4 times per year. <br><br> Normally once in the in the fall, winter and spring."
-                                              :icon "/images/reoccuring-icon.svg"}
-                                             {:title "Normative"
-                                              :description "${student.name.possessive} ${assessment.name} Scores can be easily compared to students in ${student.pronouns.possessive} grade level all across the country."
-                                              :icon "/images/normative-icon.svg"}]}}))))))
-
 (def GET-obstacles-by-student
   (GET "/v0.1/student/:student-id/obstacles" [student-id]
     (response [{:id 1
@@ -157,3 +129,54 @@
                 :type "SimpleObstacle"
                 :order 5
                 :cta {:position "above"}}])))
+
+(def GET-assessment-overviews-by-student
+  (GET "/v0.1/student/:student-id/assessments" [student-id]
+    (response [{:id 1
+                :name "PreACT 8/9"
+                :rating 3
+                :type "general"}
+               {:id 2
+                :name "Forward - Mathematics"
+                :rating 4
+                :type "math"}
+               {:id 3
+                :name "NWEA MAP - Mathematics"
+                :rating 5
+                :type "math"}
+               {:id 4
+                :name "Forward - ELA"
+                :rating 2
+                :type "ela"}
+               {:id 5
+                :name "NWEA MAP - Reading"
+                :rating 1
+                :type "ela"}])))
+
+; TODO This route sucks and should probably just be /v/s/s-id/a/a-id/explanation
+(def GET-assessment-explanations-by-student
+  (GET "/v0.1/student/:student-id/assessment-explanations" [student-id]
+    (response (->> (range 5)
+                   (map inc)
+                   (map (fn [id]
+                          {:assessmentId id
+                           :overview {:title "Why is the ${assessment.name} important?"
+                                      :p1 "Your school uses the ${assessment.name} as it’s primary tool for determing student academic growth"
+                                      :p2 "${student.name.possessive} scores at the end of the year maybe be a factor in determining what Math and ELA classes are available to ${student.pronouns.accusative} in high school"}
+                           :type {:title "What Type of Assessment is ${assessment.name}?"
+                                  :p1 "${assessment.name} is considered a growth assessment"
+                                  :p2 "This means ${assessment.shortName} can measure ${student.name.possessive} growth from the start to end of a school year, as well as ${student.pronouns.possessive} growth over time."
+                                  :p3 "<sup>*</sup>Growth Assessments similar to ${assessment.name} are very common in K-12 Education"}
+                           :traits {:title "How does the ${assessment.name} Work?"
+                                    :traits [{:title "Adaptive"
+                                              :description "${assessment.name} responds to how your student is performing, getting harder or easier to gain a better understanding of their abilities."
+                                              :icon "/images/adaptive-icon.svg"}
+                                             {:title "Subject Based"
+                                              :description "${student.name.first} takes one test per subject area. ${student.pronouns.possessiveUpper} most recent testing was in Reading and Math."
+                                              :icon "/images/subject-based-icon.svg"}
+                                             {:title "Reoccurring"
+                                              :description "${student.name.first} takes the ${assessment.name} assessment 3-4 times per year. <br><br> Normally once in the in the fall, winter and spring."
+                                              :icon "/images/reoccuring-icon.svg"}
+                                             {:title "Normative"
+                                              :description "${student.name.possessive} ${assessment.name} Scores can be easily compared to students in ${student.pronouns.possessive} grade level all across the country."
+                                              :icon "/images/normative-icon.svg"}]}}))))))
