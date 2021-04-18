@@ -41,7 +41,7 @@
                           :steps [{:title "Do This"
                                    :text "Read with ${student.name.first} for at least 20 minutes and ask ${student.pronouns.accusative} to share the “Gist” of what ${student.pronouns.nominative} read with you"}
                                   {:title "Using This"
-                                   :text "Model stating the gist using this Reseach supported one-pager that outlines an easy way to explain Gist."}
+                                   :text "Model stating the gist using this <a href='https://nysrti.org/intervention-tools/reading-tools/tool:getthegist/'>Reseach supported one-pager</a> that outlines an easy way to explain Gist."}
                                   {:title "This Often"
                                    :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
                                   {:title "For This Long"
@@ -59,7 +59,7 @@
                           :steps [{:title "Do This"
                                    :text "Read with ${student.name.first} for at least 20 minutes and ask ${student.pronouns.accusative} to share the “Gist” of what ${student.pronouns.nominative} read with you"}
                                   {:title "Using This"
-                                   :text "Model stating the gist using this Reseach supported one-pager that outlines an easy way to explain Gist."}
+                                   :text "Model stating the gist using this <a href='https://nysrti.org/intervention-tools/reading-tools/tool:getthegist/'>Reseach supported one-pager</a> that outlines an easy way to explain Gist."}
                                   {:title "This Often"
                                    :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
                                   {:title "For This Long"
@@ -77,7 +77,7 @@
                           :steps [{:title "Do This"
                                    :text "Read with ${student.name.first} for at least 20 minutes and ask ${student.pronouns.accusative} to share the “Gist” of what ${student.pronouns.nominative} read with you"}
                                   {:title "Using This"
-                                   :text "Model stating the gist using this Reseach supported one-pager that outlines an easy way to explain Gist."}
+                                   :text "Model stating the gist using this <a href='https://nysrti.org/intervention-tools/reading-tools/tool:getthegist/'>Reseach supported one-pager</a> that outlines an easy way to explain Gist."}
                                   {:title "This Often"
                                    :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
                                   {:title "For This Long"

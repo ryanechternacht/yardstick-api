@@ -29,7 +29,8 @@
   #'r/GET-opportunities-by-student
   #'r/GET-obstacles-by-student
   #'r/GET-assessment-overviews-by-student
-  #'r/GET-assessment-explanations-by-student)
+  #'r/GET-assessment-results-by-student-and-assessment
+  #'r/GET-assessment-explanations-by-student-and-assessment)
 
 ; TODO add a 404 wrapper
 (def handler
