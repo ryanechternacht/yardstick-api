@@ -751,8 +751,7 @@
                                   :growthPercentile 51
                                   :actCollegeReadiness "Not on Track"
                                   :forwardProjection "Proficient"
-                                  :testDuration 62}]})))
-
+                                  :testDuration 62}]}))))
 
 (def GET-assessment-explanations-by-student-and-assessment
   (GET "/v0.1/student/:student-id/assessment/:assessment-id/explanation" [student-id assessment-id :<< as-int]
