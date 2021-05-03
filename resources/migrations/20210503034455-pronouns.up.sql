@@ -1,11 +1,11 @@
 create table pronouns (
   id text primary key,
   nominative text not null,
-  nominativeUpper text not null,
+  nominative_upper text not null,
   possessive text not null,
-  possessiveUpper text not null,
+  possessive_upper text not null,
   accusative text not null,
-  accusativeUpper text not null
+  accusative_upper text not null
 );
 --;;
 insert into pronouns values

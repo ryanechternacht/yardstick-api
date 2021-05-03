@@ -1,23 +1,20 @@
 (ns yardstick-api.routes
-  (:require [compojure.core :refer [GET]]
+  (:require [compojure.core :refer [defroutes GET]]
             [compojure.coercions :refer [as-int]]
-            [ring.util.response :refer [response]]))
+            [ring.util.response :refer [response]]
+            [honeysql.core :as sql]
+            [honeysql.helpers :as h]
+            [next.jdbc :as jdbc]
+            [yardstick-api.routes.student :as s]))
 
-(def GET-students
-  (GET "/v0.1/students" []
-    (response [{:name {:first "Darryl"
-                       :last "Hurt"
-                       :full "Darryl Hurt"
-                       :possessive "Darryl's"}
-                :pronouns {:nominative "he"
-                           :nominativeUpper "He"
-                           :possessive "his"
-                           :possessiveUpper "His"
-                           :accusative "him"
-                           :accusativeUpper "Him"}
-                :grade {:ordinal "8th"
-                        :cardinal 8}
-                :id 1}])))
+(def ^:private GET-sample
+  (GET "/sample" [:as {db :db}]
+    (let [value (jdbc/execute! db
+                               (sql/format {:select [:id]
+                                            :from [:sample]}))]
+      (response {:text "sample"
+                 :a value
+                 :db db}))))
 
 ; TODO this should be loaded based off of the session
 ; Should this really just live in local storage? 
@@ -777,3 +774,15 @@
                         {:title "Normative"
                          :description "${student.name.possessive} ${assessment.name} Scores can be easily compared to students in ${student.pronouns.possessive} grade level all across the country."
                          :icon "/images/normative-icon.svg"}]}})))
+
+(defroutes routes
+  #'GET-sample
+  #'s/GET-student
+  #'s/GET-students
+  #'GET-settings
+  #'GET-supports-by-student
+  #'GET-opportunities-by-student
+  #'GET-obstacles-by-student
+  #'GET-assessment-overviews-by-student
+  #'GET-assessment-results-by-student-and-assessment
+  #'GET-assessment-explanations-by-student-and-assessment)
