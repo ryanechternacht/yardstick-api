@@ -8,7 +8,7 @@
              :db state/pg-db})
 
 (comment
-  (migratus/create config "pronouns")
+  (migratus/create config "example")
   (migratus/migrate config)
   (migratus/rollback config)
   ;
