@@ -1,9 +1,10 @@
-(ns yardstick-api.state)
+(ns yardstick-api.state
+  (:require [next.jdbc :as jdbc]))
 
 ;; TODO probaby use component or mount for this
 ;; TODO probably setup a connection pool for this (c3p0?)
 (def pg-db {:dbtype "postgresql"
-            :dbname "ryan"
+            :dbname "yardstick"
             :host "127.0.0.1"
             :user "ryan"
             :password nil
