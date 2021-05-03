@@ -6,14 +6,8 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [response]]
             [yardstick-api.routes :as r]
-            [yardstick-api.state :refer [wrap-db]]
-            [yardstick-api.other-file :as of])
+            [yardstick-api.state :refer [wrap-db]])
   (:gen-class))
-
-(defn greet
-  "Callable entry point to the application."
-  [data]
-  (println (str "Hello, " (or (:name data) "World") (of/add-text "!"))))
 
 (def ^:private GET-sample
   (GET "/sample" [a :as {db :db}]

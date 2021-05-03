@@ -161,7 +161,7 @@
                    :name "PreACT 8/9"
                    :shortName "PreACT"
                    :scale "RIT Score"
-                   :subject ""
+                   :subject {:name ""}
                    :latestTerm {:fullName "Winter 2021"
                                 :gradeLevelAverage 280
                                 :domains [{:name "ELA"
@@ -280,7 +280,7 @@
                    :name "Forward"
                    :shortName "Forward"
                    :scale "RIT Score"
-                   :subject "Mathematics"
+                   :subject {:name "Mathematics"}
                    :latestTerm {:fullName "Winter 2021"
                                 :gradeLevelAverage 280
                                 :domains [{:name "Geometry"
@@ -399,7 +399,7 @@
                    :name "NWEA MAP"
                    :shortName "MAP"
                    :scale "RIT Score"
-                   :subject "Mathematics"
+                   :subject {:name "Mathematics"}
                    :latestTerm {:fullName "Winter 2021"
                                 :gradeLevelAverage 280
                                 :domains [{:name "Geometry"
@@ -518,7 +518,7 @@
                    :name "Forward"
                    :shortName "Forward"
                    :scale "RIT Score"
-                   :subject "ELA"
+                   :subject {:name "ELA"}
                    :latestTerm {:fullName "Winter 2021"
                                 :gradeLevelAverage 280
                                 :domains [{:name "Reading Comprehension"
@@ -637,7 +637,7 @@
                    :name "NWEA MAP"
                    :shortName "MAP"
                    :scale "RIT Score"
-                   :subject "ELA"
+                   :subject {:name "ELA"}
                    :latestTerm {:fullName "Winter 2021"
                                 :gradeLevelAverage 280
                                 :domains [{:name "Reading Comprehension"
