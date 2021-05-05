@@ -4,7 +4,6 @@
             [ring.util.response :refer [response]]
             [yardstick-api.data.student :as d-student]))
 
-;; TODO this should be able to take multiple ids
 (def GET-student 
   (GET "/v0.1/student/:student-id" [student-id :<< as-int :as {db :db}]
     (response (d-student/get-student-by-id db student-id))))

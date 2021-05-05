@@ -32,7 +32,7 @@
   (->> (-> base-student-query
            (merge-where [:in :student.id ids]))
        (db/execute db)
-       (#(map row->obj %))))
+       (map row->obj)))
 
 (defn get-students-by-id [db student-ids]
   (render-students db student-ids))
