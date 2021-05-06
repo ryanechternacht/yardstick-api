@@ -1,5 +1,4 @@
-(ns yardstick-api.state
-  (:require [next.jdbc :as jdbc]))
+(ns yardstick-api.state)
 
 ;; TODO probaby use component or mount for this
 ;; TODO probably setup a connection pool for this (c3p0?)

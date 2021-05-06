@@ -3,7 +3,7 @@
             [yardstick-api.db :as db]))
 
 (def ^:private base-opportunities-query
-  (-> (select  :opportunity.id :opportunity.title :opportunity.image :opportunity.description)
+  (-> (select :opportunity.id :opportunity.title :opportunity.image :opportunity.description)
       (from :opportunity)
       (merge-join :student_opportunity [:= :opportunity.id :student_opportunity.opportunity_id])))
 

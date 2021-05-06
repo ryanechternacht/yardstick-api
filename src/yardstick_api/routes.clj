@@ -5,7 +5,8 @@
             [honeysql.core :as sql]
             [next.jdbc :as jdbc]
             [yardstick-api.routes.opportunities :as opp]
-            [yardstick-api.routes.student :as s]))
+            [yardstick-api.routes.student :as s]
+            [yardstick-api.routes.supports :as supp]))
 
 (def ^:private GET-sample
   (GET "/sample" [:as {db :db}]
@@ -21,64 +22,6 @@
 (def GET-settings
   (GET "/v0.1/settings" []
     (response {:currentStudent 1})))
-
-; TODO Maybe this should become 2 different routes?
-(def GET-supports-by-student
-  (GET "/v0.1/student/:student-id/supports" [student-id]
-    (response [{:id 1
-                :overview {:title "Help ${student.name.first} Comprehend What ${student.pronouns.nominativeUpper} Is Reading By Having Gist Conversations"
-                           :tags [{:text "Suggested by School"}
-                                  {:text "Daily"}
-                                  {:text "Computer not Required"}]
-                           :description "\"Gist\" is a great tool for helping readers develop a reoccurring habit of self monitoring. The goal of this action plan is for ${student.name.first} to not get stuck in the weeds with every vocabulary word but instead nudge ${student.pronouns.accusative} to be focusing on the main idea of what ${student.pronouns.nominative} has just read. By having quick, frequent conversations with ${student.name.first} you can help ${student.pronouns.accusative} develop this habit in just a few weeks."
-                           :action "Dive into the Gist action plan"}
-                :details {:title "Gist Action Plan"
-                          :subtitle "Sometimes getting the gist is enough."
-                          :description "It is not always necessary for readers to understand every word.  Sometimes struggling readers slow down comprehension by grappling with each word.  This can be discouraging and stall momentum so that comprehension breaks down further.  Work with your child determine the gist or essential idea of a passage."
-                          :steps [{:title "Do This"
-                                   :text "Read with ${student.name.first} for at least 20 minutes and ask ${student.pronouns.accusative} to share the “Gist” of what ${student.pronouns.nominative} read with you"}
-                                  {:title "Using This"
-                                   :text "Model stating the gist using this <a href='https://nysrti.org/intervention-tools/reading-tools/tool:getthegist/'>Reseach supported one-pager</a> that outlines an easy way to explain Gist."}
-                                  {:title "This Often"
-                                   :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
-                                  {:title "For This Long"
-                                   :text "Keep this up for 4 weeks or until you start to see ${student.name.possessive} ability to accurately share the Gist of what ${student.pronouns.nominative} read improve"}]}}
-               {:id 2
-                :overview {:title "Assist ${student.name.first} in Selecting Fiction Books That Match ${student.pronouns.possessiveUpper} Developmental Level"
-                           :tags [{:text "Suggested by Teacher"}
-                                  {:text "Ongoing"}
-                                  {:text "Computer Based"}]
-                           :description "For ${student.pronouns.possessive} independent reading to have a positive impact on ${student.name.possessive} comprehension ${student.pronouns.nominative} needs to be engaging with books at the right level. Too easy, and ${student.pronouns.nominative} won’t be pushed to stretch ${student.pronouns.possessive} abilities. Too hard and it is likely to be a frustrating experience. Using online tools you can help ${student.pronouns.accusative} select books in ${student.pronouns.possessive} development sweetspot."
-                           :action "View the Selecting Books action plan"}
-                :details {:title "Gist Action Plan"
-                          :subtitle "Sometimes getting the gist is enough."
-                          :description "It is not always necessary for readers to understand every word.  Sometimes struggling readers slow down comprehension by grappling with each word.  This can be discouraging and stall momentum so that comprehension breaks down further.  Work with your child determine the gist or essential idea of a passage."
-                          :steps [{:title "Do This"
-                                   :text "Read with ${student.name.first} for at least 20 minutes and ask ${student.pronouns.accusative} to share the “Gist” of what ${student.pronouns.nominative} read with you"}
-                                  {:title "Using This"
-                                   :text "Model stating the gist using this <a href='https://nysrti.org/intervention-tools/reading-tools/tool:getthegist/'>Reseach supported one-pager</a> that outlines an easy way to explain Gist."}
-                                  {:title "This Often"
-                                   :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
-                                  {:title "For This Long"
-                                   :text "Keep this up for 4 weeks or until you start to see ${student.name.possessive} ability to accurately share the Gist of what ${student.pronouns.nominative} read improve"}]}}
-               {:id 3
-                :overview {:title "Work With ${student.name.first} to Master More Grade Level Vocabulary"
-                           :tags [{:text "Suggested by School"}
-                                  {:text "Daily"}
-                                  {:text "Computer not Required"}]
-                           :description "Knowing ${student.name.first} needs increased support to build out ${student.pronouns.possessive} understanding of grade level appropriate vocabulary helping ${student.name.accusative} work through a set of flashcards is a quick way to help ${student.pronouns.accusative} feel more comfortable when tackling challenging texts."
-                           :action "Review the Grade Level Vocab action plan"}
-                :details {:title "Gist Action Plan"
-                          :subtitle "Sometimes getting the gist is enough."
-                          :description "It is not always necessary for readers to understand every word.  Sometimes struggling readers slow down comprehension by grappling with each word.  This can be discouraging and stall momentum so that comprehension breaks down further.  Work with your child determine the gist or essential idea of a passage."
-                          :steps [{:title "Do This"
-                                   :text "Read with ${student.name.first} for at least 20 minutes and ask ${student.pronouns.accusative} to share the “Gist” of what ${student.pronouns.nominative} read with you"}
-                                  {:title "Using This"
-                                   :text "Model stating the gist using this <a href='https://nysrti.org/intervention-tools/reading-tools/tool:getthegist/'>Reseach supported one-pager</a> that outlines an easy way to explain Gist."}
-                                  {:title "This Often"
-                                   :text "Read with ${student.name.first} and have ${student.pronouns.accusative} write or say the Gist 3-4 times a week"}
-                                  {:title "For This Long"
-                                   :text "Keep this up for 4 weeks or until you start to see ${student.name.possessive} ability to accurately share the Gist of what ${student.pronouns.nominative} read improve"}]}}])))
 
 (def GET-obstacles-by-student
   (GET "/v0.1/student/:student-id/obstacles" [student-id]
@@ -765,7 +708,7 @@
   #'s/GET-student
   #'s/GET-students
   #'GET-settings
-  #'GET-supports-by-student
+  #'supp/GET-supports
   #'opp/GET-opportunities
   #'GET-obstacles-by-student
   #'GET-assessment-overviews-by-student
