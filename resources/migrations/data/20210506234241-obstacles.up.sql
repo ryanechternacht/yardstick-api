@@ -2,7 +2,7 @@ insert into obstacle (type, question, answer) values
 (
   'SimpleObstacle', 
   'Where do ${student.name.possessive} academic skills have the greatest obstacles to overcome for ${student.pronouns.accusative} to be college and career ready by graduation?', 
-  'Based on ${student.name.possessive} scores on ${student.name.possessive} NWEA MAP and Forward Exam, we see ${student.pronouns.possessive} greatest obstacles to overcome as ${student.pronouns.possessive} performance with <span class=\"underline\">Fiction Comprehension</span>.'
+  'Based on ${student.name.possessive} scores on ${student.name.possessive} NWEA MAP and Forward Exam, we see ${student.pronouns.possessive} greatest obstacles to overcome as ${student.pronouns.possessive} performance with <span class="underline">Fiction Comprehension</span>.'
 ),
 (
   'SimpleObstacle', 
