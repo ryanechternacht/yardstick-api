@@ -4,6 +4,7 @@
             [ring.util.response :refer [response]]
             [honeysql.core :as sql]
             [next.jdbc :as jdbc]
+            [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
             [yardstick-api.routes.supports :as supp]))
@@ -23,38 +24,37 @@
   (GET "/v0.1/settings" []
     (response {:currentStudent 1})))
 
-(def GET-obstacles-by-student
-  (GET "/v0.1/student/:student-id/obstacles" [student-id]
-    (response [{:id 1
-                :question "Where do ${student.name.possessive} academic skills have the greatest obstacles to overcome for ${student.pronouns.accusative} to be college and career ready by graduation?"
-                :answer "Based on ${student.name.possessive} scores on ${student.name.possessive} NWEA MAP and Forward Exam, we see ${student.pronouns.possessive} greatest obstacles to overcome as ${student.pronouns.possessive} performance with <span class=\"underline\">Fiction Comprehension</span>."
-                :type "SimpleObstacle"
-                :order 1}
-               {:id 2
-                :question "How does ${student.name.first} compare to other ${student.grade.ordinal} graders?"
-                :answer "Based on ${student.pronouns.possessive} assessments, ${student.name.possessive} performance is more than one grade level behind on related Fiction Comprehension skills"
-                :type "SimpleObstacle"
-                :order 2}
-               {:id 3
-                :question "Why is overcoming these osbstacles important for ${student.name.first} in the next few years?"
-                :answer "The instruction ${student.name.first} will receive in ${student.pronouns.possessive} High School English Language Arts courses will likely not focus a great deal on comprehension. <br><br> Often instruction at the high school level is focused on more deeply analyzing a text, with teachers and the curriculum assuming that students can understand the material at a basic level."
-                :type "SimpleObstacle"
-                :order 3
-                :cta {:position "below"}}
-               {:id 4
-                :question "Can you show me what ${student.name.possessive} performance looks like?"
-                :answer "The passage on the left represents an approximate text ${student.name.first} could read and comprehend. On the right is a text of what an On Track ${student.grade.ordinal} grader reader could comprehend."
-                :type "ReadingPassageObstacle"
-                :studentLevel "We tiptoed down the hall to the second classroom on the right. The heavy wooden door opened easily and we stepped in. There is an eerie, expectant feeling to a school room in the summer. The normal classroom items were there: desks, chalkboards, a set of encyclopedias. The American flag with accompanying pictures of Presidents Washington and Lincoln. But without students occupying those desks and their homework tacked on the wall, that empty summer classroom seemed laden with the memory of past students and past learning that took place within those walls. I strained to listen, as if I might hear the whisperings and stirrings of the past."
-                :targetLevel "Lydia was a stout, well-grown girl of fifteen, with a fine complexion and good-humoured countenance; a favourite with her mother, whose affection had brought her into public at an early age. She had high animal spirits, and a sort of natural self-consequence, which the attentions of the officers, to whom her uncle’s good dinners and her own easy manners recommended her, had increased into assurance. She was very equal therefore to address Mr. Bingley on the subject of the ball, and abruptly reminded him of his promise; adding, that it would be the most shameful thing in the world if he did not keep it. His answer to this sudden attack was delightful to their mother’s ear."
-                :order 4
-                :cta {:position "above"}}
-               {:id 5
-                :question "Why is this important in the long run?"
-                :answer "Research has shown a strong connection between literacy skills (fiction and nonfiction comprehension) and success in highly sought-ofter jobs. <br><br> Meaning the stronger ${student.name.possessive} literacy skills are, the more opportunities will be on the table when ${student.pronouns.nominative} picks out ${student.pronouns.possessive} future career."
-                :type "SimpleObstacle"
-                :order 5
-                :cta {:position "above"}}])))
+;   (GET "/v0.1/student/:student-id/obstacles" [student-id]
+;     (response [{:id 1
+;                 :question "Where do ${student.name.possessive} academic skills have the greatest obstacles to overcome for ${student.pronouns.accusative} to be college and career ready by graduation?"
+;                 :answer "Based on ${student.name.possessive} scores on ${student.name.possessive} NWEA MAP and Forward Exam, we see ${student.pronouns.possessive} greatest obstacles to overcome as ${student.pronouns.possessive} performance with <span class=\"underline\">Fiction Comprehension</span>."
+;                 :type "SimpleObstacle"
+;                 :order 1}
+;                {:id 2
+;                 :question "How does ${student.name.first} compare to other ${student.grade.ordinal} graders?"
+;                 :answer "Based on ${student.pronouns.possessive} assessments, ${student.name.possessive} performance is more than one grade level behind on related Fiction Comprehension skills"
+;                 :type "SimpleObstacle"
+;                 :order 2}
+;                {:id 3
+;                 :question "Why is overcoming these osbstacles important for ${student.name.first} in the next few years?"
+;                 :answer "The instruction ${student.name.first} will receive in ${student.pronouns.possessive} High School English Language Arts courses will likely not focus a great deal on comprehension. <br><br> Often instruction at the high school level is focused on more deeply analyzing a text, with teachers and the curriculum assuming that students can understand the material at a basic level."
+;                 :type "SimpleObstacle"
+;                 :order 3
+;                 :cta {:position "below"}}
+;                {:id 4
+;                 :question "Can you show me what ${student.name.possessive} performance looks like?"
+;                 :answer "The passage on the left represents an approximate text ${student.name.first} could read and comprehend. On the right is a text of what an On Track ${student.grade.ordinal} grader reader could comprehend."
+;                 :type "ReadingPassageObstacle"
+;                 :studentLevel "We tiptoed down the hall to the second classroom on the right. The heavy wooden door opened easily and we stepped in. There is an eerie, expectant feeling to a school room in the summer. The normal classroom items were there: desks, chalkboards, a set of encyclopedias. The American flag with accompanying pictures of Presidents Washington and Lincoln. But without students occupying those desks and their homework tacked on the wall, that empty summer classroom seemed laden with the memory of past students and past learning that took place within those walls. I strained to listen, as if I might hear the whisperings and stirrings of the past."
+;                 :targetLevel "Lydia was a stout, well-grown girl of fifteen, with a fine complexion and good-humoured countenance; a favourite with her mother, whose affection had brought her into public at an early age. She had high animal spirits, and a sort of natural self-consequence, which the attentions of the officers, to whom her uncle’s good dinners and her own easy manners recommended her, had increased into assurance. She was very equal therefore to address Mr. Bingley on the subject of the ball, and abruptly reminded him of his promise; adding, that it would be the most shameful thing in the world if he did not keep it. His answer to this sudden attack was delightful to their mother’s ear."
+;                 :order 4
+;                 :cta {:position "above"}}
+;                {:id 5
+;                 :question "Why is this important in the long run?"
+;                 :answer "Research has shown a strong connection between literacy skills (fiction and nonfiction comprehension) and success in highly sought-ofter jobs. <br><br> Meaning the stronger ${student.name.possessive} literacy skills are, the more opportunities will be on the table when ${student.pronouns.nominative} picks out ${student.pronouns.possessive} future career."
+;                 :type "SimpleObstacle"
+;                 :order 5
+;                 :cta {:position "above"}}])))
 
 (def GET-assessment-overviews-by-student
   (GET "/v0.1/student/:student-id/assessments" [student-id]
@@ -710,7 +710,7 @@
   #'GET-settings
   #'supp/GET-supports
   #'opp/GET-opportunities
-  #'GET-obstacles-by-student
+  #'obs/GET-obstacles
   #'GET-assessment-overviews-by-student
   #'GET-assessment-results-by-student-and-assessment
   #'GET-assessment-explanations-by-student-and-assessment)
