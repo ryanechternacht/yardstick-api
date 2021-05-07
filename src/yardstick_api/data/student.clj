@@ -36,7 +36,8 @@
   (->> (merge-where base-student-query
                     [:in :student.id ids])
        (db/execute db)
-      ;  TODO remove this once render-language handles arrays
+      ; TODO remove this once render-language handles arrays
+      ; TODO lang should come from the route
        (map #(lang/render-language db "en" %))
        (map row->obj)))
 
