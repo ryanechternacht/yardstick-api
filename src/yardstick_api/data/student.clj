@@ -29,8 +29,8 @@
 
 ; TODO not sure this is quite what I want...
 (defn- render-students [db ids]
-  (->> (-> base-student-query
-           (merge-where [:in :student.id ids]))
+  (->> (merge-where base-student-query
+                    [:in :student.id ids])
        (db/execute db)
        (map row->obj)))
 

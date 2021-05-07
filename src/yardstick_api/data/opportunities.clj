@@ -8,6 +8,6 @@
       (merge-join :student_opportunity [:= :opportunity.id :student_opportunity.opportunity_id])))
 
 (defn get-by-student-id [db student-id]
-  (->> (-> base-opportunities-query
-           (merge-where [:= :student_opportunity.student_id student-id]))
+  (->> (merge-where base-opportunities-query
+                    [:= :student_opportunity.student_id student-id])
        (db/execute db)))

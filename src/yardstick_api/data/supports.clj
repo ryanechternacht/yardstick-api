@@ -10,7 +10,7 @@
       (merge-join :student_support [:= :support.id :student_support.support_id])
       (order-by :student_support.ordering)))
 
-(defn support-row->obj [{:keys [id overview_title overview_description overview_action
+(defn- support-row->obj [{:keys [id overview_title overview_description overview_action
                                 details_title details_subtitle details_description]}]
   {:id id
    :overview {:title overview_title
@@ -62,9 +62,7 @@
                   (assoc-in s [:details :steps] steps)))))))
 
 (defn get-by-student-id [db student-id]
-  (let [supports
-        (->>
-         (-> base-supports-query
-             (merge-where [:= :student_support.student_id student-id]))
-         (db/execute db))]
-    (render-supports db supports)))
+  (->> (merge-where base-supports-query
+                    [:= :student_support.student_id student-id])
+       (db/execute db)
+       (render-supports db)))
