@@ -13,8 +13,8 @@
       (merge-join :pronouns [:= :student.pronouns_id :pronouns.id])))
 
 (defn- row->obj [{:keys [id first_name last_name ordinal cardinal
-                         nominative nominative_upper accusative
-                         accusative_upper possessive possessive_upper]}]
+                         nominative_lang nominative_upper_lang accusative_lang
+                         accusative_upper_lang possessive_lang possessive_upper_lang]}]
   {:id id
    :name {:first first_name
           :last last_name
@@ -24,12 +24,12 @@
           :possessive (str first_name "'s")}
    :grade {:cardinal cardinal
            :ordinal ordinal}
-   :pronouns {:nominative nominative
-              :nominativeUpper nominative_upper
-              :accusative accusative
-              :accusativeUpper accusative_upper
-              :possessive possessive
-              :possessiveUpper possessive_upper}})
+   :pronouns {:nominative nominative_lang
+              :nominativeUpper nominative_upper_lang
+              :accusative accusative_lang
+              :accusativeUpper accusative_upper_lang
+              :possessive possessive_lang
+              :possessiveUpper possessive_upper_lang}})
 
 ; TODO not sure this is quite what I want...
 (defn- render-students [db ids]

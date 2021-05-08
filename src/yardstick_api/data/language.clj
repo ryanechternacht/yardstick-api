@@ -43,15 +43,6 @@
          (map (fn [row] [(:id row) (lang_keyword row)]))
          (into {}))))
 
-(defn- remove-keyword-suffix [k]
-  (if (clojure.string/ends-with? (name k) keyword-suffix)
-    (->> k
-         name
-         (drop-last (count keyword-suffix))
-         (apply str)
-         keyword)
-    k))
-
 (defn- replace-fields
   "replaces all values from maps contained in obj with the values provided
    in the replacements map. obj must be a map or a collection of maps"
@@ -67,7 +58,7 @@
                      (cond
                        (map? v) (replace-fields v replacements)
                        (or (seq? v) (vector? v)) (map #(replace-fields % replacements) v)
-                       (replacements v) [(remove-keyword-suffix k) (replacements v)]
+                       (replacements v) [k (replacements v)]
                        :else node)
                      ; else treat is as a seq and step through each
                      (map #(replace-fields % replacements) node))))))
