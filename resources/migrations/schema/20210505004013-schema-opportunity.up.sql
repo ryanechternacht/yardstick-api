@@ -1,8 +1,8 @@
 create table opportunity (
   id serial primary key,
-  title text not null,
+  title_lang text not null,
   image text not null,
-  description text not null,
+  description_lang text not null,
   created_at timestamp without time zone default now(),
   updated_at timestamp without time zone default now()
 );
