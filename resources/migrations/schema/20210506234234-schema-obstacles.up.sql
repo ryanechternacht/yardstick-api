@@ -1,8 +1,8 @@
 create table obstacle (
   id serial primary key,
   type text not null,
-  question text not null,
-  answer text not null,
+  question_lang text not null,
+  answer_lang text not null,
   created_at timestamp without time zone default now(),
   updated_at timestamp without time zone default now()
 )
