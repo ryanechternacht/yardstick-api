@@ -13,14 +13,14 @@
                   :db state/pg-db})
 
 (comment
-  (migratus/create schema-config "example")
+  (migratus/create schema-config "schema-example")
   (migratus/migrate schema-config)
   (migratus/rollback schema-config)
   ;
   )
 
 (comment
-  (migratus/create data-config "example")
+  (migratus/create data-config "data-example")
   (migratus/migrate data-config)
   (migratus/rollback data-config)
   ;
