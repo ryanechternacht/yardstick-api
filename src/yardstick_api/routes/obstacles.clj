@@ -1,5 +1,5 @@
 (ns yardstick-api.routes.obstacles
-    (:require [compojure.core :refer [GET]]
+  (:require [compojure.core :refer [GET]]
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [response]]
             [yardstick-api.data.obstacles :as d-obstacles]))

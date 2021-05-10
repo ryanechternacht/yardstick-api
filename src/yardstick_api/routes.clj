@@ -4,6 +4,7 @@
             [ring.util.response :refer [response]]
             [honeysql.core :as sql]
             [next.jdbc :as jdbc]
+            [yardstick-api.routes.layout :as lay]
             [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
@@ -673,6 +674,7 @@
 
 (defroutes routes
   #'GET-sample
+  #'lay/GET-layout
   #'s/GET-student
   #'s/GET-students
   #'GET-settings
