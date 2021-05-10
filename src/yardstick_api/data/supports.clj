@@ -70,4 +70,4 @@
   (->> (merge-where base-supports-query
                     [:= :student_support.student_id student-id])
        (db/execute db)
-       (render-supports db "en")))
+       (render-supports db "es")))

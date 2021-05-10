@@ -20,5 +20,5 @@
   (->> (merge-where base-obstacles-query
                     [:= :student_obstacle.student_id student-id])
        (db/execute db)
-       (lang/render-language db "en")
+       (lang/render-language db "es")
        (map row->obj)))
