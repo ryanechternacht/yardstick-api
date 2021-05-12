@@ -18,5 +18,5 @@
   (->> (merge-where base-opportunities-query
                     [:= :student_opportunity.student_id student-id])
        (db/execute db)
-       (lang/render-language db "es")
+       (lang/render-language db db/global-language)
        (map row->obj)))

@@ -60,3 +60,6 @@
     (<-pgobject v))
   (read-column-by-index [^org.postgresql.util.PGobject v _2 _3]
     (<-pgobject v)))
+
+; This is a really lazy hack for the demo
+(def global-language "es")

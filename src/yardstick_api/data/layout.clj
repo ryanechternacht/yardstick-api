@@ -80,5 +80,5 @@
 
 (defn get-layout [db]
   (->> layout-keys
-       (lang/render-language db "es")
+       (lang/render-language db db/global-language)
       keys->obj))

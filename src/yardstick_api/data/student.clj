@@ -37,7 +37,7 @@
                     [:in :student.id ids])
        (db/execute db)
       ; TODO lang should come from the route
-       (lang/render-language db "es")
+       (lang/render-language db db/global-language)
        (map row->obj)))
 
 (defn get-students-by-id [db student-ids]
