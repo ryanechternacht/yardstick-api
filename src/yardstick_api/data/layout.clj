@@ -29,12 +29,12 @@
    :layout_overview_lang "layout-overview"
    :layout_breakdown_lang "layout-breakdown"
    :layout_details_lang "layout-details"
-   :home_pre_headline_lang "home-pre-headline"
-   :home_headline_lang "home-headline"
-   :home_nav_lang "home-nav"
-   :home_nav_how_to_help_lang "home-nav-how-to-help"
-   :home_nav_assessment_lang "home-nav-assessment"
-   :home_nav_obstacles_and_opportunities_lang "home-nav-obstacles-and-opportunities"})
+   :layout_home_pre_headline_lang "layout-home-pre-headline"
+   :layout_home_headline_lang "layout-home-headline"
+   :layout_home_nav_lang "layout-home-nav"
+   :layout_home_nav_how_to_help_lang "layout-home-nav-how-to-help"
+   :layout_home_nav_assessment_lang "layout-home-nav-assessment"
+   :layout_home_nav_obstacles_and_opportunities_lang "layout-home-nav-obstacles-and-opportunities"})
 
 (defn keys->obj [{:keys [layout_obstacles_and_opportunities_lang layout_home_lang
                          layout_how_to_help_lang layout_assessment_lang layout_opportunities_lang
@@ -45,9 +45,9 @@
                          assessment_likely_on_track_lang assessment_on_track_lang
                          assessment_advanced_lang assessment_general_lang assessment_math_lang
                          assessment_ela_lang assessment_overview_line_1_lang layout_overview_lang
-                         layout_breakdown_lang layout_details_lang home_pre_headline_lang
-                         home_headline_lang home_nav_lang home_nav_how_to_help_lang
-                         home_nav_assessment_lang home_nav_obstacles_and_opportunities_lang]}]
+                         layout_breakdown_lang layout_details_lang layout_home_pre_headline_lang
+                         layout_home_headline_lang layout_home_nav_lang layout_home_nav_how_to_help_lang
+                         layout_home_nav_assessment_lang layout_home_nav_obstacles_and_opportunities_lang]}]
   {:layout {:obstaclesAndOpportunities layout_obstacles_and_opportunities_lang
             :home layout_home_lang
             :howToHelp layout_how_to_help_lang
@@ -71,14 +71,14 @@
                 :math assessment_math_lang
                 :ela assessment_ela_lang
                 :overviewLine1 assessment_overview_line_1_lang}
-   :home {:preHeadline home_pre_headline_lang
-          :headline home_headline_lang
-          :nav home_nav_lang
-          :navHowToHelp home_nav_how_to_help_lang
-          :navAssessment home_nav_assessment_lang
-          :navObstaclesAndOpportunities home_nav_obstacles_and_opportunities_lang}})
+   :home {:preHeadline layout_home_pre_headline_lang
+          :headline layout_home_headline_lang
+          :nav layout_home_nav_lang
+          :navHowToHelp layout_home_nav_how_to_help_lang
+          :navAssessment layout_home_nav_assessment_lang
+          :navObstaclesAndOpportunities layout_home_nav_obstacles_and_opportunities_lang}})
 
 (defn get-layout [db]
   (->> layout-keys
-       (lang/render-language db "en")
+       (lang/render-language db "es")
       keys->obj))
