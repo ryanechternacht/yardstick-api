@@ -26,5 +26,5 @@ insert into language_lookup (id, lang_en, lang_es) values
 ('layout-home-headline', '${student.name.first} is <span class="at-risk">At Risk</span> in Reading and <span class="advanced">Advanced</span> in Mathematics', '${student.name.first} está <span class="at-risk">en riesgo</span> en lectura y <span class="advanced">avanzado</span> en matemáticas'),
 ('layout-home-nav', 'What should we show you next?', '¿Qué deberíamos mostrarte a continuación?'),
 ('layout-home-nav-how-to-help', 'How you can help ${student.name.first} be more prepared.', 'Cómo puede ayudar a ${student.name.first} a estar más preparado.'),
-('layout-home-nav-assessment', 'How ${student.name.first} is doing across all of ${student.pronouns.possessive} assessments.', 'Cómo le está yendo a ${student.name.first} en todas las evaluaciones de $ {student.pronouns.possessive}.'),
+('layout-home-nav-assessment', 'How ${student.name.first} is doing across all of ${student.pronouns.possessive} assessments.', 'Cómo le está yendo a ${student.name.first} en todas las evaluaciones de ${student.pronouns.possessive}.'),
 ('layout-home-nav-obstacles-and-opportunities', 'Where ${student.name.first} is doing well and where ${student.pronouns.nominative} has room to grow.', 'Donde ${student.name.first} lo está haciendo bien y donde ${student.pronouns.nominative} tiene espacio para crecer.')
