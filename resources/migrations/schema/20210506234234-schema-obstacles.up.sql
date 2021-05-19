@@ -3,8 +3,8 @@ create table obstacle (
   type text not null,
   question_lang text not null,
   answer_lang text not null,
-  created_at timestamp without time zone default now(),
-  updated_at timestamp without time zone default now()
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
 )
 --;;
 create table student_obstacle (
@@ -12,7 +12,7 @@ create table student_obstacle (
   obstacle_id int references obstacle(id),
   ordering int not null,
   additional_fields jsonb,
-  created_at timestamp without time zone default now(),
-  updated_at timestamp without time zone default now(),
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now(),
   primary key (student_id, obstacle_id)
 )

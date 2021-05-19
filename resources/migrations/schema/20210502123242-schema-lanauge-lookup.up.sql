@@ -3,6 +3,6 @@ create table language_lookup (
   lang_en text not null default '',
   lang_es text not null default '',
   comment text,
-  created_at timestamp without time zone default now(),
-  updated_at timestamp without time zone default now()
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
 );

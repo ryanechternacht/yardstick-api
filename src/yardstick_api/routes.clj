@@ -7,7 +7,8 @@
             [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
-            [yardstick-api.routes.supports :as supp]))
+            [yardstick-api.routes.supports :as supp]
+            [yardstick-api.routes.users :as users]))
 
 (def ^:private GET-sample
   (GET "/sample" [:as {db :db}]
@@ -681,4 +682,5 @@
   #'obs/GET-obstacles
   #'GET-assessment-overviews-by-student
   #'GET-assessment-results-by-student-and-assessment
-  #'GET-assessment-explanations-by-student-and-assessment)
+  #'GET-assessment-explanations-by-student-and-assessment
+  #'users/POST-login)

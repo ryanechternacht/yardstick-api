@@ -1,7 +1,7 @@
 (ns yardstick-api.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.cors :refer [wrap-cors]]
-            [ring.middleware.json :refer [wrap-json-response]]
+            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.params :refer [wrap-params]]
             [yardstick-api.routes :as r]
             [yardstick-api.state :refer [wrap-db]])
@@ -11,6 +11,7 @@
 (def handler
   (-> r/routes
       wrap-params
+      (wrap-json-body {:keywords? true})
       wrap-json-response
       (wrap-cors :access-control-allow-origin #".*"
                  :access-control-allow-methods [:get :put :post :delete])
