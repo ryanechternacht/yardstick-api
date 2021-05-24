@@ -20,7 +20,6 @@
       wrap-session))
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& _]
   (run-jetty #'handler {:port 3001
                         :join? false}))
