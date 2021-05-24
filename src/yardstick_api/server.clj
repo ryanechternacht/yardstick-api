@@ -1,6 +1,5 @@
 (ns yardstick-api.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
-            [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
@@ -18,7 +17,6 @@
       (wrap-cors :access-control-allow-origin #".*"
                  :access-control-allow-methods [:get :put :post :delete])
       wrap-db
-      wrap-cookies
       wrap-session))
 
 (defn -main

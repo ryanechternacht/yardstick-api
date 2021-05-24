@@ -7,24 +7,21 @@
   {:status  401
    :headers {}})
 
-(defn cookies-200 [value]
-  {:status 200
-   :cookies {:world value}})
-
 (defn session-200 [user-id]
   {:status 200
-   :session {:user-id user-id}})
+   :session {:user-id user-id
+             :recreate true}})
 
 (def POST-login
-  (POST "/v0.1/users/login" [:as {{:keys [username password]} :body db :db cookies :cookies}]
-    (println cookies)
-    (let [user (d-users/validate-login db "ryan@echternacht.org" "123")]
-      (if user
-        (cookies-200 "1234")
+  (POST "/v0.1/users/login" [:as {{:keys [username password]} :body db :db session :session}]
+    (let [user-id (d-users/validate-login db "ryan@echternacht.org" "123")]
+      (if user-id
+        (session-200 user-id)
         fail-401))))
 
 (def GET-me
-  (GET "/v0.1/users/me" [:as {db :db session :session}]
-    (println "me")
-    (println session)
-    (session-200 1)))
+  (GET "/v0.1/users/me" [:as {db :db {user-id :user-id :as session} :session}]
+    (let [user (d-users/get-user db user-id)]
+      (if user
+        (response user)
+        fail-401))))
