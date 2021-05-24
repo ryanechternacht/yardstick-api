@@ -1,6 +1,5 @@
 (ns yardstick-api.data.users
   (:require [honeysql.helpers :refer [select from merge-where]]
-            [honeysql.core :as sql]
             [yardstick-api.db :as db]))
 
 (defn validate-login

@@ -5,5 +5,7 @@
             [yardstick-api.data.opportunities :as d-opportunities]))
 
 (def GET-opportunities
-  (GET "/v0.1/student/:student-id/opportunities" [student-id :<< as-int :as {db :db}]
+  (GET "/v0.1/student/:student-id/opportunities" [student-id :<< as-int :as {db :db cookies :cookies}]
+    (println "opportunities")
+    (println cookies)
     (response (d-opportunities/get-by-student-id db student-id))))
