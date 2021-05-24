@@ -3,6 +3,7 @@
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
+            [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.params :refer [wrap-params]]
             [yardstick-api.routes :as r]
             [yardstick-api.state :refer [wrap-db]])
@@ -17,7 +18,8 @@
       (wrap-cors :access-control-allow-origin #".*"
                  :access-control-allow-methods [:get :put :post :delete])
       wrap-db
-      wrap-cookies))
+      wrap-cookies
+      wrap-session))
 
 (defn -main
   "I don't do a whole lot ... yet."
