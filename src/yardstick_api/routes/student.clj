@@ -11,6 +11,4 @@
 ;; TODO shouldn't just return 1, but return all of a user's students
 (def GET-students
   (GET "/v0.1/students" [:as {db :db cookies :cookies}]
-    (println "students")
-    (println cookies)
     (response [(d-student/get-student-by-id db 1)])))

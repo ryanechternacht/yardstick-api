@@ -1,4 +1,4 @@
-(ns yardstick-api.state)
+(ns yardstick-api.middlewares.db)
 
 ;; TODO probaby use component or mount for this
 ;; TODO probably setup a connection pool for this (c3p0?)
