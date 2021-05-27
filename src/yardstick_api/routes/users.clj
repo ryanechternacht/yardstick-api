@@ -7,16 +7,16 @@
   {:status  401
    :headers {}})
 
-(defn session-200 [user-id]
+(defn set-session-response [user-id]
   {:status 200
    :session {:user-id user-id
              :recreate true}})
 
 (def POST-login
-  (POST "/v0.1/users/login" [:as {{:keys [username password]} :body db :db session :session}]
+  (POST "/v0.1/users/login" [:as {{:keys [username password]} :body db :db}]
     (let [user-id (d-users/validate-login db username password)]
       (if user-id
-        (session-200 user-id)
+        (set-session-response user-id)
         fail-401))))
 
 (def GET-me

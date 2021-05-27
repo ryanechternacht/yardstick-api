@@ -2,8 +2,12 @@
   (:require [compojure.core :refer [GET]]
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [response]]
-            [yardstick-api.data.opportunities :as d-opportunities]))
+            [yardstick-api.data.opportunities :as d-opportunities]
+            [yardstick-api.routes.helpers.auth :refer [unauthorized has-student-access?]]))
 
 (def GET-opportunities
-  (GET "/v0.1/student/:student-id/opportunities" [student-id :<< as-int :as {db :db cookies :cookies}]
-    (response (d-opportunities/get-by-student-id db student-id))))
+  (GET "/v0.1/student/:student-id/opportunities"
+    [student-id :<< as-int :as {db :db user :user}]
+    (if (has-student-access? db user student-id :read)
+      (response (d-opportunities/get-by-student-id db student-id))
+      unauthorized)))

@@ -6,7 +6,8 @@
             [yardstick-api.routes.helpers.auth :refer [unauthorized has-student-access?]]))
 
 (def GET-obstacles
-  (GET "/v0.1/student/:student-id/obstacles" [student-id :<< as-int :as {db :db user :user session :session}]
+  (GET "/v0.1/student/:student-id/obstacles"
+    [student-id :<< as-int :as {db :db user :user}]
     (if (has-student-access? db user student-id :read)
       (response (d-obstacles/get-by-student-id db student-id))
       unauthorized)))
