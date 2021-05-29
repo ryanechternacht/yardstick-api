@@ -6,7 +6,7 @@
   "Returns the user id if the login was valid. Nil otherwise"
   [db username password_plaintext]
   (->> (-> (select :id)
-           (from :users)
+           (from :yardstick_user)
            (merge-where [:and
                          [:= :username username]
                          [:= :password_plaintext password_plaintext]]))
@@ -16,8 +16,8 @@
 
 (defn get-user
   [db user-id]
-  (->> (-> (select :username :first_name :last_name)
-           (from :users)
+  (->> (-> (select :id :username :first_name :last_name)
+           (from :yardstick_user)
            (merge-where [:= :id user-id]))
        (db/execute db)
        first))

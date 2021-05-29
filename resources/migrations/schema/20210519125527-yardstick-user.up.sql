@@ -1,4 +1,4 @@
-create table users (
+create table yardstick_user (
   id serial primary key,
   username text not null,
   password_plaintext text not null,
