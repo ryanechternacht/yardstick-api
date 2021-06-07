@@ -684,4 +684,5 @@
   #'GET-assessment-results-by-student-and-assessment
   #'GET-assessment-explanations-by-student-and-assessment
   #'users/POST-login
-  #'users/GET-me)
+  #'users/GET-me
+  #'users/GET-auth0-callback)
