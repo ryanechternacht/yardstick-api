@@ -43,7 +43,7 @@
   (GET "/v0.1/auth0/callback" [code :as {db :db}]
     (let [token (get-auth0-token code)
           auth0-user (get-auth0-user token)
-          user (d-users/get-user-by-email db (:email auth0-user))]
+          user (d-users/get-or-create-user db auth0-user)]
       (set-session (redirect "http://localhost:4000") (:id user)))))
 
 (def GET-login
