@@ -42,5 +42,18 @@
 
 (defn get-students-by-id [db student-ids]
   (render-students db student-ids))
+
 (defn get-student-by-id [db student-id]
   (first (get-students-by-id db [student-id])))
+
+(defn- get-my-student-ids [db user-id]
+  (->> (-> (select :target_id)
+           (from :yardstick_grant)
+           (merge-where [:= :user_id user-id]
+                        [:= :target_type "student"]
+                        [:= :permission "read"]))
+       (db/execute db)
+       (map :target_id)))
+
+(defn get-my-students [db user-id]
+  (render-students db (get-my-student-ids db user-id)))
