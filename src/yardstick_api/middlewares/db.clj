@@ -10,7 +10,7 @@
             :ssl false})
 
 ; This form has the advantage that changes to wrap-debug-impl are
-; automatically reflected in the handler (due to the lookup in wrap-db`)
+; automatically reflected in the handler (due to the lookup in `wrap-db`)
 (defn wrap-debug-impl [handler request]
   (handler (assoc request :db pg-db)))
 

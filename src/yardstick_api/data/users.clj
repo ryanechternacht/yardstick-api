@@ -4,20 +4,20 @@
             [honeysql-postgres.helpers :refer [returning]]
             [yardstick-api.db :as db]))
 
-;; TODO extract out the column list
+(def ^:private base-select
+  (-> (select :id :first_name :last_name :picture)
+      (from :yardstick_user)))
 
 (defn get-user-by-id
   [db user-id]
-  (->> (-> (select :id :first_name :last_name)
-           (from :yardstick_user)
+  (->> (-> base-select
            (merge-where [:= :id user-id]))
        (db/execute db)
        first))
 
 (defn- get-user-by-email
   [db email]
-  (->> (-> (select :id :first_name :last_name)
-           (from :yardstick_user)
+  (->> (-> base-select
            (merge-where [:= :email email]))
        (db/execute db)
        first))
