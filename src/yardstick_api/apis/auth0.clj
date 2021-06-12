@@ -25,7 +25,7 @@
       :access_token))
 
 (defn- fetch-auth0-user [{:keys [base-url]} token]
-  (-> (http/get (auth0-uri base-url (str "userinfo?access_token=" token))
+  (-> (http/get (auth0-uri base-url "userinfo" {:access_token token})
                 {:accept :json
                  :as :json})
       :body))
