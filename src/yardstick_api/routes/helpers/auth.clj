@@ -17,9 +17,9 @@
            (from :yardstick_user)
            (merge-join :yardstick_grant [:= :yardstick_user.id :yardstick_grant.user_id])
            (merge-join :student [:= :yardstick_grant.target_id :student.id])
-           (merge-where [:= :yardstick_user.id (:id user)])
-           (merge-where [:= :yardstick_grant.target_type "student"])
-           (merge-where [:= :yardstick_grant.permission (name permission)])
-           (merge-where [:= :student.id student-id]))
+           (merge-where [:= :yardstick_user.id (:id user)]
+                        [:= :yardstick_grant.target_type "student"]
+                        [:= :yardstick_grant.permission (name permission)]
+                        [:= :student.id student-id]))
        (db/execute db)
        first))

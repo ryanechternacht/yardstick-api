@@ -1,5 +1,6 @@
 {:paths ["src" "resources"]
- :deps {cheshire/cheshire {:mvn/version "5.10.0"}
+ :deps {com.cemerick/url {:mvn/version "0.1.1"}
+        cheshire/cheshire {:mvn/version "5.10.0"}
         clj-http/clj-http {:mvn/version "3.12.2"}
         compojure/compojure {:mvn/version "1.6.2"}
         honeysql/honeysql {:mvn/version "1.0.461"}
