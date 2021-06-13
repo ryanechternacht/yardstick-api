@@ -5,7 +5,7 @@
             [yardstick-api.db :as db]))
 
 (def ^:private base-select
-  (-> (select :id :first_name :last_name :picture)
+  (-> (select :id :first_name :last_name :picture :language)
       (from :yardstick_user)))
 
 (defn get-user-by-id

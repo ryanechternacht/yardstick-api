@@ -6,5 +6,5 @@
     (handler (assoc request :user user))))
 
 ; This form has the advantage that changes to wrap-debug-impl are
-; automatically reflected in the handler (due to the lookup in `wrap-db`)
+; automatically reflected in the handler (due to the lookup in `wrap-user`)
 (defn wrap-user [h] (partial #'wrap-user-impl h))

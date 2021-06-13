@@ -6,6 +6,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [yardstick-api.middlewares.config :refer [wrap-config]]
             [yardstick-api.middlewares.db :refer [wrap-db]]
+            [yardstick-api.middlewares.language :refer [wrap-language]]
             [yardstick-api.middlewares.user :refer [wrap-user]]
             [yardstick-api.routes :as r])
   (:gen-class))
@@ -15,6 +16,7 @@
   (-> r/routes
       (wrap-json-body {:keywords? true})
       wrap-config
+      wrap-language
       wrap-user
       wrap-db
       wrap-session

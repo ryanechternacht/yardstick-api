@@ -54,7 +54,7 @@
                  (or (seq? node) (vector? node))
                  (let [[k v] node]
                    (if (keyword? k)
-                     ; if 1st item is keywor, treat like a kvp
+                     ; if 1st item is keyword, treat like a kvp
                      (cond
                        (map? v) (replace-fields v replacements)
                        (or (seq? v) (vector? v)) (map #(replace-fields % replacements) v)
