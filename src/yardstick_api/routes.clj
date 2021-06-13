@@ -10,15 +10,6 @@
             [yardstick-api.routes.supports :as supp]
             [yardstick-api.routes.users :as users]))
 
-(def ^:private GET-sample
-  (GET "/sample" [:as {db :db}]
-    (let [value (jdbc/execute! db
-                               (sql/format {:select [:id]
-                                            :from [:sample]}))]
-      (response {:text "sample"
-                 :a value
-                 :db db}))))
-
 ; TODO this should be loaded based off of the session
 ; Should this really just live in local storage? 
 (def GET-settings
@@ -673,7 +664,6 @@
                          :icon "/images/normative-icon.svg"}]}})))
 
 (defroutes routes
-  #'GET-sample
   #'s/GET-student
   #'s/GET-students
   #'GET-settings
