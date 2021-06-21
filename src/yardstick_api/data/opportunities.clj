@@ -14,9 +14,9 @@
    :image image
    :description description_lang})
 
-(defn get-by-student-id [db student-id]
+(defn get-by-student-id [db lang student-id]
   (->> (merge-where base-opportunities-query
                     [:= :student_opportunity.student_id student-id])
        (db/execute db)
-       (lang/render-language db "en")
+       (lang/render-language db lang)
        (map row->obj)))

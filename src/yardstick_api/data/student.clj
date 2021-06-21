@@ -32,19 +32,19 @@
               :possessiveUpper possessive_upper_lang}})
 
 ; TODO not sure this is quite what I want...
-(defn- render-students [db ids]
+(defn- render-students [db lang ids]
   (->> (merge-where base-student-query
                     [:in :student.id ids])
        (db/execute db)
       ; TODO lang should come from the route
-       (lang/render-language db "en")
+       (lang/render-language db lang)
        (map row->obj)))
 
-(defn get-students-by-id [db student-ids]
-  (render-students db student-ids))
+(defn get-students-by-id [db lang student-ids]
+  (render-students db lang student-ids))
 
-(defn get-student-by-id [db student-id]
-  (first (get-students-by-id db [student-id])))
+(defn get-student-by-id [db lang student-id]
+  (first (get-students-by-id db lang [student-id])))
 
 (defn- get-my-student-ids [db user-id]
   (->> (-> (select :target_id)

@@ -7,7 +7,7 @@
 
 (def GET-opportunities
   (GET "/v0.1/student/:student-id/opportunities"
-    [student-id :<< as-int :as {db :db user :user}]
+    [student-id :<< as-int :as {:keys [db user lang]}]
     (if (has-student-access? db user student-id :read)
-      (response (d-opportunities/get-by-student-id db student-id))
+      (response (d-opportunities/get-by-student-id db lang student-id))
       unauthorized)))

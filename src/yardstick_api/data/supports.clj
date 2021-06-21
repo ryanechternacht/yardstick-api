@@ -66,8 +66,8 @@
                                  (map step-row->obj))]
                   (assoc-in s [:details :steps] steps)))))))
 
-(defn get-by-student-id [db student-id]
+(defn get-by-student-id [db lang student-id]
   (->> (merge-where base-supports-query
                     [:= :student_support.student_id student-id])
        (db/execute db)
-       (render-supports db "en")))
+       (render-supports db lang)))

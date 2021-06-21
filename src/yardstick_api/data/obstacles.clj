@@ -16,9 +16,9 @@
    :question question_lang
    :answer answer_lang})
 
-(defn get-by-student-id [db student-id]
+(defn get-by-student-id [db lang student-id]
   (->> (merge-where base-obstacles-query
                     [:= :student_obstacle.student_id student-id])
        (db/execute db)
-       (lang/render-language db "en")
+       (lang/render-language db lang)
        (map row->obj)))

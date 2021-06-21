@@ -7,7 +7,7 @@
 
 (def GET-obstacles
   (GET "/v0.1/student/:student-id/obstacles"
-    [student-id :<< as-int :as {db :db user :user}]
+    [student-id :<< as-int :as {:keys [user db lang]}]
     (if (has-student-access? db user student-id :read)
-      (response (d-obstacles/get-by-student-id db student-id))
+      (response (d-obstacles/get-by-student-id db lang student-id))
       unauthorized)))
