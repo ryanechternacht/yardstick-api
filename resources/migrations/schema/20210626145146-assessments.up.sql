@@ -3,27 +3,27 @@ create table academic_year (
   name text not null, -- '2019 - 2020'
   short_name text not null --"'19-'20"?
 );
---??
+--;;
 create table assessment (
   id serial primary key,
   name text not null,
   release text not null, -- for tracking versions, editions, etc. e.g. "2014"
   assessment_table text not null -- e.g. "assessment_map_v1"
 );
---??
+--;;
 create table assessment_term (
   id serial primary key,
   ordering int not null,
   name text not null
   -- TODO another name?
 );
---??
+--;;
 create table assessment_instance (
   id serial primary key,
   academic_year_id int not null references academic_year(id),
   assessment_term_id int not null references assessment_term(id)
 );
---??
+--;;
 -- TODO This name is great from a domain standpoint, and awful from a relational standpoint
 create table student_assessment (
   id serial primary key,
