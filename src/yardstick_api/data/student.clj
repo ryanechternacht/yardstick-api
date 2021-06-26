@@ -55,5 +55,5 @@
        (db/execute db)
        (map :target_id)))
 
-(defn get-my-students [db user-id]
-  (render-students db (get-my-student-ids db user-id)))
+(defn get-my-students [db lang user-id]
+  (render-students db lang (get-my-student-ids db user-id)))

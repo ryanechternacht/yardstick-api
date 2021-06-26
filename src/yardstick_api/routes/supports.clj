@@ -7,7 +7,7 @@
 
 (def GET-supports
   (GET "/v0.1/student/:student-id/supports"
-    [student-id :<< as-int :as {:keys [db user lang]}]
+    [student-id :<< as-int :as {:keys [db user language]}]
     (if (has-student-access? db user student-id :read)
-      (response (d-supports/get-by-student-id db lang student-id))
+      (response (d-supports/get-by-student-id db language student-id))
       unauthorized)))
