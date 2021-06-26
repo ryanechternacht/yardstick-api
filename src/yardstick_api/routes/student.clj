@@ -7,13 +7,13 @@
 
 (def GET-student
   (GET "/v0.1/student/:student-id" 
-    [student-id :<< as-int :as {:keys [db user lang]}]
+    [student-id :<< as-int :as {:keys [db user language]}]
     (if (has-student-access? db user student-id :read)
-      (response (d-student/get-student-by-id db lang student-id))
+      (response (d-student/get-student-by-id db language student-id))
       unauthorized)))
 
 (def GET-students
-  (GET "/v0.1/students" [:as {db :db user :user}]
+  (GET "/v0.1/students" [:as {:keys [db user language]}]
     (if user
-      (response (d-student/get-my-students db (:id user)))
+      (response (d-student/get-my-students db language (:id user)))
       unauthorized)))
