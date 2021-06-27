@@ -2,12 +2,12 @@ insert into academic_year (id, start_year, end_year, name, short_name) values
 (2020, 2019, 2020, '2019 - 2020', '''19-''20'),
 (2021, 2020, 2021, '2020 - 2021', '''20-''21');
 --;;
-insert into assessment (name, release, assessment_table) values
-('NWEA MAP - Mathematics', 'MAP 2021', 'assessment_map_v1'),
-('NWEA MAP - ELA', 'MAP 2021', 'assessment_map_v1'),
-('PreACT 8/9', 'PreACT 8/9', 'assessment_preact_v1'),
-('Forward - Mathematics', 'Forward - Mathematics', 'assessment_forward_math_v1'),
-('Forward - ELA', 'Forward - ELA', 'assessment_forward_ela_v1');
+insert into assessment (name, release, assessment_table, type) values
+('NWEA MAP - Mathematics', 'MAP 2021', 'assessment_map_v1', 'math'),
+('NWEA MAP - ELA', 'MAP 2021', 'assessment_map_v1', 'ela'),
+('PreACT 8/9', 'PreACT 8/9', 'assessment_preact_v1', 'general'),
+('Forward - Mathematics', 'Forward - Mathematics', 'assessment_forward_math_v1', 'math'),
+('Forward - ELA', 'Forward - ELA', 'assessment_forward_ela_v1', 'ela');
 --;;
 insert into assessment_term (assessment_id, ordering, name) values
 (1, 1, 'Fall'),

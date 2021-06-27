@@ -2,8 +2,7 @@
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [response]]
-            [honeysql.core :as sql]
-            [next.jdbc :as jdbc]
+            [yardstick-api.routes.assessments :as ass]
             [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
@@ -15,29 +14,6 @@
 (def GET-settings
   (GET "/v0.1/settings" []
     (response {:currentStudent 1})))
-
-(def GET-assessment-overviews-by-student
-  (GET "/v0.1/student/:student-id/assessments" [student-id]
-    (response [{:id 1
-                :name "PreACT 8/9"
-                :rating 3
-                :type "general"}
-               {:id 2
-                :name "Forward - Mathematics"
-                :rating 4
-                :type "math"}
-               {:id 3
-                :name "NWEA MAP - Mathematics"
-                :rating 5
-                :type "math"}
-               {:id 4
-                :name "Forward - ELA"
-                :rating 2
-                :type "ela"}
-               {:id 5
-                :name "NWEA MAP - Reading"
-                :rating 1
-                :type "ela"}])))
 
 (def GET-assessment-results-by-student-and-assessment
   (GET "/v0.1/student/:student-id/assessment/:assessment-id" [student-id assessment-id :<< as-int]
@@ -670,7 +646,7 @@
   #'supp/GET-supports
   #'opp/GET-opportunities
   #'obs/GET-obstacles
-  #'GET-assessment-overviews-by-student
+  #'ass/GET-assessment-overviews-by-student
   #'GET-assessment-results-by-student-and-assessment
   #'GET-assessment-explanations-by-student-and-assessment
   #'users/GET-me

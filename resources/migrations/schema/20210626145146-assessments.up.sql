@@ -10,7 +10,8 @@ create table assessment (
   id serial primary key,
   name text not null,
   release text not null, -- for tracking versions, editions, etc. e.g. "2014"
-  assessment_table text not null -- e.g. "assessment_map_v1"
+  assessment_table text not null, -- e.g. "assessment_map_v1"
+  type text not null
 );
 --;;
 create table assessment_term (
