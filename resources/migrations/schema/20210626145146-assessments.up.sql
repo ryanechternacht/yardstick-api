@@ -1,7 +1,9 @@
 create table academic_year (
   id int primary key, -- set manually, should be 2020 for the 2019-2020 year
   name text not null, -- '2019 - 2020'
-  short_name text not null --"'19-'20"?
+  short_name text not null, --"'19-'20"?
+  start_year int not null,
+  end_year int not null
 );
 --;;
 create table assessment (
@@ -13,6 +15,7 @@ create table assessment (
 --;;
 create table assessment_term (
   id serial primary key,
+  assessment_id int not null references assessment(id),
   ordering int not null,
   name text not null
   -- TODO another name?
@@ -33,6 +36,7 @@ create table student_assessment (
   state_student_id text,
   yardstick_performance_rating decimal, -- null because it's calced after the fact
   assessment_table text not null, -- same as assessment.assessment_table
+  assessment_table_id int not null,
   date_taken timestamp with time zone,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
