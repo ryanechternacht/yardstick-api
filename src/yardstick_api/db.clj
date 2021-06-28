@@ -8,6 +8,7 @@
            [org.postgresql.util PGobject]))
 
 (defn execute [db query]
+  (println (sql/format query))
   (jdbc/execute! db (sql/format query)
                  {:builder-fn rs/as-unqualified-lower-maps}))
 

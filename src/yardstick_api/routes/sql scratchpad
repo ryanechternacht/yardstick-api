@@ -48,3 +48,14 @@ ON (assessment_term.id = assessment_instance.assessment_term_id
 INNER JOIN student_assessment 
 ON (assessment_instance.id = student_assessment.assessment_instance_id 
   AND student_assessment.student_id = 1);
+
+
+select * from student_assessment sa
+join assessment_instance ai on sa.assessment_instance_id = ai.id 
+join assessment_term term on ai.assessment_term_id = term.id
+join assessment a on term.assessment_id = a.id
+where sa.student_id = 1 
+  and ai.academic_year_id >= 2020
+  and a.id = 1;
+
+SELECT * FROM student_assessment INNER JOIN assessment_instance ON student_assessment.assessment_instance_id = assessment_instance.id INNER JOIN assessment_term ON assessment_instance.assessment_term_id = assessment_term.id INNER JOIN assessment ON assessment_term.assessment_id = assessment.id WHERE (student_assessment.student_id = 1 AND assessment_instance.academic_year_id >= 2020 AND assessment.id = 1);
