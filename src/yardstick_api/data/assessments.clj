@@ -47,22 +47,25 @@
 
 (defn- render-map-results [assessment-id rows]
   (let [most-recent (last rows)]
-    (println rows)
     {:id assessment-id
      :name (:assessment_name most-recent)
-     :shortName "MAP" ;; TODO
-     :scale "RIT Score" ;; TODO
+     :shortName (:short_name most-recent)
+     :scale (:scale most-recent)
      :subject {:name (:type most-recent)}
      :latestTerm {:fullName (str (:assessment_term most-recent) (:short_name most-recent))
                   :gradeLevelAverage 280 ;; TODO norm data
-                  :domains [{:name (:goal1name most-recent)
-                             :score (:goal1ritscore most-recent)}
-                            {:name (:goal2name most-recent)
-                             :score (:goal2ritscore most-recent)}
-                            {:name (:goal3name most-recent)
-                             :score (:goal3ritscore most-recent)}
-                            {:name (:goal4name most-recent)
-                             :score (:goal4ritscore most-recent)}]}
+                  :domains (->> [(:goal1name most-recent) (:goal1ritscore most-recent)
+                                 (:goal2name most-recent) (:goal2ritscore most-recent)
+                                 (:goal3name most-recent) (:goal3ritscore most-recent)
+                                 (:goal4name most-recent) (:goal4ritscore most-recent)
+                                 (:goal5name most-recent) (:goal5ritscore most-recent)
+                                 (:goal6name most-recent) (:goal6ritscore most-recent)
+                                 (:goal7name most-recent) (:goal7ritscore most-recent)
+                                 (:goal8name most-recent) (:goal8ritscore most-recent)]
+                                (partition 2)
+                                (filter second)
+                                (map (fn [[name score]]
+                                       {:name name :score score})))}
      :achievement 72 ;; TODO norm data
      :growth (:testpercentile most-recent)
      :recentResults (map (fn [r]
@@ -78,11 +81,16 @@
 ;; TODO where are we deciding these are map results
 (defn get-results-by-assessment [db assessment-id student-id]
   (->> (-> (select [:assessment.name :assessment_name] :assessment.type
-                   [:assessment_term.name :term_name] :academic_year.short_name
+                   [:assessment_term.name :term_name] :assessment.short_name
+                   :assessment.scale :academic_year.short_name
                    :assessment_map_v1.Goal1Name :assessment_map_v1.Goal1RitScore
                    :assessment_map_v1.Goal2Name :assessment_map_v1.Goal2RitScore
                    :assessment_map_v1.Goal3Name :assessment_map_v1.Goal3RitScore
                    :assessment_map_v1.Goal4Name :assessment_map_v1.Goal4RitScore
+                   :assessment_map_v1.Goal5Name :assessment_map_v1.Goal5RitScore
+                   :assessment_map_v1.Goal6Name :assessment_map_v1.Goal6RitScore
+                   :assessment_map_v1.Goal7Name :assessment_map_v1.Goal7RitScore
+                   :assessment_map_v1.Goal8Name :assessment_map_v1.Goal8RitScore
                    :assessment_map_v1.TestPercentile :assessment_map_v1.TestRITScore)
            (from :student_assessment)
            (merge-join :assessment_instance [:= :student_assessment.assessment_instance_id

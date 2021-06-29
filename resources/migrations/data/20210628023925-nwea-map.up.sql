@@ -7,7 +7,7 @@ insert into assessment_map_v1 (
 (3, 229),
 (4, 230),
 (5, 227);
-
+--;;
 insert into assessment_map_v1 (
   student_assessment_id,
   TermName,

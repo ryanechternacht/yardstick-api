@@ -18,7 +18,5 @@
     [student-id :<< as-int assessment-id :<< as-int :as {:keys [db user]}]
     (if (has-student-access? db user student-id :read)
       (let [res (d-ass/get-results-by-assessment db assessment-id student-id)]
-        (println "res")
-        (println res)
         (response res))
       unauthorized)))

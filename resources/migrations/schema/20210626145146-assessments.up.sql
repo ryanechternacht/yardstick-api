@@ -11,7 +11,9 @@ create table assessment (
   name text not null,
   release text not null, -- for tracking versions, editions, etc. e.g. "2014"
   assessment_table text not null, -- e.g. "assessment_map_v1"
-  type text not null
+  type text not null,
+  short_name text not null, -- are these necessary?
+  scale text not null
 );
 --;;
 create table assessment_term (
