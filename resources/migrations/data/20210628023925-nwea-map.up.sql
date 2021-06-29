@@ -1,12 +1,14 @@
 insert into assessment_map_v1 (
   student_assessment_id,
-  TestRITScore
+  TestRITScore,
+  TestPercentile,
+  TestDurationMinutes
 ) values 
-(1, 226),
-(2, 228),
-(3, 229),
-(4, 230),
-(5, 227);
+(1, 226, 65, 68),
+(2, 228, 82, 71),
+(3, 229, 51, 62),
+(4, 230, 52, 37),
+(5, 227, 98, 84);
 --;;
 insert into assessment_map_v1 (
   student_assessment_id,
@@ -20,7 +22,8 @@ insert into assessment_map_v1 (
   Goal4Name,
   Goal4RitScore,
   TestRITScore,
-  TestPercentile
+  TestPercentile,
+  TestDurationMinutes
 ) values (
   6,
   'Winter 2021',
@@ -33,6 +36,7 @@ insert into assessment_map_v1 (
   'The Real and Complex Number System',
   284,
   232,
-  98
+  98,
+  73
 );
 
