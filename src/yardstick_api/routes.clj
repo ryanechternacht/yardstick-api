@@ -40,7 +40,12 @@
                          :description "${student.name.possessive} ${assessment.name} Scores can be easily compared to students in ${student.pronouns.possessive} grade level all across the country."
                          :icon "/images/normative-icon.svg"}]}})))
 
+(def GET-healthz
+  (GET "/v0.1/healthz" []
+    (response "I'm here")))
+
 (defroutes routes
+  #'GET-healthz
   #'s/GET-student
   #'s/GET-students
   #'GET-settings
