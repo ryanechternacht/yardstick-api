@@ -30,6 +30,6 @@
   :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.193"}}
             :exec-fn hf.depstar/uberjar
             :exec-args {:aot true
-                        :jar "yardstick-backend.jar"
+                        :jar "yardstick-api.jar"
                         :main-class "yardstick-api.server"
                         :sync-pom true}}}}

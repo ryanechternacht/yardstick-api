@@ -10,6 +10,10 @@
             [yardstick-api.routes.supports :as supp]
             [yardstick-api.routes.users :as users]))
 
+(def GET-healthz
+  (GET "/v0.1/healthz" []
+    (response "I'm here")))
+
 ; TODO this should be loaded based off of the session
 ; Should this really just live in local storage? 
 (def GET-settings
@@ -664,6 +668,7 @@
                          :icon "/images/normative-icon.svg"}]}})))
 
 (defroutes routes
+  #'GET-healthz
   #'s/GET-student
   #'s/GET-students
   #'GET-settings
