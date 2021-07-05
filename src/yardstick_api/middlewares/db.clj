@@ -4,7 +4,8 @@
 ;; TODO probably setup a connection pool for this (c3p0?)
 (def pg-db {:dbtype "postgresql"
             :dbname "yardstick"
-            :host "127.0.0.1"
+            :host "host.docker.internal"
+            ;; :host "127.0.0.1"
             :user "ryan"
             :password nil
             :ssl false})
