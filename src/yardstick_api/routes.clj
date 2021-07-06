@@ -1,9 +1,10 @@
 (ns yardstick-api.routes
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.coercions :refer [as-int]]
-            [ring.util.response :refer [response]]
             [honeysql.core :as sql]
-            [next.jdbc :as jdbc]
+            [honeysql.helpers :refer [select from merge-join merge-where order-by]]
+            [ring.util.response :refer [response]]
+            [yardstick-api.db :as db]
             [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
@@ -11,8 +12,11 @@
             [yardstick-api.routes.users :as users]))
 
 (def GET-healthz
-  (GET "/v0.1/healthz" []
-    (response "I'm here")))
+  (GET "/v0.1/healthz" [:as {:keys [db]}]
+    (let [user-count (->> (-> (select :%count.*)
+                              (from :yardstick_user))
+                          (db/execute db))]
+      (response user-count))))
 
 ;; I'd prefer to do the health check on a different route, but I can't
 ;; figure out how to do that in AWS AppRunner
