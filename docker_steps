@@ -1,4 +1,4 @@
 docker pull clojure:openjdk-17-tools-deps
 
 docker build -t yardstick-api .
-docker run -it -p 3001:3001 --rm --name yardstick-api yardstick-api
+docker run -it --rm -p 3001:80 --name yardstick-api yardstick-api

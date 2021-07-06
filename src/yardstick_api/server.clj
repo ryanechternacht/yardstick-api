@@ -25,9 +25,10 @@
       (wrap-cors :access-control-allow-origin #".*"
                  :access-control-allow-methods [:get :put :post :delete])))
 
+;; TODO we chnaged the port here
 (defn -main
   [& _]
-  (run-jetty #'handler {:port 3001
+  (run-jetty #'handler {:port 80
                         :join? false}))
 
 #_(-main)

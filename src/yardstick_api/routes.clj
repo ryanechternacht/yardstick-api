@@ -14,6 +14,12 @@
   (GET "/v0.1/healthz" []
     (response "I'm here")))
 
+;; I'd prefer to do the health check on a different route, but I can't
+;; figure out how to do that in AWS AppRunner
+(def GET-root-healthz
+  (GET "/" [] 
+    (response "I'm here")))
+
 ; TODO this should be loaded based off of the session
 ; Should this really just live in local storage? 
 (def GET-settings
@@ -668,6 +674,7 @@
                          :icon "/images/normative-icon.svg"}]}})))
 
 (defroutes routes
+  #'GET-root-healthz
   #'GET-healthz
   #'s/GET-student
   #'s/GET-students
