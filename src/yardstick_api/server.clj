@@ -1,15 +1,18 @@
 (ns yardstick-api.server
-  (:require [ring.adapter.jetty :refer [run-jetty]]
+  (:require [jdbc-ring-session.core :refer [jdbc-store]]
+            [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.params :refer [wrap-params]]
             [yardstick-api.middlewares.config :refer [wrap-config]]
-            [yardstick-api.middlewares.db :refer [wrap-db]]
+            [yardstick-api.middlewares.db :refer [wrap-db pg-db]]
             [yardstick-api.middlewares.language :refer [wrap-language]]
             [yardstick-api.middlewares.user :refer [wrap-user]]
             [yardstick-api.routes :as r])
   (:gen-class))
+
+(def session-store (jdbc-store pg-db))
 
 ; TODO add a 404 wrapper
 (def handler
@@ -19,7 +22,7 @@
       wrap-language
       wrap-user
       wrap-db
-      wrap-session
+      (wrap-session {:store session-store})
       wrap-params
       wrap-json-response
       (wrap-cors :access-control-allow-origin #".*"
@@ -28,7 +31,7 @@
 ;; TODO we chnaged the port here
 (defn -main
   [& _]
-  (run-jetty #'handler {:port 80
+  (run-jetty #'handler {:port 3001
                         :join? false}))
 
 #_(-main)
