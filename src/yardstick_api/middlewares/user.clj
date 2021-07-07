@@ -2,7 +2,6 @@
   (:require [yardstick-api.data.users :as d-users]))
 
 (defn- wrap-user-impl [handler {:keys [session db] :as request}]
-  (println session)
   (if (:user-id session)
     (let [user (d-users/get-user-by-id db (:user-id session))]
       (handler (assoc request :user user)))

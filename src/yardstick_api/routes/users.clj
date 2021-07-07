@@ -9,8 +9,8 @@
    :headers {}})
 
 (defn set-session [response user-id]
-  (assoc response :session {:user-id user-id
-                            :recreate true}))
+  (assoc response :session (vary-meta {:user-id user-id}
+                                      assoc :recreate true)))
 
 (def GET-me
   (GET "/v0.1/users/me" [:as {db :db {user-id :user-id} :session}]
