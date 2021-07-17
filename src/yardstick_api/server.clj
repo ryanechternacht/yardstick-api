@@ -21,12 +21,7 @@
       wrap-language
       wrap-user
       wrap-db
-      ;; I think setting the domain this broadly is HELLA bad
-      ;; I think the solution here will be to pass in a query param that the frontend
-      ;; uses to set the cookie itself
-      ;; or own a domain and host these on the same domain and set it there
-      ;; or... something better?
-      (wrap-session {:store session-store :cookie-attrs {:domain "awsapprunner.com"}})
+      (wrap-session {:store session-store :cookie-attrs })
       wrap-params
       wrap-json-response
       (wrap-cors :access-control-allow-origin #".*"
