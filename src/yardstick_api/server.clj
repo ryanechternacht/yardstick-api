@@ -5,23 +5,23 @@
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.params :refer [wrap-params]]
-            [yardstick-api.middlewares.config :refer [wrap-config]]
-            [yardstick-api.middlewares.db :refer [wrap-db pg-db]]
+            [yardstick-api.middlewares.config :refer [wrap-config config]]
+            [yardstick-api.middlewares.db :refer [wrap-db]]
             [yardstick-api.middlewares.language :refer [wrap-language]]
             [yardstick-api.middlewares.user :refer [wrap-user]]
             [yardstick-api.routes :as r]))
 
-(def session-store (jdbc-store pg-db))
+(def session-store (jdbc-store (:pg-db config)))
 
 ; TODO add a 404 wrapper
 (def handler
   (-> r/routes
       (wrap-json-body {:keywords? true})
-      wrap-config
       wrap-language
       wrap-user
       wrap-db
-      (wrap-session {:store session-store :cookie-attrs })
+      wrap-config
+      (wrap-session {:store session-store :cookie-attrs (:cookie-attrs config)})
       wrap-params
       wrap-json-response
       (wrap-cors :access-control-allow-origin #".*"

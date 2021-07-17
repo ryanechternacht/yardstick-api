@@ -1,4 +1,4 @@
-{:cookie-attrs {:domain "awsapprunner.com"}
+{:cookie-attrs {}
  :auth0 {:base-url "dev-zimmr.us.auth0.com/"
          :client-id "26th5lB0f97TdLXdCFPSYV0kqI9FXh5z"
          :client-secret "65JhapG9xp4cfStFSj6jKZggvOFg_VdyIRKLClQ8BeG8u_fLaRY5vbcCfQA73vVj"
