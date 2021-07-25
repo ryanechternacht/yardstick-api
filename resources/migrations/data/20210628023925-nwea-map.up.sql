@@ -2,13 +2,17 @@ insert into assessment_map_v1 (
   student_assessment_id,
   TestRITScore,
   TestPercentile,
-  TestDurationMinutes
+  TestDurationMinutes,
+  ProjectedProficiencyStudy1,
+  ProjectedProficiencyLevel1,
+  ProjectedProficiencyStudy2,
+  ProjectedProficiencyLevel2
 ) values 
-(1, 226, 65, 68),
-(2, 228, 82, 71),
-(3, 229, 51, 62),
-(4, 230, 52, 37),
-(5, 227, 98, 84);
+(1, 226, 65, 68, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Proficient'),
+(2, 228, 82, 71, 'ACT College Readiness', 'On Track for a 22', 'Forward Projection', 'Advanced'),
+(3, 229, 51, 62, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Proficient'),
+(4, 230, 52, 37, 'ACT College Readiness', 'On Track for a 24', 'Forward Projection', 'Proficient'),
+(5, 227, 98, 84, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Proficient');
 --;;
 insert into assessment_map_v1 (
   student_assessment_id,
@@ -21,6 +25,10 @@ insert into assessment_map_v1 (
   Goal3RitScore,
   Goal4Name,
   Goal4RitScore,
+  ProjectedProficiencyStudy1,
+  ProjectedProficiencyLevel1,
+  ProjectedProficiencyStudy2,
+  ProjectedProficiencyLevel2,
   TestRITScore,
   TestPercentile,
   TestDurationMinutes
@@ -35,6 +43,10 @@ insert into assessment_map_v1 (
   283,
   'The Real and Complex Number System',
   284,
+  'ACT College Readiness',
+  'On Track for a 24',
+  'Forward Projection',
+  'Proficient',
   232,
   98,
   73

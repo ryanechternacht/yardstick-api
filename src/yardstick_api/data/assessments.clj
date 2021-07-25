@@ -89,8 +89,8 @@
                             :metGoal (>= score reference)
                             :percentile 76 ;; TODO
                             :growthPercentile (:testpercentile r)
-                            :actCollegeReadiness "Not on Track" ;; TODO
-                            :forwardProjection "Proficient" ;; TODO
+                            :actCollegeReadiness "Not on Track" ;; TODO READ THESE FROM RESULT
+                            :forwardProjection "Proficient" ;; TODO READ THESE FROM RESULT
                             :testDuration (:testdurationminutes r)}))
                        rows)}))
 
@@ -109,6 +109,16 @@
                    :assessment_map_v1.Goal6Name :assessment_map_v1.Goal6RitScore
                    :assessment_map_v1.Goal7Name :assessment_map_v1.Goal7RitScore
                    :assessment_map_v1.Goal8Name :assessment_map_v1.Goal8RitScore
+                   :assessment_map_v1.ProjectedProficiencyStudy1 :assessment_map_v1.ProjectedProficiencyLevel1
+                   :assessment_map_v1.ProjectedProficiencyStudy2 :assessment_map_v1.ProjectedProficiencyLevel2
+                   :assessment_map_v1.ProjectedProficiencyStudy3 :assessment_map_v1.ProjectedProficiencyLevel3
+                   :assessment_map_v1.ProjectedProficiencyStudy4 :assessment_map_v1.ProjectedProficiencyLevel4
+                   :assessment_map_v1.ProjectedProficiencyStudy5 :assessment_map_v1.ProjectedProficiencyLevel5
+                   :assessment_map_v1.ProjectedProficiencyStudy6 :assessment_map_v1.ProjectedProficiencyLevel6
+                   :assessment_map_v1.ProjectedProficiencyStudy7 :assessment_map_v1.ProjectedProficiencyLevel7
+                   :assessment_map_v1.ProjectedProficiencyStudy8 :assessment_map_v1.ProjectedProficiencyLevel8
+                   :assessment_map_v1.ProjectedProficiencyStudy9 :assessment_map_v1.ProjectedProficiencyLevel9
+                   :assessment_map_v1.ProjectedProficiencyStudy10 :assessment_map_v1.ProjectedProficiencyLevel10
                    :assessment_map_v1.TestPercentile :assessment_map_v1.TestRITScore
                    :assessment_map_v1.TestDurationMinutes)
            (from :student_assessment)
