@@ -21,7 +21,7 @@
 ;; I'd prefer to do the health check on a different route, but I can't
 ;; figure out how to do that in AWS AppRunner
 (def GET-root-healthz
-  (GET "/" [] 
+  (GET "/" []
     (response "I'm here")))
 
 ; TODO this should be loaded based off of the session
