@@ -12,10 +12,12 @@
                :query params))))
 
 (defn- get-auth0-redirect-url [redirect-url-base service]
-  (condp = service
     ;; TODO handle via a path library?
-    "google" (str redirect-url-base "/google")
-    "facebook" (str redirect-url-base "/facebook")))
+  (str redirect-url-base "/" service))
+
+(def ^:private connection-map {"google" "google-oauth2"
+                               "facebook" "facebook"
+                               "microsoft" "windowslive"})
 
 (defn- fetch-auth0-token [{:keys [base-url client-id client-secret redirect-url-base]} service code]
   (-> (http/post (auth0-uri base-url "oauth/token")
@@ -44,6 +46,6 @@
 (defn get-auth0-login-page [{:keys [base-url client-id redirect-url-base]} service]
   (auth0-uri base-url "authorize" {:client_id client-id
                                    :response_type "code"
-                                   :connection "google-oauth2"
+                                   :connection (connection-map service)
                                    :redirect_uri (get-auth0-redirect-url redirect-url-base service)
                                    :scope "profile email openid"}))
