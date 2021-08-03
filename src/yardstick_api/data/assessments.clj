@@ -37,6 +37,7 @@
                                             [:= :student_assessment.student_id student-id]]))
        (db/execute db)))
 
+;; TODO pull this from db
 (def ^:private reference-lookup
   {226 222
    228 220
@@ -89,8 +90,21 @@
                             :metGoal (>= score reference)
                             :percentile 76 ;; TODO
                             :growthPercentile (:testpercentile r)
-                            :actCollegeReadiness "Not on Track" ;; TODO READ THESE FROM RESULT
-                            :forwardProjection "Proficient" ;; TODO READ THESE FROM RESULT
+                            :proficiencyLevels (->> [(:projectedproficiencystudy1 r) (:projectedproficiencylevel1 r)
+                                                     (:projectedproficiencystudy2 r) (:projectedproficiencylevel2 r)
+                                                     (:projectedproficiencystudy3 r) (:projectedproficiencylevel3 r)
+                                                     (:projectedproficiencystudy4 r) (:projectedproficiencylevel4 r)
+                                                     (:projectedproficiencystudy5 r) (:projectedproficiencylevel5 r)
+                                                     (:projectedproficiencystudy6 r) (:projectedproficiencylevel6 r)
+                                                     (:projectedproficiencystudy7 r) (:projectedproficiencylevel7 r)
+                                                     (:projectedproficiencystudy8 r) (:projectedproficiencylevel8 r)
+                                                     (:projectedproficiencystudy9 r) (:projectedproficiencylevel9 r)
+                                                     (:projectedproficiencystudy10 r) (:projectedproficiencylevel10 r)]
+                                                    (partition 2)
+                                                    (filter second)
+                                                    ;; TODO Need a more generalized name
+                                                    (map (fn [[study level]]
+                                                           {:study study :level level})))
                             :testDuration (:testdurationminutes r)}))
                        rows)}))
 
@@ -99,7 +113,7 @@
 (defn get-results-by-assessment [db assessment-id student-id]
   (->> (-> (select [:assessment.name :assessment_name] :assessment.type
                    :assessment.short_name :assessment.scale
-                   :academic_year.short_name [:assessment_term.name :term_name] 
+                   :academic_year.short_name [:assessment_term.name :term_name]
                    [:assessment_term.id :assessment_term_id] [:academic_year.id :year_id]
                    :assessment_map_v1.Goal1Name :assessment_map_v1.Goal1RitScore
                    :assessment_map_v1.Goal2Name :assessment_map_v1.Goal2RitScore
