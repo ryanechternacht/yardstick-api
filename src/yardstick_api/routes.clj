@@ -3,11 +3,28 @@
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [response]]
             [yardstick-api.routes.assessments :as ass]
+            [honeysql.core :as sql]
+            [honeysql.helpers :refer [select from merge-join merge-where order-by]]
+            [ring.util.response :refer [response]]
+            [yardstick-api.db :as db]
             [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
             [yardstick-api.routes.supports :as supp]
             [yardstick-api.routes.users :as users]))
+
+(def GET-healthz
+  (GET "/v0.1/healthz" [:as {:keys [db]}]
+    (let [user-count (->> (-> (select :%count.*)
+                              (from :yardstick_user))
+                          (db/execute db))]
+      (response user-count))))
+
+;; I'd prefer to do the health check on a different route, but I can't
+;; figure out how to do that in AWS AppRunner
+(def GET-root-healthz
+  (GET "/" []
+    (response "I'm here")))
 
 ; TODO this should be loaded based off of the session
 ; Should this really just live in local storage? 
@@ -45,6 +62,10 @@
     (response "I'm here")))
 
 (defroutes routes
+  <<<<<<< HEAD
+  =======
+  #'GET-root-healthz
+  >>>>>>> main
   #'GET-healthz
   #'s/GET-student
   #'s/GET-students

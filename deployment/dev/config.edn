@@ -1,0 +1,17 @@
+;; I think setting the domain this broadly is HELLA bad
+;; I think the solution here will be to pass in a query param that the frontend
+;; uses to set the cookie itself
+;; or own a domain and host these on the same domain and set it there
+;; or... something better?
+{:cookie-attrs {:domain "awsapprunner.com"}
+ :auth0 {:base-url "dev-zimmr.us.auth0.com/"
+         :client-id "26th5lB0f97TdLXdCFPSYV0kqI9FXh5z"
+         :client-secret "65JhapG9xp4cfStFSj6jKZggvOFg_VdyIRKLClQ8BeG8u_fLaRY5vbcCfQA73vVj"
+         :redirect-url-base "https://4inqxatgws.us-east-1.awsapprunner.com/v0.1/auth0/callback"}
+ :front-end {:base-url "https://3upmrkw2kp.us-east-1.awsapprunner.com"}
+ :pg-db {:dbtype "postgresql"
+         :dbname "yardstick"
+         :host "yardstick-db-2.c6wqcykhytng.us-east-1.rds.amazonaws.com"
+         :user "postgres"
+         :password "LkkyIRLYz6t6uKBpzdLo"
+         :ssl false}}

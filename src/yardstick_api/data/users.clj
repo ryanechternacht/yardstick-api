@@ -1,5 +1,5 @@
 (ns yardstick-api.data.users
-  (:require [honeysql.helpers :refer 
+  (:require [honeysql.helpers :refer
              [select from merge-where insert-into columns values delete-from]]
             [honeysql-postgres.helpers :refer [returning]]
             [yardstick-api.db :as db]))
