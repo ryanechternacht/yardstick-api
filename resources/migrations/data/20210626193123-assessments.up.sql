@@ -28,19 +28,19 @@ insert into assessment_instance (academic_year_id, assessment_term_id) values
 (2021, 9);
 --;;
 insert into student_assessment 
-(assessment_instance_id, student_id, yardstick_performance_rating, assessment_table, assessment_table_id, date_taken) values
-(1, 1, 85, 'assessment_map_v1', 1, '2019-09-01'),
-(2, 1, 85, 'assessment_map_v1', 2, '2019-12-31'),
-(3, 1, 85, 'assessment_map_v1', 3, '2020-04-01'),
-(4, 1, 85, 'assessment_map_v1', 4, '2020-09-01'),
-(5, 1, 85, 'assessment_map_v1', 5, '2020-12-31'),
-(6, 1, 85, 'assessment_map_v1', 6, '2021-04-01'),
-(7, 1, 15, 'assessment_map_v1', 1, '2019-09-01'),
-(8, 1, 15, 'assessment_map_v1', 2, '2019-12-31'),
-(9, 1, 15, 'assessment_map_v1', 3, '2020-04-01'),
-(10, 1, 15, 'assessment_map_v1', 4, '2020-09-01'),
-(11, 1, 15, 'assessment_map_v1', 5, '2020-12-31'),
-(12, 1, 15, 'assessment_map_v1', 6, '2021-04-01'),
-(13, 1, 50, 'assessment_preact_v1', 1, '2021-04-01'),
-(14, 1, 75, 'assessment_forward_ela_v1', 1, '2021-04-01'),
-(15, 1, 30, 'assessment_forward_math_v1', 1, '2021-04-01');
+(assessment_instance_id, student_id, grade_id, yardstick_performance_rating, assessment_table, assessment_table_id, date_taken) values
+(1, 1, 7, 85, 'assessment_map_v1', 1, '2019-09-01'),
+(2, 1, 7, 85, 'assessment_map_v1', 2, '2019-12-31'),
+(3, 1, 7, 85, 'assessment_map_v1', 3, '2020-04-01'),
+(4, 1, 8, 85, 'assessment_map_v1', 4, '2020-09-01'),
+(5, 1, 8, 85, 'assessment_map_v1', 5, '2020-12-31'),
+(6, 1, 8, 85, 'assessment_map_v1', 6, '2021-04-01'),
+(7, 1, 7, 15, 'assessment_map_v1', 1, '2019-09-01'),
+(8, 1, 7, 15, 'assessment_map_v1', 2, '2019-12-31'),
+(9, 1, 7, 15, 'assessment_map_v1', 3, '2020-04-01'),
+(10, 1, 8, 15, 'assessment_map_v1', 4, '2020-09-01'),
+(11, 1, 8, 15, 'assessment_map_v1', 5, '2020-12-31'),
+(12, 1, 8, 15, 'assessment_map_v1', 6, '2021-04-01'),
+(13, 1, 8, 50, 'assessment_preact_v1', 1, '2021-04-01'),
+(14, 1, 8, 75, 'assessment_forward_ela_v1', 1, '2021-04-01'),
+(15, 1, 8, 30, 'assessment_forward_math_v1', 1, '2021-04-01');

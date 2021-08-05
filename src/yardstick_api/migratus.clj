@@ -1,16 +1,21 @@
 (ns my-migrations
- (:require [migratus.core :as migratus]
-           [yardstick-api.middlewares.db :as db]))
+  (:require [migratus.core :as migratus]
+            [yardstick-api.middlewares.config :as config]))
+
+;; TODO how do I roll these out to AWS?
+;; Ideally I'd port into an AWS repl. In reality I'll probably just
+;; fire up a repl with config set to the right AWS environment?
+(def db (:pg-db config/config))
 
 (def schema-config {:store                :database
                     :migration-dir        "migrations/schema/"
                     :migration-table-name "migratus"
-                    :db db/pg-db})
+                    :db db})
 
 (def data-config {:store                :database
                   :migration-dir        "migrations/data/"
                   :migration-table-name "migratus"
-                  :db db/pg-db})
+                  :db db})
 
 (comment
   (migratus/create schema-config "schema-example")

@@ -6,6 +6,7 @@ create table grade (
 --;;
 insert into grade values
 ('p', 'Pre-K', 'Pre-K'),
+('k', 'Kindergarten', 'Kindergarten'),
 ('1', '1', '1st'),
 ('2', '2', '2nd'),
 ('3', '3', '3rd'),

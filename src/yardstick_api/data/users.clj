@@ -42,6 +42,7 @@
        (db/execute db)))
 
 (defn- add-grants [db user grants]
+  ;; TODO if no grants exist, this errors out
   (let [formatted-grants (->> grants
                               (map (juxt :permission :target_type :target_id))
                               (map #(conj % (:id user))))]

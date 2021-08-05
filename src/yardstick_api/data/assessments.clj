@@ -82,7 +82,7 @@
                                reference (reference-lookup score)]
                            {:id (:assessment_term_id r)
                             :year (:year_id r)
-                            :grade 8 ;; TODO do we need this?
+                            :grade (:grade r)
                             :term (:term_name r)
                             :ritScore score
                             :norm reference
@@ -134,7 +134,8 @@
                    :assessment_map_v1.ProjectedProficiencyStudy9 :assessment_map_v1.ProjectedProficiencyLevel9
                    :assessment_map_v1.ProjectedProficiencyStudy10 :assessment_map_v1.ProjectedProficiencyLevel10
                    :assessment_map_v1.TestPercentile :assessment_map_v1.TestRITScore
-                   :assessment_map_v1.TestDurationMinutes)
+                   :assessment_map_v1.TestDurationMinutes
+                   [:grade.ordinal :grade])
            (from :student_assessment)
            (merge-join :assessment_instance [:= :student_assessment.assessment_instance_id
                                              :assessment_instance.id])
@@ -144,6 +145,7 @@
            (merge-join :academic_year [:= :assessment_instance.academic_year_id :academic_year.id])
            (merge-join :assessment_map_v1 [:= :student_assessment.id
                                            :assessment_map_v1.student_assessment_id])
+           (merge-join :grade [:= :student_assessment.grade_id :grade.id])
            (merge-where [:and
                          [:= :student_assessment.student_id student-id]
                          [:>= :assessment_instance.academic_year_id last-year]

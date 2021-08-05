@@ -35,6 +35,7 @@ create table student_assessment (
   id serial primary key,
   assessment_instance_id int not null references assessment_instance(id),
   student_id int references student(id), -- can be null
+  grade_id text references grade(id), -- can be null?
   local_student_id text,
   state_student_id text,
   yardstick_performance_rating decimal, -- null because it's calced after the fact
