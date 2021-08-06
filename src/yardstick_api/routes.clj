@@ -30,7 +30,15 @@
 ; Should this really just live in local storage? 
 (def GET-settings
   (GET "/v0.1/settings" []
-    (response {:currentStudent 1})))
+    (response {:currentStudent 1
+               :this_academic_year {:name "2020 - 2021"
+                                    :short_name "'20-'21"
+                                    :start_year 2020
+                                    :end_year 2021}
+               :last_academic_year {:name "2019 - 2020"
+                                    :short_name "'19-'20"
+                                    :start_year 2019
+                                    :end_year 2020}})))
 
 (def GET-assessment-explanations-by-student-and-assessment
   (GET "/v0.1/student/:student-id/assessment/:assessment-id/explanation" [student-id assessment-id :<< as-int]
