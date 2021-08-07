@@ -15,8 +15,11 @@
            (from [(-> (select :assessment_term.assessment_id
                               [:%max.assessment_term.ordering :ordering])
                       (from :student_assessment)
+                      (merge-join :school_assessment_instance [:=
+                                                               :student_assessment.school_assessment_instance_id
+                                                               :school_assessment_instance.id])
                       (merge-join :assessment_instance [:=
-                                                        :student_assessment.assessment_instance_id
+                                                        :school_assessment_instance.assessment_instance_id
                                                         :assessment_instance.id])
                       (merge-join :assessment_term [:=
                                                     :assessment_instance.assessment_term_id
@@ -33,8 +36,11 @@
            (merge-join :assessment_instance [:and
                                              [:= :assessment_term.id :assessment_instance.assessment_term_id]
                                              [:= :assessment_instance.academic_year_id this-year]])
+           (merge-join :school_assessment_instance [:=
+                                                    :assessment_instance.id
+                                                    :school_assessment_instance.assessment_instance_id])
            (merge-join :student_assessment [:and
-                                            [:= :assessment_instance.id :student_assessment.assessment_instance_id]
+                                            [:= :school_assessment_instance.id :student_assessment.school_assessment_instance_id]
                                             [:= :student_assessment.student_id student-id]]))
        (db/execute db)))
 
@@ -139,7 +145,10 @@
                    :assessment_map_v1.TestDurationMinutes
                    [:grade.ordinal :grade])
            (from :student_assessment)
-           (merge-join :assessment_instance [:= :student_assessment.assessment_instance_id
+           (merge-join :school_assessment_instance [:=
+                                                    :student_assessment.school_assessment_instance_id
+                                                    :school_assessment_instance.id])
+           (merge-join :assessment_instance [:= :school_assessment_instance.assessment_instance_id
                                              :assessment_instance.id])
            (merge-join :assessment_term [:= :assessment_instance.assessment_term_id
                                          :assessment_term.id])

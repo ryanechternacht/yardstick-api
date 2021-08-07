@@ -31,10 +31,18 @@ create table assessment_instance (
   assessment_term_id int not null references assessment_term(id)
 );
 --;;
+create table school_assessment_instance (
+  id serial primary key,
+  assessment_instance_id int not null references assessment_instance(id),
+  school_id int not null references school(id),
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+)
+--;;
 -- TODO This name is great from a domain standpoint, and awful from a relational standpoint
 create table student_assessment (
   id serial primary key,
-  assessment_instance_id int not null references assessment_instance(id),
+  school_assessment_instance_id int not null references school_assessment_instance(id),
   student_id int references student(id), -- can be null
   grade_id text references grade(id), -- can be null?
   local_student_id text,
