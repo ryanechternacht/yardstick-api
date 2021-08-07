@@ -11,6 +11,16 @@
   (jdbc/execute! db (sql/format query)
                  {:builder-fn rs/as-unqualified-lower-maps}))
 
+(defn ->execute
+  "query comes first for use in -> threading macros"
+  [query db]
+  (execute db query))
+
+(defn ->>execute
+  "query comes last for use in ->> threading macros"
+  [db query]
+  (execute db query))
+
 ;; Everything below handles converting clj maps to/from jsonb fields in postgres
 ;; It was all ripped shamelessly from the docs below:
 ;; https://cljdoc.org/d/seancorfield/next.jdbc/1.1.646/doc/getting-started/tips-tricks

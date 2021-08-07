@@ -17,7 +17,7 @@ create table assessment (
   scale text not null
 );
 --;;
-create table assessment_term (
+create table assessment_period (
   id serial primary key,
   assessment_id int not null references assessment(id),
   ordering int not null,
@@ -25,15 +25,10 @@ create table assessment_term (
   -- TODO another name?
 );
 --;;
-create table assessment_instance (
-  id serial primary key,
-  academic_year_id int not null references academic_year(id),
-  assessment_term_id int not null references assessment_term(id)
-);
---;;
 create table school_assessment_instance (
   id serial primary key,
-  assessment_instance_id int not null references assessment_instance(id),
+  academic_year_id int not null references academic_year(id),
+  assessment_period_id int not null references assessment_period(id),
   school_id int not null references school(id),
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()

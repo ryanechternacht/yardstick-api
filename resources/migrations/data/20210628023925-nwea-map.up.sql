@@ -1,3 +1,5 @@
+-- TODO add some reading data in here
+
 insert into assessment_map_v1 (
   student_assessment_id,
   TestRITScore,

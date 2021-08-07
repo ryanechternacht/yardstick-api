@@ -1,0 +1,1 @@
+(ns yardstick-api.data.assessments.star)

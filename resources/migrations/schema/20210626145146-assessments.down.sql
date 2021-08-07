@@ -1,8 +1,8 @@
 drop table student_assessment;
 --;;
-drop table assessment_instance;
+drop table school_assessment_instance;
 --;;
-drop table assessment_term;
+drop table assessment_period;
 --;;
 drop table assessment;
 --;;

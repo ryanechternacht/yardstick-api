@@ -4,12 +4,12 @@ insert into academic_year (id, start_year, end_year, name, short_name) values
 --;;
 insert into assessment (name, release, assessment_table, subject, type, short_name, scale) values
 ('NWEA MAP - Mathematics', 'MAP 2021', 'assessment_map_v1', 'math', 'growth', 'MAP', 'RIT Score'),
-('NWEA MAP - ELA', 'MAP 2021', 'assessment_map_v1', 'ela', 'growth', 'Forward', 'Fs'),
+('NWEA MAP - ELA', 'MAP 2021', 'assessment_map_v1', 'ela', 'growth', 'MAP', 'RIT Score'),
 ('PreACT 8/9', 'PreACT 8/9', 'assessment_preact_v1', 'general', 'summative', 'PreACT', 'Points'),
-('Forward - Mathematics', 'Forward - Mathematics', 'assessment_forward_math_v1', 'math', 'growth', 'MAP', 'RIT Score'),
-('Forward - ELA', 'Forward - ELA', 'assessment_forward_ela_v1', 'ela', 'growth', 'Forward', 'Fs');
+('STAR - ELA', 'STAR 2021', 'assessment_star_v1', 'ela', 'growth', 'STAR', 'Score'),
+('STAR - Mathematics', 'STAR 2021', 'assessment_star_v1', 'math', 'growth', 'STAR', 'Score');
 --;;
-insert into assessment_term (assessment_id, ordering, name) values
+insert into assessment_period (assessment_id, ordering, name) values
 (1, 1, 'Fall'),
 (1, 2, 'Winter'),
 (1, 3, 'Spring'),
@@ -17,19 +17,35 @@ insert into assessment_term (assessment_id, ordering, name) values
 (2, 2, 'Winter'),
 (2, 3, 'Spring'),
 (3, 1, 'Attempt'),
-(4, 1, '??'),
-(5, 1, '??');
+(4, 1, 'September'),
+(4, 2, 'October'),
+(4, 3, 'November'),
+(4, 4, 'December'),
+(4, 5, 'January'),
+(4, 6, 'February'),
+(4, 7, 'March'),
+(4, 8, 'April'),
+(5, 1, 'September'),
+(5, 2, 'October'),
+(5, 3, 'November'),
+(5, 4, 'December'),
+(5, 5, 'January'),
+(5, 6, 'February'),
+(5, 7, 'March'),
+(5, 8, 'April');
 --;;
-insert into assessment_instance (academic_year_id, assessment_term_id) values
-(2020, 1), (2020, 2), (2020, 3), (2021, 1), (2021, 2), (2021, 3),
-(2020, 4), (2020, 5), (2020, 6), (2021, 4), (2021, 5), (2021, 6),
-(2021, 7),
-(2021, 8),
-(2021, 9);
---;;
-insert into school_assessment_instance (assessment_instance_id, school_id) values 
-(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1),
-(9, 1), (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1);
+-- TODO rewrite these using selects?
+insert into school_assessment_instance (academic_year_id, assessment_period_id, school_id) values 
+-- MAP 
+(2020, 1, 1), (2020, 2, 1), (2020, 3, 1), (2021, 1, 1), (2021, 2, 1), (2021, 3, 1),
+(2020, 4, 1), (2020, 5, 1), (2020, 6, 1), (2021, 4, 1), (2021, 5, 1), (2021, 6, 1),
+-- PreACT
+(2021, 7, 1),
+-- STAR
+(2020, 8, 1), (2020, 9, 1), (2020, 10, 1), (2020, 11, 1), (2020, 12, 1), (2020, 13, 1), (2020, 14, 1), (2020, 15, 1),
+(2021, 8, 1), (2021, 9, 1), (2021, 10, 1), (2021, 11, 1), (2021, 12, 1), (2021, 13, 1), (2021, 14, 1), (2021, 15, 1),
+(2020, 16, 1), (2020, 17, 1), (2020, 18, 1), (2020, 19, 1), (2020, 20, 1), (2020, 21, 1), (2020, 22, 1), (2020, 23, 1),
+(2021, 16, 1), (2021, 17, 1), (2021, 18, 1), (2021, 19, 1), (2021, 20, 1), (2021, 21, 1), (2021, 22, 1), (2021, 23, 1);
 --;;
 insert into student_assessment 
 (school_assessment_instance_id, student_id, grade_id, yardstick_performance_rating, assessment_table, assessment_table_id, date_taken) values
@@ -46,5 +62,19 @@ insert into student_assessment
 (11, 1, 8, 15, 'assessment_map_v1', 5, '2020-12-31'),
 (12, 1, 8, 15, 'assessment_map_v1', 6, '2021-04-01'),
 (13, 1, 8, 50, 'assessment_preact_v1', 1, '2021-04-01'),
-(14, 1, 8, 75, 'assessment_forward_ela_v1', 1, '2021-04-01'),
-(15, 1, 8, 30, 'assessment_forward_math_v1', 1, '2021-04-01');
+(14, 1, 7, 21, 'assessment_star_v1', 1, '2019-09-01'),
+(15, 1, 7, 22, 'assessment_star_v1', 1, '2019-10-01'),
+(16, 1, 7, 23, 'assessment_star_v1', 1, '2019-11-01'),
+(17, 1, 7, 24, 'assessment_star_v1', 1, '2019-12-01'),
+(18, 1, 7, 25, 'assessment_star_v1', 1, '2020-01-01'),
+(19, 1, 7, 26, 'assessment_star_v1', 1, '2020-02-01'),
+(20, 1, 7, 27, 'assessment_star_v1', 1, '2020-03-01'),
+(21, 1, 7, 28, 'assessment_star_v1', 1, '2020-04-01'),
+(22, 1, 8, 29, 'assessment_star_v1', 1, '2020-09-01'),
+(23, 1, 8, 30, 'assessment_star_v1', 1, '2020-10-01'),
+(24, 1, 8, 31, 'assessment_star_v1', 1, '2020-11-01'),
+(25, 1, 8, 32, 'assessment_star_v1', 1, '2020-12-01'),
+(26, 1, 8, 33, 'assessment_star_v1', 1, '2021-01-01'),
+(27, 1, 8, 34, 'assessment_star_v1', 1, '2021-02-01'),
+(28, 1, 8, 35, 'assessment_star_v1', 1, '2021-03-01'),
+(29, 1, 8, 36, 'assessment_star_v1', 1, '2021-04-01');
