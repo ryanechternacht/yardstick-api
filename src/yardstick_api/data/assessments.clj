@@ -1,8 +1,8 @@
 (ns yardstick-api.data.assessments
   (:require [honeysql.helpers :refer [select from merge-join merge-where group order-by]]
-            [yardstick-api.db :as db]
-            [honeysql.core :as sql]))
+            [yardstick-api.db :as db]))
 
+;; TODO these live in the db somewhere?
 (def ^:private this-year 2021)
 (def ^:private last-year 2020)
 
@@ -10,6 +10,7 @@
   (->> (-> (select :assessment.id
                    :assessment.name :assessment.name
                    :assessment.type
+                   :assessment.subject
                    :student_assessment.yardstick_performance_rating)
            (from [(-> (select :assessment_term.assessment_id
                               [:%max.assessment_term.ordering :ordering])
@@ -52,7 +53,8 @@
      :name (:assessment_name most-recent)
      :shortName (:short_name most-recent)
      :scale (:scale most-recent)
-     :subject {:name (:type most-recent)}
+     :subject {:name (:subject most-recent)}
+     :type (:type most-recent)
      :latestTerm {:fullName (str (:assessment_term most-recent) (:short_name most-recent))
                   :gradeLevelAverage 280 ;; TODO norm data
                   :domains (->> [(:goal1name most-recent) (:goal1ritscore most-recent)
@@ -111,8 +113,8 @@
 ;; TODO honeysql preserve case of keywords
 ;; TODO where are we deciding these are map results
 (defn get-results-by-assessment [db assessment-id student-id]
-  (->> (-> (select [:assessment.name :assessment_name] :assessment.type
-                   :assessment.short_name :assessment.scale
+  (->> (-> (select [:assessment.name :assessment_name] :assessment.subject
+                   :assessment.type :assessment.short_name :assessment.scale
                    :academic_year.short_name [:assessment_term.name :term_name]
                    [:assessment_term.id :assessment_term_id] [:academic_year.id :year_id]
                    :assessment_map_v1.Goal1Name :assessment_map_v1.Goal1RitScore
