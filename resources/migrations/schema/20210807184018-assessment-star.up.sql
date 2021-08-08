@@ -11,7 +11,7 @@ create table assessment_star_v1 (
   teacher_last_name text,
   assessment_date text,
   scaled_score text,
-  test_duartion int,
+  test_duration int,
   literacy_classification text,
   irl text,
   lower_zpd decimal,

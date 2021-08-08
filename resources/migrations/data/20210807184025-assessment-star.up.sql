@@ -1,7 +1,7 @@
 insert into assessment_star_v1 (
   student_assessment_id,
   scaled_score,
-  test_duartion,
+  test_duration,
   percentile_rank,
   screening_category,
   state_benchmark,
@@ -26,7 +26,7 @@ insert into assessment_star_v1 (
 insert into assessment_star_v1 (
   student_assessment_id,
   scaled_score,
-  test_duartion,
+  test_duration,
   literacy_classification,
   irl,
   lower_zpd,

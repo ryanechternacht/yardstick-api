@@ -34,7 +34,7 @@
                                 (filter second)
                                 (map (fn [[name score]]
                                        {:name name :score score})))}
-     :achievement 72 ;; TODO norm data
+     :achievement 72 ;; TODO what field is this? or how do we calculate this?
      :growth (:testpercentile most-recent)
      :recentResults (map (fn [r]
                            (let [score (:testritscore r)
@@ -50,7 +50,7 @@
                            {:year (:year_id r)
                             :grade (:grade r)
                             :term (:period_name r)
-                            :ritScore score
+                            :score score
                             :norm reference
                             :growthGoal 6 ;; TODO
                             :metGoal (>= score reference)
@@ -65,7 +65,7 @@
                                                      (:projectedproficiencystudy7 r) (:projectedproficiencylevel7 r)
                                                      (:projectedproficiencystudy8 r) (:projectedproficiencylevel8 r)
                                                      (:projectedproficiencystudy9 r) (:projectedproficiencylevel9 r)
-                                                     `(:projectedproficiencystudy10 r) (:projectedproficiencylevel10 r)]
+                                                     (:projectedproficiencystudy10 r) (:projectedproficiencylevel10 r)]
                                                     (partition 2)
                                                     (filter second)
                                                     ;; TODO Need a more generalized name

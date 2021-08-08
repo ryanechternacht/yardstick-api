@@ -2,6 +2,7 @@
   (:require [honeysql.helpers :refer [select from merge-join merge-where group order-by]]
             [yardstick-api.middlewares.config :refer [last-year this-year]]
             [yardstick-api.data.assessments.map-v1 :as map-v1]
+            [yardstick-api.data.assessments.star-v1 :as star-v1]
             [yardstick-api.db :as db]
             [honeysql.core :as sql]))
 
@@ -47,4 +48,5 @@
                   first
                   :assessment_table)]
     (case table
-      "assessment_map_v1" (map-v1/get-map-results db assessment-id student-id))))
+      "assessment_map_v1" (map-v1/get-map-results db assessment-id student-id)
+      "assessment_star_v1" (star-v1/get-star-results db assessment-id student-id))))
