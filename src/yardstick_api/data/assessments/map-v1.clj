@@ -4,13 +4,13 @@
             [yardstick-api.db :as db]))
 
 ;; TODO pull this from db
-(def ^:private reference-lookup
-  {226 222
-   228 220
-   229 222
-   230 224
-   227 222
-   232 224})
+(defn- reference-lookup [x] (get {226 222
+                                  228 220
+                                  229 222
+                                  230 224
+                                  227 222
+                                  232 224} x 222))
+
 
 (defn- render-map-results [rows assessment-id]
   (let [most-recent (last rows)]

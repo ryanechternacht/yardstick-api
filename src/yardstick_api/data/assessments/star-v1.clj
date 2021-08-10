@@ -4,8 +4,7 @@
             [yardstick-api.db :as db]))
 
 ;; TODO pull this from db
-(def ^:private reference-lookup
-  {1 30})
+(defn- reference-lookup [x] (get {1 30} x 30))
 
 (defn- render-star-results [rows assessment-id]
   (let [most-recent (last rows)]
@@ -46,7 +45,7 @@
                                                  :level (:screening_category r)}
                                                 {:study "State Benchmark"
                                                  :level   (:state_benchmark r)}]
-                            :testDuration (:test_duartion r)}))
+                            :testDuration (:test_duration r)}))
                        rows)}))
 
 ;; TODO honeysql preserve case of keywords
