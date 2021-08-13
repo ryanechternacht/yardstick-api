@@ -20,7 +20,7 @@
      :scale (:scale most-recent)
      :subject {:name (:subject most-recent)}
      :type (:type most-recent)
-     :latestTerm {:fullName (str (:period_name most-recent) (:year_short_name most-recent))
+     :latestTerm {:fullName (str (:period_name most-recent) " " (:year_short_name most-recent))
                   :gradeLevelAverage 280 ;; TODO norm data
                   :domains (->> [(:goal1name most-recent) (:goal1ritscore most-recent)
                                  (:goal2name most-recent) (:goal2ritscore most-recent)

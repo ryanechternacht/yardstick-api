@@ -50,3 +50,22 @@
     (case table
       "assessment_map_v1" (map-v1/get-map-results db assessment-id student-id)
       "assessment_star_v1" (star-v1/get-star-results db assessment-id student-id))))
+
+(defn get-explanations-by-assessment [db assessment-id]
+  ;; TODO pull this more reasonably
+  (let [assessment-type (-> (select :type)
+                            (from :assessment)
+                            (merge-where [:= :assessment.id assessment-id])
+                            (db/->execute db)
+                            first
+                            :type)
+        traits (-> (select :assessment_trait.title :assessment_trait.description
+                           :assessment_trait.icon)
+                   (from :assessment_assessment_trait)
+                   (merge-join :assessment_trait [:=
+                                                  :assessment_assessment_trait.assessment_trait.id
+                                                  :assessment_trait.id])
+                   (merge-where [:= :assessment_assessment_trait.assessment_id assessment-id])
+                   (db/->execute db))]
+    {:assessmentType assessment-type
+     :traits traits}))

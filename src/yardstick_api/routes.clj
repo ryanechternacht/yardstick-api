@@ -40,23 +40,6 @@
                                     :start_year 2019
                                     :end_year 2020}})))
 
-
-(def GET-assessment-explanations-by-student-and-assessment
-  (GET "/v0.1/student/:student-id/assessment/:assessment-id/explanation" [student-id assessment-id :<< as-int]
-    (response {:assessmentType "growth"
-               :traits [{:title "Adaptive"
-                         :description "${assessment.name} responds to how your student is performing, getting harder or easier to gain a better understanding of their abilities."
-                         :icon "/images/adaptive-icon.svg"}
-                        {:title "Subject Based"
-                         :description "${student.name.first} takes one test per subject area. ${student.pronouns.possessiveUpper} most recent testing was in Reading and Math."
-                         :icon "/images/subject-based-icon.svg"}
-                        {:title "Reoccurring"
-                         :description "${student.name.first} takes the ${assessment.name} assessment 3-4 times per year. <br><br> Normally once in the in the fall, winter and spring."
-                         :icon "/images/reoccuring-icon.svg"}
-                        {:title "Normative"
-                         :description "${student.name.possessive} ${assessment.name} Scores can be easily compared to students in ${student.pronouns.possessive} grade level all across the country."
-                         :icon "/images/normative-icon.svg"}]})))
-
 (defroutes routes
   #'GET-root-healthz
   #'GET-healthz
@@ -68,7 +51,7 @@
   #'obs/GET-obstacles
   #'ass/GET-assessment-overviews-by-student
   #'ass/GET-assessment-results-by-student-and-assessment
-  #'GET-assessment-explanations-by-student-and-assessment
+  #'ass/GET-assessment-explanations-assessment
   #'users/GET-me
   #'users/GET-auth0-callback
   #'users/GET-login)

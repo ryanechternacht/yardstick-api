@@ -14,7 +14,7 @@
      :scale (:scale most-recent)
      :subject {:name (:subject most-recent)}
      :type (:type most-recent)
-     :latestTerm {:fullName (str (:period_name most-recent) (:year_short_name most-recent))
+     :latestTerm {:fullName (str (:period_name most-recent) " " (:year_short_name most-recent))
                   ;; TODO star doesn't have this
                   :gradeLevelAverage 0
                   :domains []}
