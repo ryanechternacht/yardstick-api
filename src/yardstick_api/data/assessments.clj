@@ -3,8 +3,7 @@
             [yardstick-api.middlewares.config :refer [last-year this-year]]
             [yardstick-api.data.assessments.map-v1 :as map-v1]
             [yardstick-api.data.assessments.star-v1 :as star-v1]
-            [yardstick-api.db :as db]
-            [honeysql.core :as sql]))
+            [yardstick-api.db :as db]))
 
 (defn get-all-by-student-id [db student-id]
   (-> (select :assessment.id

@@ -1,10 +1,11 @@
 (ns yardstick-api.data.assessments.star-v1
-  (:require [honeysql.helpers :refer [select from merge-join merge-where group order-by]]
-            [yardstick-api.middlewares.config :refer [last-year this-year]]
+  (:require [honeysql.helpers :refer [select from merge-join merge-where order-by]]
+            [yardstick-api.middlewares.config :refer [last-year]]
             [yardstick-api.db :as db]))
 
 ;; TODO pull this from db
-(defn- reference-lookup [x] (get {1 30} x 30))
+(def reference-lookup [626 627 628 630 631 632 633 634
+                       630 632 634 636 635 632 634 635])
 
 (defn- render-star-results [rows assessment-id]
   (let [most-recent (last rows)]
@@ -20,33 +21,33 @@
                   :domains []}
      :achievement (:percentile_rank most-recent)
      :growth (:current_sgp most-recent)
-     :recentResults (map (fn [r]
-                          ;; TODO is this how we want to do this?
-                           (let [score (:current_sgp r)
-                                 reference (reference-lookup score)]
-                             {:label (str (:period_name r) (:year_short_name r))
-                              :student score
-                              :reference reference
-                              :hitGoal (>= score reference)}))
-                         rows)
-     :recentTerms (map (fn [r]
-                         (let [score (:current_sgp r)
-                               reference (reference-lookup score)]
-                           {:year (:year_id r)
-                            :grade (:grade r)
-                            :term (:period_name r)
-                            :score score
-                            :norm reference
-                            :growthGoal 6 ;; TODO
-                            :metGoal (>= score reference)
-                            :percentile (:percentile_rank r)
-                            :growthPercentile (:current_sgp r)
-                            :proficiencyLevels [{:study "Screening Category"
-                                                 :level (:screening_category r)}
-                                                {:study "State Benchmark"
-                                                 :level   (:state_benchmark r)}]
-                            :testDuration (:test_duration r)}))
-                       rows)}))
+     :recentResults (map-indexed (fn [i r]
+                                   ;; TODO is this how we want to do this?
+                                   (let [score (:current_sgp r)
+                                         reference (nth reference-lookup i)]
+                                     {:label (str (:period_name r) (:year_short_name r))
+                                      :student score
+                                      :reference reference
+                                      :hitGoal (>= score reference)}))
+                                 rows)
+     :recentTerms (map-indexed (fn [i r]
+                                 (let [score (:current_sgp r)
+                                       reference (nth reference-lookup i)]
+                                   {:year (:year_id r)
+                                    :grade (:grade r)
+                                    :term (:period_name r)
+                                    :score score
+                                    :norm reference
+                                    :growthGoal 6 ;; TODO
+                                    :metGoal (>= score reference)
+                                    :percentile (:percentile_rank r)
+                                    :growthPercentile (:current_sgp r)
+                                    :proficiencyLevels [{:study "Screening Category"
+                                                         :level (:screening_category r)}
+                                                        {:study "State Benchmark"
+                                                         :level   (:state_benchmark r)}]
+                                    :testDuration (:test_duration r)}))
+                               rows)}))
 
 ;; TODO honeysql preserve case of keywords
 ;; TODO there is a common bit here that can be pulled out
