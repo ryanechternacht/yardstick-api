@@ -21,6 +21,6 @@
       unauthorized)))
 
 (def GET-assessment-explanations-assessment
-  (GET "/v0.1/assessment/:assessment-id"
+  (GET "/v0.1/assessment/:assessment-id/explanation"
     [assessment-id :<< as-int :as {:keys [db]}]
     (response (d-ass/get-explanations-by-assessment db assessment-id))))

@@ -63,7 +63,7 @@
                            :assessment_trait.icon)
                    (from :assessment_assessment_trait)
                    (merge-join :assessment_trait [:=
-                                                  :assessment_assessment_trait.assessment_trait.id
+                                                  :assessment_assessment_trait.assessment_trait_id
                                                   :assessment_trait.id])
                    (merge-where [:= :assessment_assessment_trait.assessment_id assessment-id])
                    (db/->execute db))]
