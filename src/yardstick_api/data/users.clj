@@ -42,7 +42,6 @@
        (db/execute db)))
 
 (defn- add-grants [db user grants]
-  ;; TODO if no grants exist, this errors out
   (let [formatted-grants (->> grants
                               (map (juxt :permission :target_type :target_id))
                               (map #(conj % (:id user))))]
@@ -58,7 +57,7 @@
   [db auth0-user]
   (let [user (insert-user db auth0-user)
         grants (get-and-remove-pending-grants db (:email user))]
-    (add-grants db user grants)
+    (when (not-empty grants) (add-grants db user grants))
     user))
 
 (defn get-or-create-user
