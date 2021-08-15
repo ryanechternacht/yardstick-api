@@ -1,7 +1,7 @@
 (ns yardstick-api.routes
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.coercions :refer [as-int]]
-            [ring.util.response :refer [response]]
+            [ring.util.response :refer [response not-found]]
             [yardstick-api.routes.assessments :as ass]
             [honeysql.core :as sql]
             [honeysql.helpers :refer [select from merge-join merge-where order-by]]
@@ -57,6 +57,10 @@
                          :description "${student.name.possessive} ${assessment.name} Scores can be easily compared to students in ${student.pronouns.possessive} grade level all across the country."
                          :icon "/images/normative-icon.svg"}]})))
 
+(def handle-404
+  (GET "*" []
+    (not-found nil)))
+
 (defroutes routes
   #'GET-root-healthz
   #'GET-healthz
@@ -71,4 +75,5 @@
   #'GET-assessment-explanations-by-student-and-assessment
   #'users/GET-me
   #'users/GET-auth0-callback
-  #'users/GET-login)
+  #'users/GET-login
+  #'handle-404)

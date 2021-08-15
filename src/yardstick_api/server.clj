@@ -13,7 +13,6 @@
 
 (def session-store (jdbc-store (:pg-db config)))
 
-; TODO add a 404 wrapper
 (def handler
   (-> r/routes
       (wrap-json-body {:keywords? true})
