@@ -30,45 +30,36 @@
                                        {:name name :score score})))}
      :achievement 72 ;; TODO what field is this? or how do we calculate this?
      :growth (:testpercentile most-recent)
-     ;; TODO recentResults and recentTerms have different names for
-     ;; the same thing
      :recentResults (map-indexed (fn [i r]
                                    (let [score (:testritscore r)
                                          reference (nth reference-lookup i)]
-                                     {:label (str (:period_name r) (:year_short_name r))
-                                      :student score
-                                      :reference reference
-                                      :hitGoal (>= score reference)}))
-                                 rows)
-     :recentTerms (map-indexed (fn [i r]
-                                 (let [score (:testritscore r)
-                                       reference (nth reference-lookup i)]
-                                   {:year (:year_id r)
-                                    :grade (:grade r)
-                                    :term (:period_name r)
-                                    :score score
-                                    :norm reference
-                                    :growthGoal 6 ;; TODO
-                                    :metGoal (>= score reference)
-                                    :percentile 76 ;; TODO
-                                    :growthPercentile (:testpercentile r)
-                                    :proficiencyLevels (->> [(:projectedproficiencystudy1 r) (:projectedproficiencylevel1 r)
-                                                             (:projectedproficiencystudy2 r) (:projectedproficiencylevel2 r)
-                                                             (:projectedproficiencystudy3 r) (:projectedproficiencylevel3 r)
-                                                             (:projectedproficiencystudy4 r) (:projectedproficiencylevel4 r)
-                                                             (:projectedproficiencystudy5 r) (:projectedproficiencylevel5 r)
-                                                             (:projectedproficiencystudy6 r) (:projectedproficiencylevel6 r)
-                                                             (:projectedproficiencystudy7 r) (:projectedproficiencylevel7 r)
-                                                             (:projectedproficiencystudy8 r) (:projectedproficiencylevel8 r)
-                                                             (:projectedproficiencystudy9 r) (:projectedproficiencylevel9 r)
-                                                             (:projectedproficiencystudy10 r) (:projectedproficiencylevel10 r)]
-                                                            (partition 2)
-                                                            (filter second)
+                                     {:year (:year_id r)
+                                      :yearShortName (:year_short_name r)
+                                      :grade (:grade r)
+                                      :term (:period_name r)
+                                      :score score
+                                      :norm reference
+                                      :growthGoal 6 ;; TODO
+                                      :metGoal (>= score reference)
+                                      :percentile 76 ;; TODO
+                                      :growthPercentile (:testpercentile r)
+                                      :proficiencyLevels (->> [(:projectedproficiencystudy1 r) (:projectedproficiencylevel1 r)
+                                                               (:projectedproficiencystudy2 r) (:projectedproficiencylevel2 r)
+                                                               (:projectedproficiencystudy3 r) (:projectedproficiencylevel3 r)
+                                                               (:projectedproficiencystudy4 r) (:projectedproficiencylevel4 r)
+                                                               (:projectedproficiencystudy5 r) (:projectedproficiencylevel5 r)
+                                                               (:projectedproficiencystudy6 r) (:projectedproficiencylevel6 r)
+                                                               (:projectedproficiencystudy7 r) (:projectedproficiencylevel7 r)
+                                                               (:projectedproficiencystudy8 r) (:projectedproficiencylevel8 r)
+                                                               (:projectedproficiencystudy9 r) (:projectedproficiencylevel9 r)
+                                                               (:projectedproficiencystudy10 r) (:projectedproficiencylevel10 r)]
+                                                              (partition 2)
+                                                              (filter second)
                                                     ;; TODO Need a more generalized name
-                                                            (map (fn [[study level]]
-                                                                   {:study study :level level})))
-                                    :testDuration (:testdurationminutes r)}))
-                               rows)}))
+                                                              (map (fn [[study level]]
+                                                                     {:study study :level level})))
+                                      :testDuration (:testdurationminutes r)}))
+                                 rows)}))
 
 ;; TODO honeysql preserve case of keywords
 (defn get-map-results [db assessment-id student-id]

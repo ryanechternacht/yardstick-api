@@ -22,32 +22,24 @@
      :achievement (:percentile_rank most-recent)
      :growth (:current_sgp most-recent)
      :recentResults (map-indexed (fn [i r]
-                                   ;; TODO is this how we want to do this?
                                    (let [score (:current_sgp r)
                                          reference (nth reference-lookup i)]
-                                     {:label (str (:period_name r) (:year_short_name r))
-                                      :student score
-                                      :reference reference
-                                      :hitGoal (>= score reference)}))
-                                 rows)
-     :recentTerms (map-indexed (fn [i r]
-                                 (let [score (:current_sgp r)
-                                       reference (nth reference-lookup i)]
-                                   {:year (:year_id r)
-                                    :grade (:grade r)
-                                    :term (:period_name r)
-                                    :score score
-                                    :norm reference
-                                    :growthGoal 6 ;; TODO
-                                    :metGoal (>= score reference)
-                                    :percentile (:percentile_rank r)
-                                    :growthPercentile (:current_sgp r)
-                                    :proficiencyLevels [{:study "Screening Category"
-                                                         :level (:screening_category r)}
-                                                        {:study "State Benchmark"
-                                                         :level   (:state_benchmark r)}]
-                                    :testDuration (:test_duration r)}))
-                               rows)}))
+                                     {:year (:year_id r)
+                                      :yearShortName (:year_short_name r)
+                                      :grade (:grade r)
+                                      :term (:period_name r)
+                                      :score score
+                                      :norm reference
+                                      :growthGoal 6 ;; TODO
+                                      :metGoal (>= score reference)
+                                      :percentile (:percentile_rank r)
+                                      :growthPercentile (:current_sgp r)
+                                      :proficiencyLevels [{:study "Screening Category"
+                                                           :level (:screening_category r)}
+                                                          {:study "State Benchmark"
+                                                           :level   (:state_benchmark r)}]
+                                      :testDuration (:test_duration r)}))
+                                 rows)}))
 
 ;; TODO honeysql preserve case of keywords
 ;; TODO there is a common bit here that can be pulled out
