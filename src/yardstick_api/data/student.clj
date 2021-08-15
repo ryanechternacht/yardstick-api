@@ -31,7 +31,6 @@
               :possessive possessive_lang
               :possessiveUpper possessive_upper_lang}})
 
-; TODO not sure this is quite what I want...
 (defn- render-students [db lang ids]
   (->> (merge-where base-student-query
                     [:in :student.id ids])

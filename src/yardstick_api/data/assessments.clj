@@ -51,7 +51,6 @@
       "assessment_star_v1" (star-v1/get-star-results db assessment-id student-id))))
 
 (defn get-explanations-by-assessment [db assessment-id]
-  ;; TODO pull this more reasonably
   (let [assessment-type (-> (select :type)
                             (from :assessment)
                             (merge-where [:= :assessment.id assessment-id])

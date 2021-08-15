@@ -55,7 +55,7 @@
                                                                (:projectedproficiencystudy10 r) (:projectedproficiencylevel10 r)]
                                                               (partition 2)
                                                               (filter second)
-                                                    ;; TODO Need a more generalized name
+                                                              ;; TODO Need a more generalized name
                                                               (map (fn [[study level]]
                                                                      {:study study :level level})))
                                       :testDuration (:testdurationminutes r)}))
