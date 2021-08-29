@@ -8,11 +8,11 @@ insert into assessment_map_v1 (
   ProjectedProficiencyStudy2,
   ProjectedProficiencyLevel2
 ) values 
-(1, 226, 65, 68, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Proficient'),
-(2, 228, 82, 71, 'ACT College Readiness', 'On Track for a 22', 'Forward Projection', 'Advanced'),
-(3, 229, 51, 62, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Proficient'),
-(4, 230, 52, 37, 'ACT College Readiness', 'On Track for a 24', 'Forward Projection', 'Proficient'),
-(5, 227, 98, 84, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Proficient');
+(7, 190, 33, 68, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Below Average'),
+(8, 193, 26, 71, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Below Average'),
+(9, 195, 37, 62, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Below Average'),
+(10, 192, 29, 37, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Below Average'),
+(11, 197, 39, 84, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Below Average');
 --;;
 insert into assessment_map_v1 (
   student_assessment_id,
@@ -33,21 +33,23 @@ insert into assessment_map_v1 (
   TestPercentile,
   TestDurationMinutes
 ) values (
-  6,
+  12,
   'Winter 2021',
-  'Geometry',
+  'Reading',
+  272,
+  'Critical Thinking',
+  273,
+  'Creative Writing',
+  274,
+  'Science Fiction',
   278,
-  'Statistics and Probability',
-  282,
-  'Operations and Algebra Thinking',
-  283,
-  'The Real and Complex Number System',
-  284,
   'ACT College Readiness',
-  'On Track for a 24',
+  'Off track',
   'Forward Projection',
-  'Proficient',
-  232,
-  98,
+  'At Risk',
+  199,
+  36,
   73
 );
+
+

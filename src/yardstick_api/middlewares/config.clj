@@ -2,6 +2,10 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]))
 
+;; TODO these live in the db somewhere, and shouldn't live here
+(def this-year 2021)
+(def last-year 2020)
+
 ;; TODO probaby use component or mount for this
 (def config
   (with-open [r (io/reader "resources/config.edn")]

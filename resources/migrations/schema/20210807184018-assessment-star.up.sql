@@ -1,0 +1,23 @@
+create table assessment_star_v1 (
+  id uuid not null default uuid_generate_v4(),
+  constraint assessment_star_v1_id primary key (id),
+  student_assessment_id int references student_assessment(id),
+  studentID text,
+  StudentID2 text,
+  CurrentGrade text,
+  assessment_subject text,
+  student_first_name text,
+  student_last_name text,
+  teacher_last_name text,
+  assessment_date text,
+  scaled_score text,
+  test_duration int,
+  literacy_classification text,
+  irl text,
+  lower_zpd decimal,
+  upper_zpd decimal,
+  percentile_rank int,
+  screening_category text,
+  state_benchmark text,
+  current_sgp int
+);
