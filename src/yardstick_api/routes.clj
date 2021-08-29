@@ -40,6 +40,10 @@
                                     :start_year 2019
                                     :end_year 2020}})))
 
+(def handle-404
+  (GET "*" []
+    (not-found nil)))
+
 (defroutes routes
   #'GET-root-healthz
   #'GET-healthz
