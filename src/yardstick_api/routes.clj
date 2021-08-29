@@ -7,6 +7,7 @@
             [honeysql.helpers :refer [select from merge-join merge-where order-by]]
             [ring.util.response :refer [response]]
             [yardstick-api.db :as db]
+            [yardstick-api.routes.jobs :as jobs]
             [yardstick-api.routes.obstacles :as obs]
             [yardstick-api.routes.opportunities :as opp]
             [yardstick-api.routes.student :as s]
@@ -59,4 +60,4 @@
   #'users/GET-me
   #'users/GET-auth0-callback
   #'users/GET-login
-  #'handle-404)
+  #'jobs/POST-assessment-upload)

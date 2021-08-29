@@ -4,6 +4,7 @@
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.params :refer [wrap-params]]
             [yardstick-api.middlewares.config :refer [wrap-config config]]
             [yardstick-api.middlewares.db :refer [wrap-db]]
@@ -22,6 +23,7 @@
       wrap-config
       (wrap-session {:store session-store :cookie-attrs (:cookie-attrs config)})
       wrap-params
+      wrap-multipart-params
       wrap-json-response
       (wrap-cors :access-control-allow-origin #".*"
                  :access-control-allow-methods [:get :put :post :delete])))
