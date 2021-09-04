@@ -1,6 +1,5 @@
 (ns yardstick-api.routes
   (:require [compojure.core :refer [defroutes GET]]
-            [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [response not-found]]
             [yardstick-api.routes.assessments :as ass]
             [honeysql.core :as sql]
@@ -60,4 +59,5 @@
   #'users/GET-me
   #'users/GET-auth0-callback
   #'users/GET-login
-  #'jobs/POST-assessment-upload)
+  #'jobs/POST-assessment-upload
+  handle-404)
