@@ -21,6 +21,10 @@
   [db query]
   (execute db query))
 
+(def ^{:doc "A helper to generate timestamp based on suggestions in honeysql docs"}
+  now
+  (sql/call "STATEMENT_TIMESTAMP"))
+
 ;; Everything below handles converting clj maps to/from jsonb fields in postgres
 ;; It was all ripped shamelessly from the docs below:
 ;; https://cljdoc.org/d/seancorfield/next.jdbc/1.1.646/doc/getting-started/tips-tricks
