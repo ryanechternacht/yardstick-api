@@ -48,4 +48,6 @@ create table student_assessment (
   date_taken timestamp with time zone,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
+  -- TODO should we add attempts? (some datasets allow multiple attempts
+  -- in a period)
 );

@@ -18,4 +18,6 @@
        (-> (on-conflict-constraint :unique_year_period_school)
            (do-update-set :updated_at)))
       (returning :id)
-      (db/->execute db)))
+      (db/->execute db)
+      first
+      :id))

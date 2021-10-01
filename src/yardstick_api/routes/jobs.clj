@@ -3,6 +3,7 @@
             [clojure.java.io :as io]
             [compojure.coercions :refer [as-int]]
             [compojure.core :refer [POST]]
+            [ring.util.response :refer [response]]
             [yardstick-api.data.jobs :as d-jobs]
             [yardstick-api.data.jobs.star :as star]))
 
@@ -21,4 +22,4 @@
                                 :tempfile
                                 io/reader)]
         (let [handler (handler-lookup assessment_id)]
-          (handler instance-id (csv/read-csv file-data)))))))
+          (response (handler db instance-id (csv/read-csv file-data))))))))
