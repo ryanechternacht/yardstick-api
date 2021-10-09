@@ -62,8 +62,8 @@
                                       :assessment_period.id])
       (merge-join :assessment [:= :assessment_period.assessment_id :assessment.id])
       (merge-join :academic_year [:= :school_assessment_instance.academic_year_id :academic_year.id])
-      (merge-join :assessment_star_v1 [:= :student_assessment.id
-                                       :assessment_star_v1.student_assessment_id])
+      (merge-join :assessment_star_v1 [:= :student_assessment.assessment_table_id
+                                       :assessment_star_v1.id])
       (merge-join :grade [:= :student_assessment.grade_id :grade.id])
       (merge-where [:and
                     [:= :student_assessment.student_id student-id]

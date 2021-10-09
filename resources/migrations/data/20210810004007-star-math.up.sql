@@ -1,5 +1,5 @@
 insert into assessment_star_v1 (
-  student_assessment_id,
+  school_assessment_instance_id,
   scaled_score,
   test_duration,
   percentile_rank,
@@ -24,7 +24,7 @@ insert into assessment_star_v1 (
 (43, 704, NULL, 86, 'At/Above Benchmark',	'Accelerated', 84);
 --;;
 insert into assessment_star_v1 (
-  student_assessment_id,
+  school_assessment_instance_id,
   scaled_score,
   test_duration,
   literacy_classification,

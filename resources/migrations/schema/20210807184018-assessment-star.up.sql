@@ -1,6 +1,5 @@
 create table assessment_star_v1 (
-  id uuid not null default uuid_generate_v4(),
-  constraint assessment_star_v1_id primary key (id),
+  id serial primary key, -- will probably need to be uuid eventually
   school_assessment_instance_id int not null references school_assessment_instance(id),
   studentID text,
   StudentID2 text,
@@ -9,7 +8,7 @@ create table assessment_star_v1 (
   student_first_name text,
   student_last_name text,
   teacher_last_name text,
-  assessment_date text,
+  assessment_date timestamp without time zone,
   scaled_score text,
   test_duration int,
   literacy_classification text,

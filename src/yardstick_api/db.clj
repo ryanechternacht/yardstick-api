@@ -2,6 +2,7 @@
   (:require [cheshire.core :as json]
             [honeysql.core :as sql]
             [next.jdbc :as jdbc]
+            [next.jdbc.date-time]
             [next.jdbc.prepare :as prepare]
             [next.jdbc.result-set :as rs])
   (:import [java.sql PreparedStatement]

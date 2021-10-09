@@ -47,7 +47,6 @@ create table student_assessment (
   assessment_table_id int not null,
   date_taken timestamp with time zone,
   created_at timestamp with time zone default now(),
-  updated_at timestamp with time zone default now()
-  -- TODO should we add attempts? (some datasets allow multiple attempts
-  -- in a period)
+  updated_at timestamp with time zone default now(),
+  attempts int not null
 );

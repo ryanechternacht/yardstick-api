@@ -1,5 +1,5 @@
 insert into assessment_map_v1 (
-  student_assessment_id,
+  school_assessment_instance_id,
   TestRITScore,
   TestPercentile,
   TestDurationMinutes,
@@ -15,7 +15,7 @@ insert into assessment_map_v1 (
 (11, 197, 39, 84, 'ACT College Readiness', 'Not on Track', 'Forward Projection', 'Below Average');
 --;;
 insert into assessment_map_v1 (
-  student_assessment_id,
+  school_assessment_instance_id,
   TermName,
   Goal1Name,
   Goal1RitScore,

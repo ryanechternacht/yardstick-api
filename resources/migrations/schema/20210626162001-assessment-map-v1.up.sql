@@ -1,7 +1,6 @@
 create table assessment_map_v1 (
-  id uuid not null default uuid_generate_v4(),
-  constraint assessment_map_v1_id primary key (id),
-  student_assessment_id int references student_assessment(id),
+  id serial primary key, -- will probably need to be uuid eventually
+  school_assessment_instance_id int references school_assessment_instance(id),
   TermName text,
   DistrictName text,
   District_StateID text,

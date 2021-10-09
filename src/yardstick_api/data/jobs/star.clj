@@ -3,10 +3,14 @@
              :refer [insert-into merge-where select from values columns]]
             [honeysql-postgres.helpers
              :refer [upsert on-conflict-constraint do-update-set returning]]
+            [java-time :as jt]
             [yardstick-api.db :as db]
             [yardstick-api.utils :refer [parse-int parse-double]]))
 
 (def ^:private partition-size 100)
+
+(defn- parse-date [dt]
+  (jt/local-date-time "yyyy-MM-dd HH:mm:ss" dt))
 
 (defn- format-row
   [instance-id
@@ -15,7 +19,7 @@
     lower_zpd upper_zpd percentile_rank screening_category state_benchmark current_sgp]]
   ;; returns
   [instance-id studentid studentid2 currentgrade assessment_subject student_first_name student_last_name
-   teacher_last_name assessment_date scaled_score (parse-int test_duration)
+   teacher_last_name (parse-date assessment_date) scaled_score (parse-int test_duration)
    literacy_classification irl (parse-double lower_zpd) (parse-double upper_zpd)
    (parse-int percentile_rank) screening_category state_benchmark (parse-int current_sgp)])
 
@@ -54,6 +58,11 @@
 ;; screening_category      | text    |           |          |
 ;; state_benchmark         | text    |           |          |
 ;; current_sgp             | integer |           |          |
+
+
+
+;; This might be generalizable?
+;; (defn- link-rows-and-students)
 
 ;; STAR Math
 (defn upload-star [db instance-id csv]
