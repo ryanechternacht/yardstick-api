@@ -31,7 +31,10 @@ create table school_assessment_instance (
   assessment_period_id int not null references assessment_period(id),
   school_id int not null references school(id),
   created_at timestamp with time zone default now(),
-  updated_at timestamp with time zone default now()
+  updated_at timestamp with time zone default now(),
+
+  constraint school_assessment_instance_unique_year_period_school UNIQUE
+    (academic_year_id, assessment_period_id, school_id)
 )
 --;;
 -- TODO This name is great from a domain standpoint, and awful from a relational standpoint
@@ -49,4 +52,7 @@ create table student_assessment (
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now(),
   attempts int not null
+
+  constraint student_assessment_unique_student_instance UNIQUE
+    (school_assessment_instance_id, student_id)
 );

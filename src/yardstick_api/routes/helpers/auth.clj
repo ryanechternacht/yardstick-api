@@ -1,5 +1,5 @@
 (ns yardstick-api.routes.helpers.auth
-  (:require [honeysql.helpers :refer [select from merge-join merge-where]]
+  (:require [honey.sql.helpers :refer [select from join where]]
             [yardstick-api.db :as db]))
 
 (def unauthorized
@@ -15,11 +15,11 @@
   [db user student-id permission]
   (->> (-> (select :yardstick_user.id)
            (from :yardstick_user)
-           (merge-join :yardstick_grant [:= :yardstick_user.id :yardstick_grant.user_id])
-           (merge-join :student [:= :yardstick_grant.target_id :student.id])
-           (merge-where [:= :yardstick_user.id (:id user)]
-                        [:= :yardstick_grant.target_type "student"]
-                        [:= :yardstick_grant.permission (name permission)]
-                        [:= :student.id student-id]))
+           (join :yardstick_grant [:= :yardstick_user.id :yardstick_grant.user_id])
+           (join :student [:= :yardstick_grant.target_id :student.id])
+           (where [:= :yardstick_user.id (:id user)]
+                  [:= :yardstick_grant.target_type "student"]
+                  [:= :yardstick_grant.permission (name permission)]
+                  [:= :student.id student-id]))
        (db/execute db)
        first))

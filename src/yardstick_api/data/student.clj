@@ -1,5 +1,5 @@
 (ns yardstick-api.data.student
-  (:require [honeysql.helpers :refer [select from merge-join merge-where]]
+  (:require [honey.sql.helpers :refer [select from join where]]
             [yardstick-api.db :as db]
             [yardstick-api.data.language :as lang]))
 
@@ -9,8 +9,8 @@
               :pronouns.possessive_lang :pronouns.possessive_upper_lang
               :pronouns.accusative_lang :pronouns.accusative_upper_lang)
       (from :student)
-      (merge-join :grade [:= :student.grade_id :grade.id])
-      (merge-join :pronouns [:= :student.pronouns_id :pronouns.id])))
+      (join :grade [:= :student.grade_id :grade.id])
+      (join :pronouns [:= :student.pronouns_id :pronouns.id])))
 
 (defn- row->obj [{:keys [id first_name last_name ordinal cardinal
                          nominative_lang nominative_upper_lang accusative_lang
@@ -32,8 +32,8 @@
               :possessiveUpper possessive_upper_lang}})
 
 (defn- render-students [db lang ids]
-  (->> (merge-where base-student-query
-                    [:in :student.id ids])
+  (->> (where base-student-query
+              [:in :student.id ids])
        (db/execute db)
        (lang/render-language db lang)
        (map row->obj)))
@@ -47,9 +47,9 @@
 (defn- get-my-student-ids [db user-id]
   (->> (-> (select :target_id)
            (from :yardstick_grant)
-           (merge-where [:= :user_id user-id]
-                        [:= :target_type "student"]
-                        [:= :permission "read"]))
+           (where [:= :user_id user-id]
+                  [:= :target_type "student"]
+                  [:= :permission "read"]))
        (db/execute db)
        (map :target_id)))
 

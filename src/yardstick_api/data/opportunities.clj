@@ -1,12 +1,12 @@
 (ns yardstick-api.data.opportunities
-  (:require [honeysql.helpers :refer [select from merge-join merge-where]]
+  (:require [honey.sql.helpers :refer [select from join where]]
             [yardstick-api.db :as db]
             [yardstick-api.data.language :as lang]))
 
 (def ^:private base-opportunities-query
   (-> (select :opportunity.id :opportunity.title_lang :opportunity.image :opportunity.description_lang)
       (from :opportunity)
-      (merge-join :student_opportunity [:= :opportunity.id :student_opportunity.opportunity_id])))
+      (join :student_opportunity [:= :opportunity.id :student_opportunity.opportunity_id])))
 
 (defn- row->obj [{:keys [id title_lang image description_lang]}]
   {:id id
@@ -15,8 +15,8 @@
    :description description_lang})
 
 (defn get-by-student-id [db lang student-id]
-  (->> (merge-where base-opportunities-query
-                    [:= :student_opportunity.student_id student-id])
+  (->> (where base-opportunities-query
+              [:= :student_opportunity.student_id student-id])
        (db/execute db)
        (lang/render-language db lang)
        (map row->obj)))

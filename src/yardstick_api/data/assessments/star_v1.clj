@@ -1,5 +1,5 @@
 (ns yardstick-api.data.assessments.star-v1
-  (:require [honeysql.helpers :refer [select from merge-join merge-where order-by]]
+  (:require [honey.sql.helpers :refer [select from join where order-by]]
             [yardstick-api.middlewares.config :refer [last-year]]
             [yardstick-api.db :as db]))
 
@@ -55,20 +55,20 @@
               :assessment_star_v1.literacy_classification :assessment_star_v1.irl
               :assessment_star_v1.lower_zpd :assessment_star_v1.upper_zpd)
       (from :student_assessment)
-      (merge-join :school_assessment_instance [:=
-                                               :student_assessment.school_assessment_instance_id
-                                               :school_assessment_instance.id])
-      (merge-join :assessment_period [:= :school_assessment_instance.assessment_period_id
-                                      :assessment_period.id])
-      (merge-join :assessment [:= :assessment_period.assessment_id :assessment.id])
-      (merge-join :academic_year [:= :school_assessment_instance.academic_year_id :academic_year.id])
-      (merge-join :assessment_star_v1 [:= :student_assessment.assessment_table_id
-                                       :assessment_star_v1.id])
-      (merge-join :grade [:= :student_assessment.grade_id :grade.id])
-      (merge-where [:and
-                    [:= :student_assessment.student_id student-id]
-                    [:>= :school_assessment_instance.academic_year_id last-year]
-                    [:= :assessment.id assessment-id]])
+      (join :school_assessment_instance [:=
+                                         :student_assessment.school_assessment_instance_id
+                                         :school_assessment_instance.id])
+      (join :assessment_period [:= :school_assessment_instance.assessment_period_id
+                                :assessment_period.id])
+      (join :assessment [:= :assessment_period.assessment_id :assessment.id])
+      (join :academic_year [:= :school_assessment_instance.academic_year_id :academic_year.id])
+      (join :assessment_star_v1 [:= :student_assessment.assessment_table_id
+                                 :assessment_star_v1.id])
+      (join :grade [:= :student_assessment.grade_id :grade.id])
+      (where [:and
+              [:= :student_assessment.student_id student-id]
+              [:>= :school_assessment_instance.academic_year_id last-year]
+              [:= :assessment.id assessment-id]])
       (order-by :school_assessment_instance.academic_year_id :assessment_period.ordering)
       (db/->execute db)
       (render-star-results assessment-id)))

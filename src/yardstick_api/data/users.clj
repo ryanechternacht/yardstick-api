@@ -1,7 +1,6 @@
 (ns yardstick-api.data.users
-  (:require [honeysql.helpers :refer
-             [select from merge-where insert-into columns values delete-from]]
-            [honeysql-postgres.helpers :refer [returning]]
+  (:require [honey.sql.helpers :refer
+             [select from where insert-into columns values delete-from returning]]
             [yardstick-api.db :as db]))
 
 (def ^:private base-select
@@ -11,14 +10,14 @@
 (defn get-user-by-id
   [db user-id]
   (->> (-> base-select
-           (merge-where [:= :id user-id]))
+           (where [:= :id user-id]))
        (db/execute db)
        first))
 
 (defn- get-user-by-email
   [db email]
   (->> (-> base-select
-           (merge-where [:= :email email]))
+           (where [:= :email email]))
        (db/execute db)
        first))
 
@@ -37,7 +36,7 @@
 
 (defn- get-and-remove-pending-grants [db email]
   (->> (-> (delete-from :pending_grant)
-           (merge-where [:= :email email])
+           (where [:= :email email])
            (returning :permission :target_type :target_id))
        (db/execute db)))
 

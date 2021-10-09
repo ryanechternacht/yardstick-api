@@ -1,6 +1,6 @@
 (ns yardstick-api.data.language
   (:require [clojure.walk :as w]
-            [honeysql.helpers :refer [select from merge-where]]
+            [honey.sql.helpers :refer [select from where]]
             [yardstick-api.db :as db]))
 
 (def ^:private keyword-suffix "_lang")
@@ -38,7 +38,7 @@
   (let [lang_keyword (keyword (str "lang_" lang))]
     (->> (-> (select :id lang_keyword)
              (from :language_lookup)
-             (merge-where [:in :id fields]))
+             (where [:in :id fields]))
          (db/execute db)
          (map (fn [row] [(:id row) (lang_keyword row)]))
          (into {}))))

@@ -1,6 +1,6 @@
 (ns yardstick-api.db
   (:require [cheshire.core :as json]
-            [honeysql.core :as sql]
+            [honey.sql :as sql]
             [next.jdbc :as jdbc]
             [next.jdbc.date-time]
             [next.jdbc.prepare :as prepare]
@@ -8,8 +8,21 @@
   (:import [java.sql PreparedStatement]
            [org.postgresql.util PGobject]))
 
+(defn ->format
+  "formats and returns the query for use in -> threading macros.
+   NOTE: this is only for testing"
+  ([query] (->format query nil))
+  ([query _]
+   (sql/format query)))
+
+(defn ->>format
+  "formats and returns the query for use in ->> threading macros.
+   NOTE: this is only for testing"
+  ([query] (->format nil query))
+  ([_ query]
+   (sql/format query)))
+
 (defn execute [db query]
-  (println (sql/format query))
   (jdbc/execute! db (sql/format query)
                  {:builder-fn rs/as-unqualified-lower-maps}))
 

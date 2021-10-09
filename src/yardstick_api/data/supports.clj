@@ -1,5 +1,5 @@
 (ns yardstick-api.data.supports
-  (:require [honeysql.helpers :refer [select from merge-join merge-where order-by]]
+  (:require [honey.sql.helpers :refer [select from join where order-by]]
             [yardstick-api.db :as db]
             [yardstick-api.data.language :as lang]))
 
@@ -8,7 +8,7 @@
               :support.overview_action_lang :support.details_title_lang
               :support.details_subtitle_lang :support.details_description_lang)
       (from :support)
-      (merge-join :student_support [:= :support.id :student_support.support_id])
+      (join :student_support [:= :support.id :student_support.support_id])
       (order-by :student_support.ordering)))
 
 (defn- support-row->obj [{:keys [id overview_title_lang overview_description_lang
@@ -25,7 +25,7 @@
 (def ^:private base-support-tags-query
   (-> (select :support_tag.tag_lang :support_support_tag.support_id)
       (from :support_tag)
-      (merge-join :support_support_tag [:= :support_tag.id :support_support_tag.support_tag_id])
+      (join :support_support_tag [:= :support_tag.id :support_support_tag.support_tag_id])
       (order-by :support_support_tag.ordering)))
 
 (defn tag-row->obj [{:keys [tag_lang]}]
@@ -34,7 +34,7 @@
 (def ^:private base-support-steps-query
   (-> (select :support_step.title_lang :support_step.step_lang :support_support_step.support_id)
       (from :support_step)
-      (merge-join :support_support_step [:= :support_step.id :support_support_step.support_step_id])
+      (join :support_support_step [:= :support_step.id :support_support_step.support_step_id])
       (order-by :support_support_step.ordering)))
 
 (defn step-row->obj [{:keys [title_lang step_lang]}]
@@ -45,10 +45,10 @@
   [db lang supports]
   (let [support-ids (map :id supports)
         support-tags (->> (-> base-support-tags-query
-                              (merge-where [:in :support_support_tag.support_id support-ids]))
+                              (where [:in :support_support_tag.support_id support-ids]))
                           (db/execute db))
         support-steps (->> (-> base-support-steps-query
-                               (merge-where [:in :support_support_step.support_id support-ids]))
+                               (where [:in :support_support_step.support_id support-ids]))
                            (db/execute db))]
     (->> supports
          (lang/render-language db lang)
@@ -67,7 +67,7 @@
                   (assoc-in s [:details :steps] steps)))))))
 
 (defn get-by-student-id [db lang student-id]
-  (->> (merge-where base-supports-query
-                    [:= :student_support.student_id student-id])
+  (->> (where base-supports-query
+              [:= :student_support.student_id student-id])
        (db/execute db)
        (render-supports db lang)))

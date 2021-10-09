@@ -1,8 +1,7 @@
 (ns yardstick-api.data.jobs
-  (:require [honeysql.helpers
-             :refer [insert-into merge-where select from values columns]]
-            [honeysql-postgres.helpers
-             :refer [upsert on-conflict-constraint do-update-set returning]]
+  (:require [honey.sql.helpers
+             :refer [insert-into values columns on-conflict on-constraint
+                     do-update-set returning]]
             [yardstick-api.db :as db]))
 
 (defn upsert-school-assessment-instance
@@ -14,9 +13,9 @@
   (-> (insert-into :school_assessment_instance)
       (columns :academic_year_id :assessment_period_id :school_id)
       (values [[academic_year period_id school_id]])
-      (upsert
-       (-> (on-conflict-constraint :unique_year_period_school)
-           (do-update-set :updated_at)))
+      on-conflict
+      (on-constraint :school_assessment_instance_unique_year_period_school)
+      (do-update-set :updated_at)
       (returning :id)
       (db/->execute db)
       first

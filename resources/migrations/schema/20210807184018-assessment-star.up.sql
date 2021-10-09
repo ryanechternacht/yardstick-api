@@ -20,9 +20,6 @@ create table assessment_star_v1 (
   state_benchmark text,
   current_sgp int,
 
-  -- TODO I don't love having assessment_date in this, but it's allowed
-  -- in the extracts for a student to take it more than once in a period
-  -- and all attempts are returned
   constraint assessment_star_v1_school_assessment_student_unique UNIQUE
     (school_assessment_instance_id, studentID, studentID2, assessment_date)
 );
