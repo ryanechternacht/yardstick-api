@@ -1,7 +1,7 @@
 (ns yardstick-api.routes.jobs
   (:require [clojure.data.csv :as csv]
             [clojure.java.io :as io]
-            [compojure.coercions :refer [as-int]]
+            [compojure.coercions :as coerce]
             [compojure.core :refer [POST]]
             [ring.util.response :refer [response]]
             [yardstick-api.data.jobs :as d-jobs]
@@ -12,8 +12,9 @@
 
 (def POST-assessment-upload
   (POST "/v0.1/admin/assessment/upload"
-    [assessment_id :<< as-int year :<< as-int period_id :<< as-int
-     school_id :<< as-int file :as {:keys [db user]}]
+    [assessment_id :<< coerce/as-int year :<< coerce/as-int
+     period_id :<< coerce/as-int school_id :<< coerce/as-int
+     file :as {:keys [db user]}]
     ;; TODO validate user is admin on this school
     ;; TODO upload to s3 out here
     (let [instance-id (d-jobs/upsert-school-assessment-instance

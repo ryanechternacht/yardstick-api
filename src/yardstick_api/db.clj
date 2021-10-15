@@ -13,7 +13,7 @@
    NOTE: this is only for testing"
   ([query] (->format query nil))
   ([query _]
-   (sql/format query)))
+   (sql/format query {:inline true})))
 
 (defn ->>format
   "formats and returns the query for use in ->> threading macros.
