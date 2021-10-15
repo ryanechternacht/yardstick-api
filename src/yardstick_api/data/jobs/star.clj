@@ -83,12 +83,18 @@
                                       [:and
                                        [:= :student_assessment.assessment_table "assessment_star_v1"]
                                        [:= :assessment_star_v1.id :student_assessment.assessment_table_id]])
+                         (h/join :school_assessment_instance
+                                 [:=
+                                  :assessment_star_v1.school_assessment_instance_id
+                                  :school_assessment_instance.id])
                          (h/join :student
-                                 [:or
-                                  [:= :student.student_id :assessment_star_v1.studentID]
-                                  [:= :student.student_state_id :assessment_star_v1.studentID]
-                                  [:= :student.student_id :assessment_star_v1.studentID2]
-                                  [:= :student.student_state_id :assessment_star_v1.studentID2]])
+                                 [:and
+                                  [:= :school_assessment_instance.school_id :student.school_id]
+                                  [:or
+                                   [:= :assessment_star_v1.studentID :student.student_id]
+                                   [:= :assessment_star_v1.studentID :student.student_state_id]
+                                   [:= :assessment_star_v1.studentID2 :student.student_id]
+                                   [:= :assessment_star_v1.studentID2 :student.student_state_id]]])
                          (h/where [:is :student_assessment.id nil])))
       h/on-conflict
       (h/on-constraint :student_assessment_unique_student_instance)
