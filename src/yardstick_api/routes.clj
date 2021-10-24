@@ -1,9 +1,8 @@
 (ns yardstick-api.routes
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [compojure.core :refer [defroutes GET POST]]
             [ring.util.response :refer [response not-found]]
             [yardstick-api.routes.assessments :as ass]
             [honey.sql.helpers :refer [select from]]
-            [ring.util.response :refer [response]]
             [yardstick-api.db :as db]
             [yardstick-api.routes.jobs :as jobs]
             [yardstick-api.routes.obstacles :as obs]
@@ -39,8 +38,13 @@
                                     :start_year 2019
                                     :end_year 2020}})))
 
-(def handle-404
+;; TODO how do I do this for all verbs at once?
+(def get-404
   (GET "*" []
+    (not-found nil)))
+
+(def post-404
+  (POST "*" []
     (not-found nil)))
 
 (defroutes routes
@@ -59,4 +63,5 @@
   #'users/GET-auth0-callback
   #'users/GET-login
   #'jobs/POST-assessment-upload
-  handle-404)
+  get-404
+  post-404)
