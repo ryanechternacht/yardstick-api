@@ -51,7 +51,7 @@ create table student_assessment (
   date_taken timestamp with time zone,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now(),
-  attempts int not null
+  attempts int not null,
 
   constraint student_assessment_unique_student_instance UNIQUE
     (school_assessment_instance_id, student_id)

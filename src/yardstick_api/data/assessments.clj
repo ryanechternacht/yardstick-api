@@ -13,7 +13,7 @@
                 :assessment.subject
                 :student_assessment.yardstick_performance_rating)
       (h/from [(-> (h/select :assessment_period.assessment_id
-                             [:%max.assessment_period.ordering :ordering])
+                             [[:max :assessment_period.ordering]])
                    (h/from :student_assessment)
                    (h/join :school_assessment_instance [:=
                                                         :student_assessment.school_assessment_instance_id

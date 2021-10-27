@@ -32,9 +32,9 @@
       (h/do-update-set :currentgrade :assessment_subject :student_first_name :student_last_name
                        :teacher_last_name :assessment_date :scaled_score :test_duration
                        :literacy_classification :irl :lower_zpd :upper_zpd :percentile_rank
-                       :screening_category :state_benchmark :current_sgp
+                       :screening_category :state_benchmark :current_sgp)
                           ;; TODO add updated_at here
-                       )
+
       (db/->execute db)))
 
 ;; This might be generalizable?
@@ -105,6 +105,46 @@
                         :updated_at [:now]})
       (db/->execute db)))
 
+(defn- get-records-without-yprs
+  [db instance-id]
+  (-> (h/select :id :student_id)
+      (h/from :student_assessment)
+      (h/where [:and
+                [:= :yardstick_performance_rating nil]
+                [:= :school_assessment_instance_id instance-id]])
+      (db/->execute db)))
+
+(defn- calculate-ypr
+  "Calculates the YPR for the STAR assessment for a specific student"
+  [db instance-id student-id]
+  100)
+
+(defn- update-record-with-ypr
+  ""
+  [db record-id ypr]
+  (-> (h/update :student_assessment)
+      (h/set {:yardstick_performance_rating ypr})
+      (h/where [:= :id record-id])
+      (db/->execute db)))
+
+(defn- calculate-new-yprs
+  "Calculates the Yardstick Performance Ratings for STAR `student_assessment`
+  records without them. This happens for any new data that gets upserted"
+  [db instance-id]
+  (let [records (get-records-without-yprs db instance-id)]
+    (doseq [{:keys [student-id id]} records]
+      (let [ypr (calculate-ypr db instance-id student-id)]
+        (update-record-with-ypr db id ypr)))))
+
+(comment
+  (calculate-new-yprs {:dbtype "postgresql"
+                       :dbname "yardstick"
+                       :host "127.0.0.1"
+                       :user "ryan"
+                       :password nil
+                       :ssl false}
+                      37))
+
 ;; STAR Math
 (defn upload-star
   "Uploads star data in chunks, then links this data to students"
@@ -113,4 +153,5 @@
     (doseq [chunk (partition partition-size partition-size nil csv-no-header)]
       (upsert-chunk db instance-id chunk))
     (link-rows-and-students db instance-id)
+    (calculate-new-yprs db instance-id)
     "i'm a return value"))
