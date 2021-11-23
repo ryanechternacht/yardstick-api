@@ -16,7 +16,7 @@
     lower_zpd upper_zpd percentile_rank screening_category state_benchmark current_sgp]]
   ;; returns
   [instance-id studentid studentid2 currentgrade assessment_subject student_first_name student_last_name
-   teacher_last_name (parse-date assessment_date) scaled_score (util/parse-int test_duration)
+   teacher_last_name (parse-date assessment_date) (util/parse-int scaled_score) (util/parse-int test_duration)
    literacy_classification irl (util/parse-double lower_zpd) (util/parse-double upper_zpd)
    (util/parse-int percentile_rank) screening_category state_benchmark (util/parse-int current_sgp)])
 
@@ -154,4 +154,5 @@
       (upsert-chunk db instance-id chunk))
     (link-rows-and-students db instance-id)
     (calculate-new-yprs db instance-id)
+    ;; TODO what to return?
     "i'm a return value"))

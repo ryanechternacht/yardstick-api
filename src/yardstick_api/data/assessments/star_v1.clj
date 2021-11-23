@@ -22,7 +22,7 @@
      :achievement (:percentile_rank most-recent)
      :growth (:current_sgp most-recent)
      :recentResults (map-indexed (fn [i r]
-                                   (let [score (:current_sgp r)
+                                   (let [score (:scaled_score r)
                                          reference (nth reference-lookup i)]
                                      {:year (:year_id r)
                                       :yearShortName (:year_short_name r)

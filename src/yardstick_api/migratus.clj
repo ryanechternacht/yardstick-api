@@ -1,4 +1,4 @@
-(ns my-migrations
+(ns migratus
   (:require [migratus.core :as migratus]
             [yardstick-api.middlewares.config :as config]))
 

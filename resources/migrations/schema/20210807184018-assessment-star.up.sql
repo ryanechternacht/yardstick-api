@@ -9,7 +9,7 @@ create table assessment_star_v1 (
   student_last_name text,
   teacher_last_name text,
   assessment_date timestamp without time zone,
-  scaled_score text,
+  scaled_score int,
   test_duration int,
   literacy_classification text,
   irl text,
