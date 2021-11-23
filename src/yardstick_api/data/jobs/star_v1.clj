@@ -1,4 +1,4 @@
-(ns yardstick-api.data.jobs.star
+(ns yardstick-api.data.jobs.star-v1
   (:require [honey.sql.helpers :as h]
             [java-time :as jt]
             [yardstick-api.db :as db]

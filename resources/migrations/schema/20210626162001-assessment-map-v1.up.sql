@@ -38,11 +38,11 @@ create table assessment_map_v1 (
   PercentCorrect int,
   RapidGuessingPercentage numeric,
   FallToFallProjectedGrowth int,
-  FalltoFallObservedGrowth int,
-  FalltoFallObservedGrowthSE numeric,
-  FalltoFallMetProjectedGrowth text,
-  FalltoFallConditionalGrowthIndex numeric,
-  FalltoFallConditionalGrowthPercentile numeric,
+  FallToFallObservedGrowth int,
+  FallToFallObservedGrowthSE numeric,
+  FallToFallMetProjectedGrowth text,
+  FallToFallConditionalGrowthIndex numeric,
+  FallToFallConditionalGrowthPercentile numeric,
   FallToFallGrowthQuintile text,
   FallToWinterProjectedGrowth int,
   FallToWinterObservedGrowth int,
@@ -153,4 +153,8 @@ create table assessment_map_v1 (
   ProjectedProficiencyLevel9 text,
   ProjectedProficiencyStudy10 text,
   ProjectedProficiencyLevel10 text
+
+  constraint assessment_map_v1_school_assessment_student_unique UNIQUE
+    (school_assessment_instance_id, StudentID, Student_StateID)
+    -- Do we allow retakes here?
 );

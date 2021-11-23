@@ -2,15 +2,18 @@
   (:require [clojure.data.csv :as csv]
             [clojure.java.io :as io]
             [yardstick-api.routes.helpers.coercions :as coerce]
-            [compojure.core :refer [GET POST]]
+            [compojure.core :refer [POST]]
             [ring.util.response :refer [response]]
             [yardstick-api.data.jobs :as d-jobs]
-            [yardstick-api.data.jobs.star :as star]
+            [yardstick-api.data.jobs.star-v1 :as star-v1]
+            [yardstick-api.data.jobs.map-v1 :as map-v1]
             [yardstick-api.routes.helpers.auth :as auth]))
 
 (def ^:private handler-lookup
-  {3 #'star/upload-star
-   4 #'star/upload-star})
+  {1 #'map-v1/upload-map
+   2 #'map-v1/upload-map
+   3 #'star-v1/upload-star
+   4 #'star-v1/upload-star})
 
 (def POST-assessment-upload
   (POST "/v0.1/admin/assessment/upload"
