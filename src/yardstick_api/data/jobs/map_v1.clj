@@ -239,15 +239,67 @@
                        :ProjectedProficiencyStudy10 :ProjectedProficiencyLevel10)
       (db/->execute db)))
 
+(defn- link-rows-and-students
+  "Through an SQL query, finds the most recent attempt for each student
+   (from the uploaded data) and compares these to the existing `student_assessment`
+   records we have. Upserts any new (or newer) attempts to `student_assessment`.
+   This could be because: 
+     a) This is the first time we're seeing assessment rows for a student 
+        in this assessment instance
+     b) This is a newer attempt of this assessment
+     c) We had seen this data before, but we have had new students uploaded,
+        and we can now link the data.
+     d) Both a and c (the student records and assessment data are new)"
+  ;; TODO this assumes that map doesn't allow retakes (or just overwrites existing
+  ;; data with retakes)
+  ;; TODO (^ related) there is a TestStartDate and a TestStartTime that we are reading in
+  ;; as 2 text fields -- we could read them in as a date and a time, or combined into a
+  ;; datetime
+  [db instance-id]
+  (-> (h/insert-into :student_assessment
+                     [:school_assessment_instance_id :student_id :grade_id
+                      :local_student_id :state_student_id :assessment_table
+                      :assessment_table_id :date_taken :attempts]
+                     (-> (h/select :assessment_map_v1.school_assessment_instance_id
+                                   :student.id :student.grade_id :student.student_id
+                                   :student.student_state_id "assessment_map_v1"
+                                   :assessment_map_v1.id :assessment_map_v1.TestStartDate 1)
+                         (h/from :assessment_map_v1)
+                         (h/left-join :student_assessment
+                                      [:and
+                                       [:= :student_assessment.assessment_table "assessment_map_v1"]
+                                       [:= :assessment_map_v1.id :student_assessment.assessment_table_id]])
+                         (h/join :school_assessment_instance
+                                 [:=
+                                  :assessment_map_v1.school_assessment_instance_id
+                                  :school_assessment_instance.id])
+                         (h/join :student
+                                 [:and
+                                  [:= :school_assessment_instance.school_id :student.school_id]
+                                  [:or
+                                   [:= :assessment_map_v1.StudentID :student.student_id]
+                                   [:= :assessment_map_v1.StudentID :student.student_state_id]
+                                   [:= :assessment_map_v1.Student_StateID :student.student_id]
+                                   [:= :assessment_map_v1.Student_StateID :student.student_state_id]]])
+                         (h/where [:and
+                                   [:is :student_assessment.id nil]
+                                   [:= :assessment_map_v1.school_assessment_instance_id instance-id]])))
+      h/on-conflict
+      (h/on-constraint :student_assessment_unique_student_instance)
+      (h/do-update-set  {:attempts :excluded.attempts
+                         :date_taken :excluded.date_taken
+                         :assessment_table_id :excluded.assessment_table_id
+                         :yardstick_performance_rating nil
+                         :updated_at [:now]})
+      (db/->execute db)))
 
 (defn upload-map
   "Uploads map data in chunks, then links this data to students"
   [db instance-id csv]
   (let [csv-no-header (drop 1 csv)]
     (doseq [chunk (partition partition-size partition-size nil csv-no-header)]
-      (println "chunk")
       (upsert-chunk db instance-id chunk))
-    ;; (link-rows-and-students db instance-id)
+    (link-rows-and-students db instance-id)
     ;; (calculate-new-yprs db instance-id)
     ;; TODO what to return?
     "i'm a return value"))
