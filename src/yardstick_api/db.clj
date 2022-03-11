@@ -10,17 +10,19 @@
 
 (defn ->format
   "formats and returns the query for use in -> threading macros.
-   NOTE: this is only for testing"
+   NOTE: this is only for testing, and is intended to replace a call
+   to ->execute"
   ([query] (->format query nil))
   ([query _]
    (sql/format query {:inline true})))
 
 (defn ->>format
   "formats and returns the query for use in ->> threading macros.
-   NOTE: this is only for testing"
+   NOTE: this is only for testing, and is intended to replace a call
+   to ->>execute"
   ([query] (->format nil query))
   ([_ query]
-   (sql/format query)))
+   (sql/format query {:inline true})))
 
 (defn execute [db query]
   (jdbc/execute! db (sql/format query)

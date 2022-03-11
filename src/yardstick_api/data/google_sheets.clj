@@ -4,7 +4,7 @@
             [yardstick-api.db :as db]
             [honey.sql.helpers :as h]))
 
-(def access-token "ya29.A0ARrdaM8MBxF9cIVY9MMiP8rUMXdOygyIHgikxIT7DRpr3SMFq8jp5udGZ75egyjPLa6zOmegapQI_veY4uCFSpYKu4Xz8UpSNDUf-BcnZzLvg_1ZkiMpN3ajFrj9rlR-fsc2ZMEhDlODi-3Jnn3N_w-b5DW_")
+(def access-token "ya29.A0ARrdaM9yQOjKgaLQuba85K9qYcF056RGWO8_gHYcYSvOMtXqLoc1XZ9GbqjNliESR2Jj0AOHxBeHHbowsmU51Wu3vuIQ1U5PlFj2PruiOcCQbkWWyj_utQLPb8jCoqj2nuvNa2-bkMlNjswdWlZihljgk4py")
 (def sheet-id "1wu_WRRqBd9sdV8um8VKXLV1XiqS50Xp6uUc1SjUbshI")
 (def pg-db {:dbtype "postgresql"
             :dbname "yardstick"
