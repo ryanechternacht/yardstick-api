@@ -31,7 +31,7 @@
                   [:in :school_assessment_instance.assessment_period_id periods]
                   [:= :school_assessment_instance.school_id school-id]])
         ;; TODO remove this filter
-        (h/where [:= :assessment_map_v1.studentid "abc123"])
+        ;; (h/where [:= :assessment_map_v1.studentid "abc123"])
         (db/->execute pg-db))))
 
 (defn- trim-table-name [kw]
@@ -78,7 +78,8 @@
                                          (build-student-data row)
                                          (get-metrics-from-row metrics row))))))
 
-;; starting-result {:data [{[year period-id :table.column] metric}]
+;; starting-result {:data [{[year period-id :table.column] metric
+;;                          :sid v}]
 ;;                  :student-id-lookup {student-id row-num}
 ;;                  :state--id-lookup {state-student-id row-num}}
 ;; rows [{:academic_year_id :assessment_period_id :school_id 
@@ -96,6 +97,29 @@
           starting-result
           rows))
 
+(defn make-header-row [metrics periods]
+  (concat ["student id" "state student id" "first name" "last name"]
+          (for [{:keys [year period-display]} periods
+                {:keys [display]} metrics]
+            (str year " " period-display " " display))))
+
+(defn make-cols [metrics periods]
+  (concat [:sid :ssid :first :last]
+          (for [{:keys [year period-id]} periods
+                {:keys [column]} metrics]
+            [year period-id (trim-table-name column)])))
+
+;; TODO this should probably exist elsewhere
+;; metrics - [{:column}]
+(defn make-table [metrics periods {:keys [data]}]
+  (let [cols (make-cols metrics periods)]
+    {:header (make-header-row metrics periods)
+  ;;  TODO I think this reduce could be handled with some fancy juxt work
+     :data-rows (reduce (fn [acc r]
+                          (conj acc (map #(get r %) cols)))
+                        []
+                        data)}))
+
 (comment
   (let [pg-db {:dbtype "postgresql"
                :dbname "yardstick"
@@ -110,21 +134,29 @@
                  {:display "Rapid Guessing %"
                   :column "assessment_map_v1.rapidguessingpercentage"}]
         periods [{:year 2020
-                  :period-id 1}
+                  :period-id 1
+                  :period-display "Fall"}
                  {:year 2020
-                  :period-id 2}
+                  :period-id 2
+                  :period-display "Winter"}
                  {:year 2020
-                  :period-id 3}
+                  :period-id 3
+                  :period-display "Spring"}
                  {:year 2021
-                  :period-id 1}
+                  :period-id 1
+                  :period-display "Fall"}
                  {:year 2021
-                  :period-id 2}
+                  :period-id 2
+                  :period-display "Winter"}
                  {:year 2021
-                  :period-id 3}]]
-    (add-map-v1-data metrics
-                     {:data []
-                      :student-id-lookup {"a" -1}
-                      :state-id-lookup {"b" -2}}
-                     (load-map-v1 pg-db 1 metrics periods)))
+                  :period-id 3
+                  :period-display "Spring"}]]
+    (make-table metrics
+                periods
+                (add-map-v1-data metrics
+                                 {:data []
+                                  :student-id-lookup {"a" -1}
+                                  :state-id-lookup {"b" -2}}
+                                 (load-map-v1 pg-db 1 metrics periods))))
   ;;
   )
