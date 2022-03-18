@@ -103,20 +103,19 @@
                 {:keys [display]} metrics]
             (str year " " period-display " " display))))
 
-(defn make-cols [metrics periods]
-  (concat [:sid :ssid :first :last]
-          (for [{:keys [year period-id]} periods
-                {:keys [column]} metrics]
-            [year period-id (trim-table-name column)])))
+(defn- make-cols-fn [metrics periods]
+  (apply juxt (concat [:sid :ssid :first :last]
+                      (for [{:keys [year period-id]} periods
+                            {:keys [column]} metrics]
+                        #(get % [year period-id (trim-table-name column)])))))
 
 ;; TODO this should probably exist elsewhere
 ;; metrics - [{:column}]
 (defn make-table [metrics periods {:keys [data]}]
-  (let [cols (make-cols metrics periods)]
+  (let [cols-fn (make-cols-fn metrics periods)]
     {:header (make-header-row metrics periods)
-  ;;  TODO I think this reduce could be handled with some fancy juxt work
      :data-rows (reduce (fn [acc r]
-                          (conj acc (map #(get r %) cols)))
+                          (conj acc (cols-fn r)))
                         []
                         data)}))
 
