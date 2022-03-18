@@ -2,6 +2,7 @@
   (:require [clj-http.client :as http]
             [cheshire.core :as json]
             [yardstick-api.db :as db]
+            [clojure.string :as s]
             [honey.sql.helpers :as h]))
 
 ;; ignore paging for now
@@ -33,9 +34,18 @@
         (h/where [:= :assessment_map_v1.studentid "abc123"])
         (db/->execute pg-db))))
 
-(defn add-existing-student [{:keys [data] :as result} index row]
-  (println "add existing")
-  result)
+(defn- trim-table-name [kw]
+  (-> kw
+      name
+      (s/split #"\.")
+      second
+      keyword))
+
+;; metrics - [{:column}]
+(defn get-metrics-from-row [metrics {:keys [academic_year_id assessment_period_id] :as row}]
+  (map (fn [{:keys [column]}]
+         [[academic_year_id assessment_period_id (trim-table-name column)] ((trim-table-name column) row)])
+       metrics))
 
 (defn- build-student-data [{:keys [studentid state_studentid studentfirstname studentlastname]}]
   ;; TODO these aren't the right keys
@@ -44,9 +54,18 @@
    :first studentfirstname
    :last studentlastname})
 
-(defn add-new-student [{:keys [data student-id-lookup state-id-lookup] :as result}
+;; result {:data [{[year period-id :table.column] metric}]
+;;         :student-id-lookup {student-id row-num}
+;;         :state--id-lookup {state-student-id row-num}}
+(defn add-existing-student [metrics result index row]
+  (assoc-in result [:data index] (reduce (fn [m [k v]]
+                                           (assoc m k v))
+                                         (get-in result [:data index])
+                                         (get-metrics-from-row metrics row))))
+
+(defn add-new-student [metrics
+                       {:keys [data student-id-lookup state-id-lookup] :as result}
                        {:keys [studentid state_studentid] :as row}]
-  (println "add new" studentid state_studentid)
   ;; TODO this should do some kind of "is not null or empty" check on
   ;; both studentid and state_studentid
   ;; TODO this shouldn't add if we have neither a studentid or a state_studentid
@@ -54,24 +73,27 @@
     (cond-> result
       studentid (assoc-in [:student-id-lookup studentid] index)
       state_studentid (assoc-in [:state-id-lookup state_studentid] index)
-      :always (update-in [:data] conj (build-student-data row)))))
+      :always (update :data conj (reduce (fn [m [k v]]
+                                           (assoc m k v))
+                                         (build-student-data row)
+                                         (get-metrics-from-row metrics row))))))
 
-;; results {:data [{[year period-id :table.column] metric}]
-;;          :student-id-lookup {student-id row-num}
-;;          :state--id-lookup {state-student-id row-num}}
+;; starting-result {:data [{[year period-id :table.column] metric}]
+;;                  :student-id-lookup {student-id row-num}
+;;                  :state--id-lookup {state-student-id row-num}}
 ;; rows [{:academic_year_id :assessment_period_id :school_id 
 ;;        :studentfirstname :studentlastname 
 ;;        :studentid :student_stateid
 ;;        ... (other columns)}]
-(defn add-map-v1-data [results rows]
-  (reduce (fn [{:keys [data student-id-lookup state-id-lookup] :as result}
+(defn add-map-v1-data [metrics starting-result rows]
+  (reduce (fn [{:keys [student-id-lookup state-id-lookup] :as acc-result}
                {:keys [studentid student_stateid] :as row}]
             (let [existing-index (or (student-id-lookup studentid)
                                      (state-id-lookup student_stateid))]
               (if existing-index
-                (add-existing-student result existing-index row)
-                (add-new-student result row))))
-          results
+                (add-existing-student metrics acc-result existing-index row)
+                (add-new-student metrics acc-result row))))
+          starting-result
           rows))
 
 (comment
@@ -99,9 +121,10 @@
                   :period-id 2}
                  {:year 2021
                   :period-id 3}]]
-    (add-map-v1-data {:data []
-                      :student-id-lookup {"a" 1}
-                      :state-id-lookup {"b" 2}}
+    (add-map-v1-data metrics
+                     {:data []
+                      :student-id-lookup {"a" -1}
+                      :state-id-lookup {"b" -2}}
                      (load-map-v1 pg-db 1 metrics periods)))
   ;;
   )
