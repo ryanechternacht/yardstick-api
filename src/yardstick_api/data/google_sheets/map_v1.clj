@@ -5,6 +5,41 @@
             [clojure.string :as s]
             [honey.sql.helpers :as h]))
 
+(def access-token "ya29.A0ARrdaM9-2xEBl9hXQeWGeOZ9Te2H61aAIDWAKZFOG3AiSbJaX3GIKdgf3wMdN4K_BBi24kA6jfGshBpHwsuBL01JG_wRWV3wT4PAd-FHElnOYPgpEBEeNJfuPZCq0f9x1OzJOAqmUQtQ1EVkeRbw9G6Osgvt")
+(def sheet-id "1wu_WRRqBd9sdV8um8VKXLV1XiqS50Xp6uUc1SjUbshI")
+(def pg-db {:dbtype "postgresql"
+            :dbname "yardstick"
+            :host "127.0.0.1"
+            :user "ryan"
+            :password nil
+            :ssl false})
+
+(defn get-cells [access-token sheet-id cells]
+  (http/get (format "https://sheets.googleapis.com/v4/spreadsheets/%s/values/%s"
+                    sheet-id cells)
+            {:headers {:Authorization (str "Bearer " access-token)
+                       :accept :json}
+             :as :json}))
+
+;; cells = Sheet1!A1:H6
+;; body {:range Sheet1!A1:H6
+;;       :majorDimension "ROWS"
+;;       :values [[...]] }
+(defn put-cells [access-token sheet-id cells body]
+  (try
+    (http/put (format "https://sheets.googleapis.com/v4/spreadsheets/%s/values/%s"
+                      sheet-id cells)
+              {:headers {:Authorization (str "Bearer " access-token)
+                         :accept :json}
+               :query-params {:valueInputOption "USER_ENTERED"}
+               :as :json
+               :body (json/encode body)})
+    (catch Exception e (println e))))
+
+(defn determine-col-letter [num]
+  ;; TODO this won't support > 26
+  (char (+ (dec num) (int \A))))
+
 ;; ignore paging for now
 
 ;; periods - [{:year :period-id}]
@@ -119,6 +154,17 @@
                         []
                         data)}))
 
+(defn upload-table [access-token sheet-id {:keys [header data-rows]}]
+  (let [range (format "Sheet1!A1:%s%s"
+                      (determine-col-letter (count header))
+                      (inc (count data-rows)))]
+    (put-cells access-token
+               sheet-id
+               range
+               {:range range
+                :majorDimension "ROWS"
+                :values (concat [header] data-rows)})))
+
 (comment
   (let [pg-db {:dbtype "postgresql"
                :dbname "yardstick"
@@ -150,12 +196,14 @@
                  {:year 2021
                   :period-id 3
                   :period-display "Spring"}]]
-    (make-table metrics
-                periods
-                (add-map-v1-data metrics
-                                 {:data []
-                                  :student-id-lookup {"a" -1}
-                                  :state-id-lookup {"b" -2}}
-                                 (load-map-v1 pg-db 1 metrics periods))))
+    (upload-table access-token
+                  sheet-id
+                  (make-table metrics
+                              periods
+                              (add-map-v1-data metrics
+                                               {:data []
+                                                :student-id-lookup {"a" -1}
+                                                :state-id-lookup {`"b" -2}}
+                                               (load-map-v1 pg-db 1 metrics periods)))))
   ;;
   )
