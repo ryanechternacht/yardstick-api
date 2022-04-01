@@ -1,11 +1,14 @@
-(ns yardstick-api.data.google-sheets.map-v1
+(ns yardstick-api.data.google-sheets.star-v1
   (:require [clj-http.client :as http]
             [cheshire.core :as json]
             [yardstick-api.db :as db]
             [clojure.string :as s]
             [honey.sql.helpers :as h]))
 
-(def access-token "ya29.A0ARrdaM9-2xEBl9hXQeWGeOZ9Te2H61aAIDWAKZFOG3AiSbJaX3GIKdgf3wMdN4K_BBi24kA6jfGshBpHwsuBL01JG_wRWV3wT4PAd-FHElnOYPgpEBEeNJfuPZCq0f9x1OzJOAqmUQtQ1EVkeRbw9G6Osgvt")
+;; TODO don't call it state student id, but just student id 2
+;; TODO alias sid, sid2, first, last and it's largely shared code (unique is just the db pull)\
+
+(def access-token "ya29.A0ARrdaM_m-2_Ewx-dAkL5qTD1hR96mgZC4Hx_BDRiOApUnESo7Vn1ggxxhhpxLWuo5t4tD4bmFkxjmFHW6s9lHNSmwyut36JJ-f3mrd61uCyaIrc2cOu3kUimCDCBAPI4CErwo_ftRZzmqcHGqbSXpxjkNG1x")
 (def sheet-id "1wu_WRRqBd9sdV8um8VKXLV1XiqS50Xp6uUc1SjUbshI")
 (def pg-db {:dbtype "postgresql"
             :dbname "yardstick"
@@ -14,10 +17,6 @@
             :password nil
             :ssl false})
 
-;; cells = Sheet1!A1:H6
-;; body {:range Sheet1!A1:H6
-;;       :majorDimension "ROWS"
-;;       :values [[...]] }
 (defn put-cells [access-token sheet-id cells body]
   (try
     (http/put (format "https://sheets.googleapis.com/v4/spreadsheets/%s/values/%s"
@@ -33,31 +32,33 @@
   ;; TODO this won't support > 26
   (char (+ (dec num) (int \A))))
 
-;; ignore paging for now
-
 ;; periods - [{:year :period-id}]
 ;; metrics - [{:column}]
-(defn load-map-v1 [pg-db school-id metrics periods]
+(defn load-star-v1 [pg-db school-id metrics periods]
   (let [cols (concat [:school_assessment_instance.academic_year_id
                       :school_assessment_instance.assessment_period_id
                       :school_assessment_instance.school_id]
-                     [:assessment_map_v1.studentfirstname
-                      :assessment_map_v1.studentlastname
-                      :assessment_map_v1.studentid
-                      :assessment_map_v1.student_stateid]
+                     [:assessment_star_v1.student_first_name
+                      :assessment_star_v1.student_last_name
+                      :assessment_star_v1.studentid
+                      :assessment_star_v1.studentid2]
                      (->> metrics (map :column) (map keyword)))
         years (->> periods (map :year) (distinct))
         periods (->> periods (map :period-id) distinct)]
     (-> (apply h/select cols)
-        (h/from :assessment_map_v1)
+        (h/from :assessment_star_v1)
         (h/join :school_assessment_instance
                 [:=
-                 :assessment_map_v1.school_assessment_instance_id
+                 :assessment_star_v1.school_assessment_instance_id
                  :school_assessment_instance.id])
         (h/where [:and
                   [:in :school_assessment_instance.academic_year_id years]
                   [:in :school_assessment_instance.assessment_period_id periods]
                   [:= :school_assessment_instance.school_id school-id]])
+        (h/where [:or
+                  [:<> :assessment_star_v1.studentid nil]
+                  [:<> :assessment_star_v1.studentid2 nil]])
+        (h/order-by [:assessment_star_v1.assessment_date :asc])
         (db/->execute pg-db))))
 
 (defn- trim-table-name [kw]
@@ -73,12 +74,12 @@
          [[academic_year_id assessment_period_id (trim-table-name column)] ((trim-table-name column) row)])
        metrics))
 
-(defn- build-student-data [{:keys [studentid state_studentid studentfirstname studentlastname]}]
+(defn- build-student-data [{:keys [studentid studentid2 student_first_name student_last_name]}]
   ;; TODO these aren't the right keys
   {:sid studentid
-   :ssid state_studentid
-   :first studentfirstname
-   :last studentlastname})
+   :ssid studentid2
+   :first student_first_name
+   :last student_last_name})
 
 ;; result {:data [{[year period-id :table.column] metric}]
 ;;         :student-id-lookup {student-id row-num}
@@ -90,15 +91,15 @@
                                          (get-metrics-from-row metrics row))))
 
 (defn add-new-student [metrics
-                       {:keys [data student-id-lookup state-id-lookup] :as result}
-                       {:keys [studentid state_studentid] :as row}]
+                       {:keys [data] :as result}
+                       {:keys [studentid studentid2] :as row}]
   ;; TODO this should do some kind of "is not null or empty" check on
-  ;; both studentid and state_studentid
-  ;; TODO this shouldn't add if we have neither a studentid or a state_studentid
+  ;; both studentid and studentid2
+  ;; TODO this shouldn't add if we have neither a studentid or a studentid2
   (let [index (count data)]
     (cond-> result
       studentid (assoc-in [:student-id-lookup studentid] index)
-      state_studentid (assoc-in [:state-id-lookup state_studentid] index)
+      studentid2 (assoc-in [:state-id-lookup studentid2] index)
       :always (update :data conj (reduce (fn [m [k v]]
                                            (assoc m k v))
                                          (build-student-data row)
@@ -112,7 +113,7 @@
 ;;        :studentfirstname :studentlastname 
 ;;        :studentid :student_stateid
 ;;        ... (other columns)}]
-(defn add-map-v1-data [metrics starting-result rows]
+(defn add-star-v1-data [metrics starting-result rows]
   (reduce (fn [{:keys [student-id-lookup state-id-lookup] :as acc-result}
                {:keys [studentid student_stateid] :as row}]
             (let [existing-index (or (student-id-lookup studentid)
@@ -157,38 +158,31 @@
                 :values (concat [header] data-rows)})))
 
 (comment
-  (let [metrics [{:display "RIT Score"
-                  :column "assessment_map_v1.testritscore"}
-                 {:display "Test Duration"
-                  :column "assessment_map_v1.testdurationminutes"}
-                 {:display "Rapid Guessing %"
-                  :column "assessment_map_v1.rapidguessingpercentage"}]
-        periods [{:year 2020
-                  :period-id 1
-                  :period-display "Fall"}
-                 {:year 2020
-                  :period-id 2
-                  :period-display "Winter"}
-                 {:year 2020
-                  :period-id 3
-                  :period-display "Spring"}
+  (let [metrics [{:display "Screening Cateogry"
+                  :column "assessment_star_v1.screening_category"}
+                 {:display "Scaled Score"
+                  :column "assessment_star_v1.scaled_score"}
+                 {:display "Percentile"
+                  :column "assessment_star_v1.percentile_rank"}]
+        periods [{:year 2021
+                  :period-id 19
+                  :period-display "January"}
                  {:year 2021
-                  :period-id 1
-                  :period-display "Fall"}
+                  :period-id 20
+                  :period-display "February"}
                  {:year 2021
-                  :period-id 2
-                  :period-display "Winter"}
+                  :period-id 21
+                  :period-display "March"}
                  {:year 2021
-                  :period-id 3
-                  :period-display "Spring"}]]
+                  :period-id 22
+                  :period-display "April"}]]
     (upload-table access-token
                   sheet-id
-                  (make-table metrics
-                              periods
-                              (add-map-v1-data metrics
-                                               {:data []
-                                                :student-id-lookup {"a" -1}
-                                                :state-id-lookup {"b" -2}}
-                                               (load-map-v1 pg-db 1 metrics periods)))))
+                  (make-table metrics periods
+                              (add-star-v1-data metrics
+                                                {:data []
+                                                 :student-id-lookup {"a" -1}
+                                                 :state-id-lookup {"b" -2}}
+                                                (load-star-v1 pg-db 1 metrics periods)))))
   ;;
   )
