@@ -11,7 +11,7 @@
  :front-end {:base-url "https://3upmrkw2kp.us-east-1.awsapprunner.com"}
  :pg-db {:dbtype "postgresql"
          :dbname "yardstick"
-         :host "yardstick-db-2.c6wqcykhytng.us-east-1.rds.amazonaws.com"
+         :host "deactivated"
          :user "postgres"
          :password "deactived"
          :ssl false}}
